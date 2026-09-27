@@ -1,0 +1,79 @@
+{
+  "novel": [
+    "id",
+    "novel_id",
+    "novel-title",
+    "lang"
+  ],
+  "novel-content": [
+    "id",
+    "path",
+    "name",
+    "type",
+    "lang",
+    "novel-id",
+    "novel-title",
+    "content",
+    "chapter-id",
+    "chapter-title",
+    "recap"
+  ],
+  "characters": [
+    "id",
+    "novel-id",
+    "character-name",
+    "character-description"
+  ],
+  "glossariums": [
+    "id",
+    "novel-id",
+    "source-term",
+    "canonical-translation",
+    "type",
+    "first-seen",
+    "notes"
+  ],
+  "locations": [
+    "id",
+    "novel-id",
+    "location"
+  ],
+  "terminologies": [
+    "id",
+    "novel-id",
+    "term"
+  ],
+  "continuities": [
+    "id",
+    "novel-id",
+    "content"
+  ],
+  "qa-log": [
+    "id",
+    "novel-id",
+    "log"
+  ],
+  "reader_users": [
+    "id",
+    "email",
+    "email_verified_at",
+    "created_at"
+  ],
+  "reader_sessions": [
+    "token_hash",
+    "user_id",
+    "created_at",
+    "expires_at"
+  ],
+  "reader_bookmarks": [
+    "user_id",
+    "novel_id",
+    "chapter_id",
+    "created_at"
+  ],
+  "reader_login_limits": [
+    "bucket_key",
+    "attempts",
+    "expires_at"
+  ]
+}

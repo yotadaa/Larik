@@ -21,6 +21,7 @@ export interface ChapterSummary {
   chapterId: string;
   title: string;
   recapAvailable: boolean;
+  excerpt?: string;
 }
 
 export interface ChapterRecord extends ChapterSummary {
@@ -208,74 +209,74 @@ export async function listChapters(
 ): Promise<Paged<ChapterSummary>> {
   const q = (options.q ?? "").trim();
   const { page, pageSize, offset } = normalizedPage(options.page ?? 1, options.pageSize ?? 50);
-  const where = `
-    WHERE (? = '' OR instr(lower(COALESCE(nc."chapter-title", '')), lower(?)) > 0
-                   OR instr(lower(COALESCE(nc."chapter-id", '')), lower(?)) > 0)
-  `;
+
+  if (q) {
+    const tokens = Array.from(q.matchAll(/[\p{L}\p{N}_]+/gu), (match) => match[0]).slice(0, 12);
+    if (!tokens.length) return pageResult([], 0, page, pageSize);
+    const ftsQuery = tokens.map((token) => `"${token.replaceAll('"', '""')}"`).join(" AND ");
+    const countRow = await db.prepare(`SELECT COUNT(*) AS total FROM story_chapter_fts
+      WHERE novel_id = ? AND story_chapter_fts MATCH ?`).bind(novelId, ftsQuery).first<Record<string, unknown>>();
+    const { results } = await db.prepare(`
+      SELECT f.rowid AS id, f.chapter_id AS chapter_id, f.title AS title,
+             snippet(story_chapter_fts, 3, '', '', ' … ', 22) AS excerpt,
+             CASE WHEN length(trim(COALESCE(nc."recap", ''))) > 0 THEN 1 ELSE 0 END AS recap_available
+      FROM story_chapter_fts f
+      LEFT JOIN "novel-content" nc ON nc.id = f.rowid
+      WHERE f.novel_id = ? AND story_chapter_fts MATCH ?
+      ORDER BY bm25(story_chapter_fts), chapter_id COLLATE NOCASE ASC
+      LIMIT ? OFFSET ?
+    `).bind(novelId, ftsQuery, pageSize, offset).all<Record<string, unknown>>();
+    return pageResult(results.map((row) => ({
+      id: integer(row.id), chapterId: text(row.chapter_id), title: text(row.title),
+      recapAvailable: integer(row.recap_available) === 1, excerpt: text(row.excerpt),
+    })), integer(countRow?.total), page, pageSize);
+  }
 
   const countRow = await db.prepare(`${latestChapterCte}
-    SELECT COUNT(*) AS total
-    FROM "novel-content" nc
+    SELECT COUNT(*) AS total FROM "novel-content" nc
     JOIN latest_chapters lc ON lc.latest_id = nc."id"
-    ${where}
-  `).bind(novelId, q, q, q).first<Record<string, unknown>>();
-
+  `).bind(novelId).first<Record<string, unknown>>();
   const { results } = await db.prepare(`${latestChapterCte}
     SELECT nc."id" AS id,
            COALESCE(nc."chapter-id", '') AS chapter_id,
            COALESCE(nc."chapter-title", '') AS chapter_title,
            CASE WHEN length(trim(COALESCE(nc."recap", ''))) > 0 THEN 1 ELSE 0 END AS recap_available
-    FROM "novel-content" nc
-    JOIN latest_chapters lc ON lc.latest_id = nc."id"
-    ${where}
-    ORDER BY nc."chapter-id" COLLATE NOCASE ASC
-    LIMIT ? OFFSET ?
-  `).bind(novelId, q, q, q, pageSize, offset).all<Record<string, unknown>>();
-
-  const items = results.map((row) => ({
-    id: integer(row.id),
-    chapterId: text(row.chapter_id),
-    title: text(row.chapter_title),
+    FROM "novel-content" nc JOIN latest_chapters lc ON lc.latest_id = nc."id"
+    ORDER BY nc."chapter-id" COLLATE NOCASE ASC LIMIT ? OFFSET ?
+  `).bind(novelId, pageSize, offset).all<Record<string, unknown>>();
+  return pageResult(results.map((row) => ({
+    id: integer(row.id), chapterId: text(row.chapter_id), title: text(row.chapter_title),
     recapAvailable: integer(row.recap_available) === 1,
-  }));
-
-  return pageResult(items, integer(countRow?.total), page, pageSize);
-}
-
-async function getChapterSummaries(db: D1DatabaseLike, novelId: string): Promise<ChapterSummary[]> {
-  const { results } = await db.prepare(`${latestChapterCte}
-    SELECT nc."id" AS id,
-           COALESCE(nc."chapter-id", '') AS chapter_id,
-           COALESCE(nc."chapter-title", '') AS chapter_title,
-           CASE WHEN length(trim(COALESCE(nc."recap", ''))) > 0 THEN 1 ELSE 0 END AS recap_available
-    FROM "novel-content" nc
-    JOIN latest_chapters lc ON lc.latest_id = nc."id"
-    ORDER BY nc."chapter-id" COLLATE NOCASE ASC
-  `).bind(novelId).all<Record<string, unknown>>();
-
-  return results.map((row) => ({
-    id: integer(row.id),
-    chapterId: text(row.chapter_id),
-    title: text(row.chapter_title),
-    recapAvailable: integer(row.recap_available) === 1,
-  }));
+  })), integer(countRow?.total), page, pageSize);
 }
 
 export async function getChapter(db: D1DatabaseLike, novelId: string, chapterId: string): Promise<ChapterNavigation | null> {
   const row = await db.prepare(`
-    SELECT "id", "path", "name", "type", "lang", "novel-id" AS novel_id,
-           "novel-title" AS novel_title, "content", "chapter-id" AS chapter_id,
-           "chapter-title" AS chapter_title, "recap"
-    FROM "novel-content"
-    WHERE "novel-id" = ? AND "chapter-id" = ?
-    ORDER BY "id" DESC
-    LIMIT 1
+    WITH latest_chapters AS (
+      SELECT "chapter-id", MAX("id") AS latest_id
+      FROM "novel-content"
+      WHERE "novel-id" = ?
+      GROUP BY "chapter-id"
+    ), ordered AS (
+      SELECT nc."id", nc."path", nc."name", nc."type", nc."lang",
+             nc."novel-id" AS novel_id, nc."novel-title" AS novel_title,
+             nc."content", nc."chapter-id" AS chapter_id, nc."chapter-title" AS chapter_title, nc."recap",
+             LAG(nc."id") OVER chapter_order AS previous_id,
+             LAG(nc."chapter-id") OVER chapter_order AS previous_chapter_id,
+             LAG(nc."chapter-title") OVER chapter_order AS previous_title,
+             LAG(CASE WHEN length(trim(COALESCE(nc."recap", ''))) > 0 THEN 1 ELSE 0 END) OVER chapter_order AS previous_recap_available,
+             LEAD(nc."id") OVER chapter_order AS next_id,
+             LEAD(nc."chapter-id") OVER chapter_order AS next_chapter_id,
+             LEAD(nc."chapter-title") OVER chapter_order AS next_title,
+             LEAD(CASE WHEN length(trim(COALESCE(nc."recap", ''))) > 0 THEN 1 ELSE 0 END) OVER chapter_order AS next_recap_available
+      FROM "novel-content" nc
+      JOIN latest_chapters lc ON lc.latest_id = nc."id"
+      WINDOW chapter_order AS (ORDER BY nc."chapter-id" COLLATE NOCASE ASC)
+    )
+    SELECT * FROM ordered WHERE chapter_id = ? LIMIT 1
   `).bind(novelId, chapterId).first<Record<string, unknown>>();
 
   if (!row) return null;
-
-  const summaries = await getChapterSummaries(db, novelId);
-  const index = summaries.findIndex((item) => item.chapterId === chapterId);
   const current: ChapterRecord = {
     id: integer(row.id),
     path: text(row.path),
@@ -290,11 +291,22 @@ export async function getChapter(db: D1DatabaseLike, novelId: string, chapterId:
     recap: text(row.recap),
     recapAvailable: text(row.recap).trim().length > 0,
   };
-
+  const previousChapterId = text(row.previous_chapter_id);
+  const nextChapterId = text(row.next_chapter_id);
   return {
     current,
-    previous: index > 0 ? summaries[index - 1] : null,
-    next: index >= 0 && index < summaries.length - 1 ? summaries[index + 1] : null,
+    previous: previousChapterId ? {
+      id: integer(row.previous_id),
+      chapterId: previousChapterId,
+      title: text(row.previous_title),
+      recapAvailable: integer(row.previous_recap_available) === 1,
+    } : null,
+    next: nextChapterId ? {
+      id: integer(row.next_id),
+      chapterId: nextChapterId,
+      title: text(row.next_title),
+      recapAvailable: integer(row.next_recap_available) === 1,
+    } : null,
   };
 }
 

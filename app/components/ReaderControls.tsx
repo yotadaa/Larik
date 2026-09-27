@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { AdjustmentsHorizontalIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
+import { CustomSelect } from "./CustomSelect";
 
 const STORAGE_KEY = "reading-room:prefs:v1";
 
@@ -86,14 +87,12 @@ export function ReaderControls() {
               ))}
             </div>
           </div>
-          <label className="control-group">
+          <div className="control-group">
             <span className="control-label">Typeface</span>
-            <select value={prefs.font} onChange={(event) => setPrefs((current) => ({ ...current, font: event.target.value as Font }))}>
-              <option value="serif">Literary serif</option>
-              <option value="book">Book serif</option>
-              <option value="sans">Clean sans</option>
-            </select>
-          </label>
+            <CustomSelect ariaLabel="Reading typeface" value={prefs.font} options={[
+              { value: "serif", label: "Literary serif" }, { value: "book", label: "Book serif" }, { value: "sans", label: "Clean sans" },
+            ]} onChange={(font) => setPrefs((current) => ({ ...current, font: font as Font }))} />
+          </div>
           <label className="control-group">
             <span className="control-label">Text size <strong>{prefs.size}px</strong></span>
             <input type="range" min="16" max="28" step="1" value={prefs.size} onChange={(event) => setPrefs((current) => ({ ...current, size: Number(event.target.value) }))} />

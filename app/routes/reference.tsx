@@ -83,7 +83,7 @@ export default function Reference({ loaderData }: Route.ComponentProps) {
     const rows = items.filter((item): item is CharacterRecord => "name" in item);
     content = rows.length ? (
       <div className="reference-grid">{rows.map((item) => (
-        <article className="reference-card" key={item.id}>
+        <article className="reference-card" key={item.id} id={`ref-${item.id}`}>
           <p className="reference-card__index">CHARACTER</p>
           <h2>{item.name || "Unnamed character"}</h2>
           <p>{item.description || "No description stored."}</p>
@@ -94,7 +94,7 @@ export default function Reference({ loaderData }: Route.ComponentProps) {
     const rows = items.filter((item): item is GlossaryRecord => "canonicalTranslation" in item);
     content = rows.length ? (
       <div className="reference-grid">{rows.map((item) => (
-        <article className="reference-card" key={item.id}>
+        <article className="reference-card" key={item.id} id={`ref-${item.id}`}>
           <p className="reference-card__index">{item.type || "GLOSSARY"}</p>
           <h2>{item.sourceTerm || "Unnamed term"}</h2>
           <p className="reference-card__translation">{item.canonicalTranslation || "No canonical translation"}</p>
@@ -109,7 +109,7 @@ export default function Reference({ loaderData }: Route.ComponentProps) {
       <div className="reference-grid">{rows.map((item) => {
         const [name, detail] = splitText(item.text);
         return (
-          <article className="reference-card" key={item.id}>
+          <article className="reference-card" key={item.id} id={`ref-${item.id}`}>
             <p className="reference-card__index">{reference.toUpperCase()}</p>
             <h2>{name || title}</h2>
             {detail ? <p>{detail}</p> : null}

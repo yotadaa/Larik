@@ -1,0 +1,10 @@
+import { AtlasExplorer } from "./AtlasExplorer";
+import type { AtlasData } from "~/lib/atlas";
+
+/** Atlas rows are precomputed in D1; the browser only filters and renders the selected window. */
+export function AtlasView({ atlas }: { atlas: AtlasData }) {
+  if (!atlas.nodes.length && !atlas.events.length) {
+    return <section className="empty-state"><h2>No stored Story Atlas entries in this window</h2><p>Try a wider range. Later chapters only appear after their metadata has been imported into the database.</p></section>;
+  }
+  return <AtlasExplorer atlas={atlas} />;
+}

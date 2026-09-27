@@ -25,12 +25,16 @@
     "resolveJsonModule": true,
     "allowJs": false,
     "noEmit": true,
-    "rootDirs": [".", ".react-router/types"],
+    "rootDirs": [
+      ".",
+      ".react-router/types"
+    ],
     "baseUrl": ".",
     "paths": {
       "~/*": [
         "./app/*"
       ]
-    }
+    },
+    "allowImportingTsExtensions": true
   }
 }

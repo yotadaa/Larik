@@ -1,0 +1,226 @@
+
+> novel-reader-cloudflare-react-router@1.1.0 test
+> npm run test:schema && npm run test:data && npm run test:routes && npm run test:features && npm run test:atlas && npm run test:security
+
+
+> novel-reader-cloudflare-react-router@1.1.0 test:schema
+> python3 tests/schema_consistency.py
+
+Schema contract, additive/idempotent migration, and database documentation: PASS
+
+> novel-reader-cloudflare-react-router@1.1.0 test:data
+> node --experimental-strip-types tests/repository.test.mjs
+
+(node:3839) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+repository integration tests: PASS
+(node:3839) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+
+> novel-reader-cloudflare-react-router@1.1.0 test:routes
+> node --experimental-strip-types tests/routes.test.mjs
+
+route validation tests: PASS
+(node:3862) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+> novel-reader-cloudflare-react-router@1.1.0 test:features
+> node --experimental-strip-types tests/features.test.mjs
+
+(node:3885) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3885) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+TAP version 13
+# Subtest: email normalization is stable without pretending to verify ownership
+ok 1 - email normalization is stable without pretending to verify ownership
+  ---
+  duration_ms: 1.984495
+  type: 'test'
+  ...
+# Subtest: safe redirects retain encoded chapter IDs and reject cross-origin/control tricks
+ok 2 - safe redirects retain encoded chapter IDs and reject cross-origin/control tricks
+  ---
+  duration_ms: 0.843585
+  type: 'test'
+  ...
+# Subtest: login creates a hashed 256-bit session, private redirect, and secure HttpOnly cookie
+ok 3 - login creates a hashed 256-bit session, private redirect, and secure HttpOnly cookie
+  ---
+  duration_ms: 38.858775
+  type: 'test'
+  ...
+# Subtest: same normalized email shares one profile; signing in rotates the incoming session
+ok 4 - same normalized email shares one profile; signing in rotates the incoming session
+  ---
+  duration_ms: 7.800387
+  type: 'test'
+  ...
+# Subtest: logout revokes the server session and clears the cookie without deleting bookmarks
+ok 5 - logout revokes the server session and clears the cookie without deleting bookmarks
+  ---
+  duration_ms: 7.676014
+  type: 'test'
+  ...
+# Subtest: forged, duplicated, malformed, and expired session cookies are rejected
+ok 6 - forged, duplicated, malformed, and expired session cookies are rejected
+  ---
+  duration_ms: 4.750174
+  type: 'test'
+  ...
+# Subtest: login errors, feature switch, cross-origin requests and unsupported methods fail closed
+ok 7 - login errors, feature switch, cross-origin requests and unsupported methods fail closed
+  ---
+  duration_ms: 6.450097
+  type: 'test'
+  ...
+# Subtest: login throttling is atomic and expiry cleanup does not affect active buckets
+ok 8 - login throttling is atomic and expiry cleanup does not affect active buckets
+  ---
+  duration_ms: 9.107922
+  type: 'test'
+  ...
+# Subtest: oversized form bodies and non-form content types are rejected
+ok 9 - oversized form bodies and non-form content types are rejected
+  ---
+  duration_ms: 2.424325
+  type: 'test'
+  ...
+# Subtest: bookmark mutations require session and same-origin POST
+ok 10 - bookmark mutations require session and same-origin POST
+  ---
+  duration_ms: 10.777518
+  type: 'test'
+  ...
+# Subtest: novel/chapter bookmarks persist independently and duplicate saves are idempotent
+ok 11 - novel/chapter bookmarks persist independently and duplicate saves are idempotent
+  ---
+  duration_ms: 9.398643
+  type: 'test'
+  ...
+# Subtest: profile isolation ignores a forged client-side owner ID
+ok 12 - profile isolation ignores a forged client-side owner ID
+  ---
+  duration_ms: 10.88441
+  type: 'test'
+  ...
+# Subtest: bookmark validation rejects nonexistent targets and malformed operations
+ok 13 - bookmark validation rejects nonexistent targets and malformed operations
+  ---
+  duration_ms: 4.829917
+  type: 'test'
+  ...
+# Subtest: bookmark filters/search are parameterized and empty/out-of-range pages are stable
+ok 14 - bookmark filters/search are parameterized and empty/out-of-range pages are stable
+  ---
+  duration_ms: 12.918762
+  type: 'test'
+  ...
+# Subtest: stale-content bookmarks remain removable; mutation never modifies the corpus
+ok 15 - stale-content bookmarks remain removable; mutation never modifies the corpus
+  ---
+  duration_ms: 11.338976
+  type: 'test'
+  ...
+# Subtest: unverified logins never mark a mailbox as verified
+ok 16 - unverified logins never mark a mailbox as verified
+  ---
+  duration_ms: 2.971506
+  type: 'test'
+  ...
+# Subtest: chapter parser preserves prose with and without frontmatter and separates notes
+ok 17 - chapter parser preserves prose with and without frontmatter and separates notes
+  ---
+  duration_ms: 2.538921
+  type: 'test'
+  ...
+# Subtest: a future verified profile cannot be reopened through unverified login
+ok 18 - a future verified profile cannot be reopened through unverified login
+  ---
+  duration_ms: 6.54964
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 166.64436
+
+> novel-reader-cloudflare-react-router@1.1.0 test:atlas
+> node --experimental-strip-types tests/atlas.test.mjs
+
+(node:3908) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3908) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+Corpus atlas: 599 nodes, 1695 mention edges, limited=false, 192ms on Node/SQLite (not a Workers CPU benchmark).
+TAP version 13
+# Subtest: workspace bullets and bold headings normalize without altering content
+ok 1 - workspace bullets and bold headings normalize without altering content
+  ---
+  duration_ms: 4.245869
+  type: 'test'
+  ...
+# Subtest: edges identify source mentions, not invented social relationships
+ok 2 - edges identify source mentions, not invented social relationships
+  ---
+  duration_ms: 11.184488
+  type: 'test'
+  ...
+# Subtest: word boundaries and regex metacharacters do not create spurious edges
+ok 3 - word boundaries and regex metacharacters do not create spurious edges
+  ---
+  duration_ms: 2.092521
+  type: 'test'
+  ...
+# Subtest: ambiguous aliases are excluded instead of falsely merging identities
+ok 4 - ambiguous aliases are excluded instead of falsely merging identities
+  ---
+  duration_ms: 2.75453
+  type: 'test'
+  ...
+# Subtest: glossary canonical names merge with specialized records and preserve source evidence
+ok 5 - glossary canonical names merge with specialized records and preserve source evidence
+  ---
+  duration_ms: 1.736648
+  type: 'test'
+  ...
+# Subtest: graph budget is explicit and focused neighborhoods cannot dangle
+ok 6 - graph budget is explicit and focused neighborhoods cannot dangle
+  ---
+  duration_ms: 25.048238
+  type: 'test'
+  ...
+# Subtest: empty metadata remains a genuine empty atlas
+ok 7 - empty metadata remains a genuine empty atlas
+  ---
+  duration_ms: 0.27225
+  type: 'test'
+  ...
+# Subtest: full uploaded corpus imports idempotently and all 151 chapters remain navigable
+ok 8 - full uploaded corpus imports idempotently and all 151 chapters remain navigable
+  ---
+  duration_ms: 570.966255
+  type: 'test'
+  ...
+# Subtest: a merged node's edge links to the row that actually contains its evidence
+ok 9 - a merged node's edge links to the row that actually contains its evidence
+  ---
+  duration_ms: 1.235742
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 637.708078
+
+> novel-reader-cloudflare-react-router@1.1.0 test:security
+> node scripts/static-security-check.mjs
+
+Static source/security/icon checks: PASS (36 modules). Not a penetration test.

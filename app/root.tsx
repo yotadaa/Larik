@@ -1,5 +1,6 @@
 import {
   isRouteErrorResponse,
+  Form,
   Links,
   Link,
   Meta,
@@ -13,10 +14,19 @@ import {
   BookOpenIcon,
   HomeIcon,
   InformationCircleIcon,
+  BookmarkIcon,
+  UserCircleIcon,
+  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/root";
 import { NavigationStatus } from "~/components/NavigationStatus";
+import { getDb } from "~/lib/cloudflare-context";
+import { getUser } from "~/lib/auth.server";
 import "./styles.css";
+
+export async function loader({ request, context }: Route.LoaderArgs) {
+  return { user: await getUser(getDb(context), request) };
+}
 
 export const meta: Route.MetaFunction = () => [
   { title: "The Reading Room — D1 Novel Library" },
@@ -31,7 +41,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="icon" href="/brand-mark.svg" type="image/svg+xml" />
         <Meta />
         <Links />
@@ -46,7 +56,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
+export default function App({ loaderData }: Route.ComponentProps) {
+  const { user } = loaderData;
   return (
     <>
       <NavigationStatus />
@@ -61,7 +72,9 @@ export default function App() {
           </Link>
           <nav className="site-nav" aria-label="Primary navigation">
             <Link to="/library"><BookOpenIcon aria-hidden="true" /><span>Library</span></Link>
-            <a href="#about"><InformationCircleIcon aria-hidden="true" /><span>About</span></a>
+            <Link to="/bookmarks"><BookmarkIcon aria-hidden="true" /><span>Bookmarks</span></Link>
+            <a className="nav-about" href="#about"><InformationCircleIcon aria-hidden="true" /><span>About</span></a>
+            {user ? <details className="account-menu"><summary><UserCircleIcon aria-hidden="true" /><span>Account</span></summary><div className="account-menu__panel"><strong>{user.email}</strong><small>Password protected · email delivery not yet verified</small><Form method="post" action="/logout"><button type="submit"><ArrowRightOnRectangleIcon aria-hidden="true" /><span>Sign out</span></button></Form></div></details> : <Link to="/login"><UserCircleIcon aria-hidden="true" /><span>Sign in</span></Link>}
           </nav>
         </div>
       </header>
@@ -101,7 +114,7 @@ export function ErrorBoundary() {
   } else if (error instanceof Error) {
     detail = error.message.includes("D1") || error.message.includes("database")
       ? "The database could not be reached. This application does not fall back to bundled Markdown."
-      : error.message;
+      : "An unexpected error occurred. Please try again.";
   }
 
   return (

@@ -7,20 +7,38 @@ import {
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/chapter";
+import { InlineLookup } from "~/components/InlineLookup";
+import { ReaderDock } from "~/components/ReaderDock";
+import { getUser } from "~/lib/auth.server";
+import { bookmarkAction, isBookmarked } from "~/lib/bookmarks.server";
+import { parseChapterDocument } from "~/lib/chapter-markdown";
 import { Markdown } from "~/components/Markdown";
 import { ReaderControls } from "~/components/ReaderControls";
 import { ReadingProgress } from "~/components/ReadingProgress";
 import { getDb } from "~/lib/cloudflare-context";
+import { loadInlineLookup } from "~/lib/atlas.server";
+import { getReaderLibraryState } from "~/lib/reader-state.server";
 import { getChapter } from "~/lib/repository";
 import { hrefChapter, hrefNovel, validateRouteSegment } from "~/lib/params";
 
-export async function loader({ params, context }: Route.LoaderArgs) {
+export async function loader({ params, request, context }: Route.LoaderArgs) {
   const novelId = validateRouteSegment(params.novelId, "novel id");
   const chapterId = validateRouteSegment(params.chapterId, "chapter id");
-  const navigation = await getChapter(getDb(context), novelId, chapterId);
+  const db = getDb(context);
+  const navigation = await getChapter(db, novelId, chapterId);
   if (!navigation) throw new Response("Chapter not found.", { status: 404 });
-  return navigation;
+  const user = await getUser(db, request);
+  const resumeRequested = new URL(request.url).searchParams.get("resume") === "1";
+  const [bookmarked, readerState, lookup] = await Promise.all([
+    user ? isBookmarked(db, user.id, novelId, chapterId) : Promise.resolve(false),
+    user ? getReaderLibraryState(db, user.id, novelId) : Promise.resolve(null),
+    loadInlineLookup(db, novelId, chapterId),
+  ]);
+  const restoreStoredProgress = Boolean(user && resumeRequested && readerState?.lastChapterId === chapterId);
+  return { ...navigation, user, bookmarked, readerState, lookup, restoreStoredProgress };
 }
+
+export async function action({ request, context }: Route.ActionArgs) { return bookmarkAction(getDb(context), request); }
 
 export function meta({ loaderData }: Route.MetaArgs) {
   const chapter = loaderData?.current;
@@ -28,10 +46,12 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export default function Chapter({ loaderData }: Route.ComponentProps) {
-  const { current, previous, next } = loaderData;
+  const { current, previous, next, user, bookmarked, readerState, lookup, restoreStoredProgress } = loaderData;
+  const document = parseChapterDocument(current.content);
+  const storedPercent = readerState?.lastChapterId === current.chapterId ? readerState.progressPercent : -1;
   return (
     <div className="reader-page">
-      <ReadingProgress novelId={current.novelId} chapterId={current.chapterId} />
+      <ReadingProgress novelId={current.novelId} chapterId={current.chapterId} authenticated={Boolean(user)} storedPercent={storedPercent} restoreStoredProgress={restoreStoredProgress} />
       <div className="reader-toolbar">
         <div className="reader-toolbar__inner">
           <div className="reader-toolbar__crumb">
@@ -42,7 +62,7 @@ export default function Chapter({ loaderData }: Route.ComponentProps) {
             <ChevronRightIcon className="reader-toolbar__separator" aria-hidden="true" />
             <span className="reader-toolbar__current">{current.title || current.chapterId}</span>
           </div>
-          <ReaderControls />
+          <div className="reader-toolbar__actions"><InlineLookup data={lookup} /><ReaderControls /></div>
         </div>
       </div>
 
@@ -52,9 +72,11 @@ export default function Chapter({ loaderData }: Route.ComponentProps) {
           <h1>{current.title || current.chapterId}</h1>
           <p className="reader-heading__id">{current.chapterId}</p>
         </header>
-        <Markdown source={current.content.split('\n').slice(11).join('\n')} stripHeading />
+        <Markdown source={document.body} />
       </article>
 
+      {document.notes ? <aside className="reader-recap"><details><summary>Chapter notes</summary><Markdown source={document.notes} /></details></aside> : null}
+      <ReaderDock key={`${current.novelId}:${current.chapterId}`} navigation={loaderData} user={user} bookmarked={bookmarked} />
       <aside className="reader-recap" aria-label="Chapter recap">
         <details>
           <summary>

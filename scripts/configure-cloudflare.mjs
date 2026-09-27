@@ -1,25 +1,10 @@
 import fs from "node:fs";
-import path from "node:path";
-import { requireCloudflareEnv } from "./env-utils.mjs";
-
-const root = process.cwd();
-const remote = process.argv.includes("--remote");
-const { accountId, databaseId } = requireCloudflareEnv(root);
-const sourcePath = path.join(root, "wrangler.jsonc");
-const outputPath = path.join(root, ".wrangler.production.jsonc");
-const source = fs.readFileSync(sourcePath, "utf8");
-
-let configured = source
-  .replace(/"database_id"\s*:\s*"[^"]+"/, `"database_id": "${databaseId}"`)
-  .replace(/\n}\s*$/, `,\n  "account_id": "${accountId}"\n}\n`);
-
-if (remote) {
-  configured = configured.replace(
-    /("database_id"\s*:\s*"[^"]+")/,
-    '$1,\n      "remote": true',
-  );
+const config = JSON.parse(fs.readFileSync("wrangler.jsonc", "utf8"));
+if (!config.d1_databases?.some((binding) => binding.binding === "DB")) throw new Error("DB binding is missing.");
+if (process.argv.includes("--remote")) {
+  for (const binding of config.d1_databases) binding.remote = true;
+  fs.writeFileSync(".wrangler.production.jsonc", JSON.stringify(config, null, 2) + "\n");
+  console.log("Generated ignored remote development config. Wrangler authentication is required. This command does not run migrations.");
+} else {
+  console.log("Local D1 binding configured. Run npm run db:local:setup before first development start.");
 }
-
-fs.writeFileSync(outputPath, configured, { mode: 0o600 });
-console.log(`Wrote .wrangler.production.jsonc${remote ? " with remote D1 enabled" : ""}.`);
-console.log("The API token was not written to the config or application bundle.");

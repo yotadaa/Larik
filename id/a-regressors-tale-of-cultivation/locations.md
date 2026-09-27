@@ -1,0 +1,65 @@
+# Lokasi
+
+- **Jalan Kenaikan** — hutan luas tanpa permukiman sekitar; gerbang menuju Alam Atas berada di dekatnya.
+- **Yanguo** — negara tempat Seo Eun-hyun hidup pada kehidupan sebelumnya.
+- **Kota Lianshan** — kota kecil di perbatasan Yanguo.
+- **Kota Seokyung** — ibu kota Yanguo; tempat Seo dan Kim tiba setelah celah ruang mengirim mereka secara acak.
+- **Ascension Path** — pulau terapung dan lokasi altar tempat Seo menjalani Seven Stars Ritual; bangunan batu kuno di utaranya tampak tercabut dan terlempar ke gurun.
+- **Gurun Heaven-Treading** — gurun di antara Byeokra dan Shengzi; memuat prasasti terkait Golden Divine Heavenly Thunder Sect serta kastel gelap yang dilindungi formation array luas.
+- **Kota Cheon-saek** — kota di ujung timur Byeokra, pusat perdagangan artefak sihir dan kerajinan kaca; dekat wilayah Gongmyo Clan.
+- **Shengzi** — negeri di barat Yanguo, dikuasai Jinlu Clan dan koalisi enam klan; lokasi pegunungan barat tempat Golden Divine Heavenly Thunder Sect kini dikenal.
+- **Kerajaan Suci Central Spirit / Gacheon (Gaecheon)** — kerajaan kuno dan ibu kotanya; catatan Yang Su-jin menempatkan gerbang cahaya Ascension Gate di atas ibu kota. Wilayahnya kini menjadi bagian Gurun Heaven-Treading.
+- **Arsip Kekaisaran Shengzi** — arsip keluarga kerajaan Nan di ibu kota Jinjing, menyimpan catatan sekte-sekte kuno dan Golden Divine Heavenly Thunder Sect.
+- **Shattered Heaven Peak** — puncak di Pegunungan Besar Shengzi, bekas wilayah Golden Divine Heavenly Thunder Sect; gua arsip sejarah sekte berada di sana.
+- **Pulau Kekacauan Tertinggi (Utmost Chaos Island)** — pulau di Lautan Angin Hitam di bawah perlindungan Seo Ran; dahulu disebut Thorn Demon Island. Altar Persembahan Barat berada di tebingnya.
+- **Kediaman Seo Ran** — gua bawah laut di Pulau Kekacauan Tertinggi, berudara segar berkat Clear Coral; Seo belajar demon language di sini.
+- **Penghalang Lautan Angin Hitam** — penghalang besar yang ditemukan Seo Ran sekitar 30 tahun sebelumnya; di baliknya terdapat sesuatu yang penting bagi cultivation dan perlu kekuatan gabungan manusia-siluman untuk ditembus.
+- **Kota Ibu Kota Barat Shengzi** — kota dekat Pegunungan Barat; zona langitnya diatur larangan terbang yang ditegakkan klan cultivator setempat.
+- **Pegunungan Barat Shengzi** — kawasan yang menyimpan arsip Golden Divine Heavenly Thunder Sect di Shattered Heaven Peak; Seo bersembunyi di bawah tanah untuk menghindari pengejar.
+- **Arsip Shattered Heaven Peak** — arsip yang menyimpan buku-buku tersisa Golden Divine Heavenly Thunder Sect; Seo membaca catatan Yang Su-jin, peringatan Void Gate, dan Lightning Predicting Eye di sini.
+- **Black Bone Valley** — lembah di antara sekte-sekte cultivation manusia; sumber Nether Crossing Ship yang dibuang.
+- **Wilayah badai Lautan Angin Hitam** — wilayah dengan arus berubah drastis dan energi arwah menyeramkan; penghalang menyimpan Nether Crossing Ship. Seo Ran membawa Seo masuk.
+- **Sumur Laut (Sea Well)** — penghalang air raksasa yang melawan gravitasi di pusat wilayah badai; *Nether Crossing Ship* berada di pusatnya.
+- **Nether Crossing Ship** — kapal ilahi Black Ghost Valley dengan ruang interior terkompresi sangat luas; di bagian bawahnya terdapat energi arwah dan roh pendendam.
+- **Kota Yansan** — kota di Yanguo; Seo menetap dan berlatih di pegunungan sekitarnya.
+- **Lembah latihan Seo** — lembah di pegunungan dekat Kota Yansan, Yanguo; Seo melatih Water Surpassing Path dan berduel dengan cultivator Jin Clan di sini.
+- **Ruang rahasia kediaman Seo Ran** — Seo Ran memberi Seo kunci serta seluruh isi ruang ini sebelum mati; isinya belum diperiksa.
+- **Nether Crossing Ship — sisa reruntuhan** — kapal Black Ghost Valley hancur oleh *Breaking Space Pearl* yang Seo Ran aktifkan; jiwa-jiwa tersimpan terbebas. Seo Ran meninggal saat membaca lempeng giok ibunya.
+- **Puncak latihan Seo, Shattered Heaven Peak** — puncak kecil tak ditempati klan bangsawan karena Dragon Vein lemah; Seo berlatih Fire dan Metal Path di sini.
+- **Lembah terpencil dekat Jingju** — tempat Kim Young-hoon bertemu Seo menjelang ajal, menyerahkan *Entering Heavens Beyond the Path Martial Arts*, lalu mencapai pencerahan saber dan meninggal; Seo kemudian bersembunyi di bawah tanah saat cultivator mendekat.
+- **Hutan Jalan Kenaikan** — wilayah rubah siluman raksasa Core Formation; Seo dikejar dan kabur selama tiga hari, menjauhkan pertarungan dari rombongan. Tiga Heavenly Being (Jin Byuk-ho, White Bone Ghost Devil, Azure Tiger Saint) muncul di sini.
+- **Gerbang Kenaikan** — gerbang yang menjadi acuan kedatangan cultivator ke Jalan Kenaikan; pada hari pertama siklus kesembilan Mad Lord terbang dari arahnya lebih cepat dari perkiraan Seo.
+- **Kotak kayu/ruang penyimpanan Mad Lord** — wadah besar yang berisi sumber daya/jantung yang diambil dari *Nether Crossing Ship* Black Ghost Valley untuk boneka [Her]. Mad Lord membuka sebagian tutupnya saat mengancam Heavenly Being.
+- **Gerbang penyimpanan White Bone Ghost Devil** — gerbang hantu setinggi sekitar sepuluh meter yang membuka ke ruang gelap beraroma laut, tempat dua *Nether Crossing Ship* dan anggota Black Ghost Valley tersimpan terkompresi.
+- **Lautan Angin Hitam — dasar laut di luar jangkauan** — tempat Seo membuang manik gelap pemberian Seo Hweol; manik itu tidak dihancurkan, tetapi disembunyikan agar tak sampai kepada Seo Ran.
+- **Gua latihan Seo, Shattered Heaven Peak** — tempat ia terus menyesuaikan rasio lima elemen dan mencoba Qi Building setelah menguasai Five Surpassing Paths.
+- **Puncak kecil di kaki Shattered Heaven Peak** — Kim Young-hoon menuntaskan breakthrough; teknik *Surpassing Radiant Saber* membelah puncak ini.
+- **Ruang petir Shattered Heaven Peak** — ranah kesadaran berisi petir aneka warna, tempat sisa bayangan takdir Yang Su-jin menyampaikan peringatan kepada Seo. Seo terpindah ke sana kurang dari satu detik setelah hendak mengucapkan “Shattered Heaven Peak” dan kembali ke lokasi asal.
+- **Puncak sparring Kim dan Seo, Shattered Heaven Peak** — setelah mencapai *Entering Heavens Beyond the Path*, keduanya bertarung dan menyelami Heart Essence; Bab 81 berakhir saat sparring dimulai.
+- **Gua latihan Seo di Shattered Heaven Peak** — tempat Kim menemukan Seo pingsan berdiri tetapi tubuhnya menyelesaikan rutinitas latihan sampai fajar; peristiwa ini memacu Kim menjalani latihan hidup-mati. Gua yang sama menjadi titik tolak menuju duel mereka (kilas balik Bab 82).
+- **Medan duel Kim–Seo di Shattered Heaven Peak** — berlangsung di puncak setelah keduanya mencapai *Entering Heavens Beyond the Path*; ribuan benturan per detik, berakhir sementara dengan ledakan cahaya (Bab 81–82; hasil belum diketahui).
+- **Gunung Lingxu** — mountain on the Yanguo–Byeokra border; site of the Spiritual Path Conference (Ch. 38).
+- **Lembah Surak** — north of Kota Changho near the Yanguo–Byeokra border; secret Jin Clan base (Ch. 26).
+- **Kota Cheolryung** — Yanguo city where Lord Heo Semin's home stands; Seo and Kim stay there early in the fifth cycle (Ch. 26).
+- **Kota Cheombyeok** — city used as a landmark for the Makli Clan's secret base in the northwestern hills (Ch. 30).
+- **Lembah Immaek** — small valley northeast of Kota Seokyung where red-robed cultivators await (Ch. 22).
+- **Nether Crossing Ship, lantai terbawah** — ruang singgasana tempat roh hantu Black Ghost Valley menyerap energi kapal; duel dengan Seo, Kim, dan Seo Ran terjadi setelah kapal dimasuki (Bab 84).
+- **Laut terbuka di luar penghalang Black Ghost Valley** — tempat Song Jin berpisah di haluan Nether Crossing Ship setelah membebaskan roh-roh terkurung; kapal lalu diarahkan ke kediaman Seo Ran (Bab 85).
+- **Serving Command Palace** — istana silinder bergenteng giok di pinggiran ruang; hanya memasuki dunia biasa tiap beberapa ratus tahun. Nether Crossing Ship membawa Seo, Kim, dan Seo Ran ke sana pada Bab 86. Gerbang tertutup dan larangan istana belum ditembus; perlu ahli formasi/larangan.
+- **Lembah di dekat Serving Command Palace** — tempat Seo menambatkan Nether Crossing Ship setelah gagal menembus larangan; Seo dan Kim sparring selama 17 tahun (Bab 86).
+- **Penghalang Ascension Path, Heaven-Treading Desert** — dinding tak kasatmata di atas gurun; awalnya hanya Nascent Soul/celah ruang yang memungkinkan masuk. Kim menebasnya dan membukanya sementara; pulih 1–2 hari (Bab 87).
+- **Pusat Ascension Path** — ruang berisi celah ruang dan prasasti penyerap petir, tempat Seo mengikuti jejak teknik Kim dan menemukan retakan menuju tempat tak dikenal (Bab 87).
+- **Arboretum Serving Command Palace** — tempat para Heavenly Being telah memetik buah dan menebang pohon; Seo menemukan pohon muda sejenis Longevity Tree yang masih berbunga dan memiliki bakal buah (Bab 88).
+- **Heaven-Treading Desert, kawah Yuan Li** — ledakan kabut darah Yuan Li menghancurkan radius tiga li; Seo lolos sesaat ke celah ruang dan kembali ke Serving Command Palace (Bab 91).
+- **Hutan Ascension Path, wilayah rubah iblis** — Seo kembali ke sini pada awal regresi kesepuluh dan memburu rubah Core Formation putih berekor tiga; perkelahian meluas ke seperempat Ascension Path (Bab 92).
+- **Gua hutan Ascension Path** — Seo menyembunyikan dan menidurkan rekan-rekannya di sini sambil memeriksa Blood Curse Banner (Bab 92).
+- **Langit di atas Ascension Path** — Mad Lord dan Seo Hweol bertarung; teknik Seo Hweol membanjiri seluruh Path, lalu para Heavenly Being tiba dan bersepakat tidak menyerang Mad Lord sampai ascension (Bab 93).
+- **Cheon-saek City, White Magic Lotus** — toko artefak sihir Buk Hyang-hwa; ruang dalam lebih luas dari eksterior. Buk Joong-ho, tetua tamu Gongmyo Clan, menguasai kota; proyek artefak formasi dimulai di sini (Bab 98).
+- **Cheon-saek City, Heaven-Treading Desert** — kota di tepi gurun, dilanda badai pasir; Seo kembali bersama Cheongmun Ryeong dan Dan untuk bertemu Buk Hyang-hwa (Bab 98).
+- **World’s End (Ujung Dunia)** — tepi dunia berupa daratan dan laut yang terputus menuju langit biru; Seo dan Buk Hyang-hwa menemukan wilayah ini setelah terbang tiga hari ke barat dari kepulauan jauh di Shengzi. Penghalang transparan di tepinya disebut *World Shield Force* dalam dongeng; hakikat dan jangkauannya belum diketahui (Bab 101; [[101-lotus-9|chapter]] / [[101-lotus-9|recap]]).
+- **Makam Yeon, ibu Buk Hyang-hwa** — gua makam di luar Cheon-saek City, dengan dragon vein dan spiritual energy yang dimanfaatkan sebagai lokasi uji coba formasi yang menumbuhkan tanaman. Cheongmun Ryeong menanam magnolia ungu di sini; setelah lima tahun pohon berbunga. Seo dan Hyang-hwa menanam bibit quince dan magnolia putih di sisi makam (Bab 105; [[105-lotus-13|chapter]] / [[105-lotus-13|recap]]).
+- **Cheon-saek City, bengkel White Magic Lotus** — tempat Buk Hyang-hwa mengajari Seo membuat kerajinan kaca dan artefak sihir; Seo juga membantu mengelola toko selama hampir sepuluh tahun (Bab 107; [[107-lotus-15|chapter]] / [[107-lotus-15|recap]]).
+- **Cheon-saek City, reruntuhan dan makam korban** — dua abad setelah pembantaian, kota berubah menjadi pantai berpasir. Seo kembali ke makam massal, mengambil 3.000 pedang kaca yang masih utuh untuk membuat Colorless Glass Sword (Bab 120; [[120-what-you-trampled-on-9|chapter]] / [[120-what-you-trampled-on-9|recap]]).
+- **Yeon-do City** — kota Byeokra yang menjadi tujuan teleportasi Seo setelah Hyang-hwa mengirimnya pergi dari Cheon-saek City; sebuah formasi tersembunyi di pasir luar kota menyimpan kotak kayu hadiah Hyang-hwa (Bab 111, 114; [[114-what-you-trampled-on-2|chapter]] / [[114-what-you-trampled-on-2|recap]]).
+- **Sea Dragon Palace** — istana bawah laut di ruang berudara dan kaya spiritual energy dekat World's End; disegel Seo Hweol. Seo membuka segelnya bersama Seo Ran; istana hancur oleh ledakan Sea Dragon King remnant (Bab 116–118; [[118-what-you-trampled-on-6|chapter]] / [[118-what-you-trampled-on-6|recap]]).
+- **Darken Cave** — gua di pegunungan Shengzi tempat Seo berlatih dan menunggu 200 tahun sampai Byeok Mun-seong datang sebagai utusan Byeok Clan; nama dan legenda gua belum dijelaskan (Bab 119; [[119-what-you-trampled-on-7|chapter]] / [[119-what-you-trampled-on-7|recap]]).

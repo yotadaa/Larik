@@ -1,24 +1,30 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "larik-reader",
   "main": "workers/app.ts",
   "compatibility_date": "2026-09-26",
-  "compatibility_flags": ["nodejs_compat"],
-
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "assets": {
     "directory": "./build/client",
     "binding": "ASSETS",
-    "not_found_handling": "none",
+    "not_found_handling": "none"
   },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "novel",
-      "database_id": "96880495-4649-4278-9c5a-6871b05a75d7"
+      "database_id": "96880495-4649-4278-9c5a-6871b05a75d7",
+      "migrations_dir": "migrations"
     }
   ],
   "vars": {
-    "CLOUDFLARE_S3_URI": "https://1c98ecc019ff6897711ad7543d353019.r2.cloudflarestorage.com",
-    "DATABASE_ID": "96880495-4649-4278-9c5a-6871b05a75d7",
-    "DATABASE_NAME": "novel"
+    "ALLOW_UNVERIFIED_LOGIN": "true"
+  },
+  "triggers": {
+    "crons": [
+      "17 3 * * *"
+    ]
   }
 }

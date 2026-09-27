@@ -1,4 +1,4 @@
 # Chapter Index
 
-| # | Chapter | Status | Recap |
-|---:|---|---|---|
+| # | Chapter | Status | Update | Recap |
+|---:|---|---|---|---|
