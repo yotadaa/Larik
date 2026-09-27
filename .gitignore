@@ -1,45 +1,15 @@
-# Environment variables and local credentials
-.env
-.env.*
-**/.env
-**/.env.*
-.dev.vars
-.dev.vars.*
-**/.dev.vars
-**/.dev.vars.*
-*.pem
-*.key
-**/*.pem
-**/*.key
-credentials.json
-credentials.*.json
-**/credentials.json
-**/credentials.*.json
-secrets.json
-secrets.*.json
-**/secrets.json
-**/secrets.*.json
-
-# Local novel corpus
-/id/
-
-## Application scripts are part of the React Router project; only local credentials within them are ignored.
-
-# Local tooling state and generated output
-/.claude/
-/.claude-flow/
-/.wrangler/
-/.react-router/
-/.wrangler.production.jsonc
-/build/
-/.swarm/
-/ruvector.db
-
-# Installed dependencies
-/node_modules/
-
-# Local scraper output and generated type caches
-/scripts/a-regressors-tale-of-cultivation/
-/scripts/sqilte-migration/__pycache__/
-/tsconfig.tsbuildinfo
-
+node_modules/
+build/
+.wrangler/
+.react-router/
+.local/
+.test-runtime/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+.wrangler.production.jsonc
+scripts/sqilte-migration/.env

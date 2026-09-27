@@ -1,33 +1,21 @@
-from __future__ import annotations
-
-import ast
-import re
+"""Verify actual schema/migrations against the checked-in contract and documentation."""
+import json
+import sqlite3
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-MIGRATOR = ROOT / "scripts" / "sqilte-migration" / "migrator.py"
-DATABASE_MD = ROOT / "scripts" / "sqilte-migration" / "DATABASE.md"
-
-module = ast.parse(MIGRATOR.read_text(encoding="utf-8"))
-tables = None
-for node in module.body:
-    if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == "TABLES" for t in node.targets):
-        tables = ast.literal_eval(node.value)
-        break
-if tables is None:
-    raise SystemExit("Could not find TABLES in migrator.py")
-
-text = DATABASE_MD.read_text(encoding="utf-8")
-blocks = re.findall(r'CREATE TABLE IF NOT EXISTS "([^"]+)" \((.*?)\n\);', text, flags=re.S)
-documented = {}
-for table, body in blocks:
-    cols = re.findall(r'^\s*"([^"]+)"\s+(?:INTEGER|TEXT)', body, flags=re.M)
-    documented[table] = tuple(c for c in cols if c != "id")
-
-if set(tables) != set(documented):
-    raise SystemExit(f"Table mismatch: migrator={sorted(tables)} docs={sorted(documented)}")
-for table, columns in tables.items():
-    if tuple(columns) != documented[table]:
-        raise SystemExit(f"Column mismatch for {table}: migrator={columns} docs={documented[table]}")
-
-print("DATABASE.md and migrator.py schema declarations: PASS")
+root = Path(__file__).resolve().parents[1]
+db = sqlite3.connect(":memory:")
+base = (root / "scripts/content-schema.sql").read_text()
+migration = (root / "migrations/0001_reader_accounts.sql").read_text()
+db.executescript(base)
+before = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+db.executescript(migration)
+db.executescript(migration)  # idempotent DDL
+contract = json.loads((root / "scripts/schema-contract.json").read_text())
+for table, expected in contract.items():
+    actual = [r[1] for r in db.execute(f'PRAGMA table_info("{table}")')]
+    assert actual == expected, (table, actual, expected)
+assert before.issubset({r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")})
+docs = (root / "docs/DATABASE.md").read_text()
+assert base in docs and migration in docs
+assert "DROP TABLE" not in migration.upper()
+print("Schema contract, additive/idempotent migration, and database documentation: PASS")

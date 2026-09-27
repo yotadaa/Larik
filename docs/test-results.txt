@@ -1,0 +1,144 @@
+TAP version 13
+# (node:574) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: default/status is read-only, even before the history table exists
+ok 1 - default/status is read-only, even before the history table exists
+  ---
+  duration_ms: 45.974671
+  type: 'test'
+  ...
+# Subtest: --dry-run is also read-only
+ok 2 - --dry-run is also read-only
+  ---
+  duration_ms: 6.919764
+  type: 'test'
+  ...
+# Subtest: apply creates reader schema/history, verifies it, and preserves existing content
+ok 3 - apply creates reader schema/history, verifies it, and preserves existing content
+  ---
+  duration_ms: 11.132605
+  type: 'test'
+  ...
+# Subtest: rerun skips applied files and preserves users/bookmarks
+ok 4 - rerun skips applied files and preserves users/bookmarks
+  ---
+  duration_ms: 7.713902
+  type: 'test'
+  ...
+# Subtest: --verify checks existing schema without writing
+ok 5 - --verify checks existing schema without writing
+  ---
+  duration_ms: 5.098807
+  type: 'test'
+  ...
+# Subtest: --verify fails on missing columns/indexes
+ok 6 - --verify fails on missing columns/indexes
+  ---
+  duration_ms: 3.501018
+  type: 'test'
+  ...
+# Subtest: database-name mismatch stops before SQL
+ok 7 - database-name mismatch stops before SQL
+  ---
+  duration_ms: 5.239138
+  type: 'test'
+  ...
+# Subtest: missing config and invalid provider fail without network calls
+ok 8 - missing config and invalid provider fail without network calls
+  ---
+  duration_ms: 2.004659
+  type: 'test'
+  ...
+# Subtest: account aliases, invalid ID, invalid token, and blank database ID validation
+ok 9 - account aliases, invalid ID, invalid token, and blank database ID validation
+  ---
+  duration_ms: 0.471157
+  type: 'test'
+  ...
+# Subtest: unknown/conflicting flags stop before network; help needs no credentials
+ok 10 - unknown/conflicting flags stop before network; help needs no credentials
+  ---
+  duration_ms: 3.822142
+  type: 'test'
+  ...
+# Subtest: SQL error stops later files and does not record the failed migration
+ok 11 - SQL error stops later files and does not record the failed migration
+  ---
+  duration_ms: 15.461398
+  type: 'test'
+  ...
+# Subtest: multistatement SQL preserves semicolons, trigger bodies, and trailing comments
+ok 12 - multistatement SQL preserves semicolons, trigger bodies, and trailing comments
+  ---
+  duration_ms: 5.73513
+  type: 'test'
+  ...
+# Subtest: filename SQL literals are escaped
+ok 13 - filename SQL literals are escaped
+  ---
+  duration_ms: 3.652715
+  type: 'test'
+  ...
+# Subtest: HTTP 403 is actionable and never exposes the bearer token
+ok 14 - HTTP 403 is actionable and never exposes the bearer token
+  ---
+  duration_ms: 0.484031
+  type: 'test'
+  ...
+# Subtest: top-level SQL failure at HTTP 200 is not mistaken for success
+ok 15 - top-level SQL failure at HTTP 200 is not mistaken for success
+  ---
+  duration_ms: 0.263338
+  type: 'test'
+  ...
+# Subtest: per-statement failure and empty result envelope are rejected
+ok 16 - per-statement failure and empty result envelope are rejected
+  ---
+  duration_ms: 0.462401
+  type: 'test'
+  ...
+# Subtest: timeouts and rate limits are not automatically retried
+ok 17 - timeouts and rate limits are not automatically retried
+  ---
+  duration_ms: 0.347175
+  type: 'test'
+  ...
+# Subtest: unreadable responses do not masquerade as success
+ok 18 - unreadable responses do not masquerade as success
+  ---
+  duration_ms: 0.50302
+  type: 'test'
+  ...
+# Subtest: existing history records not present on disk are left unchanged
+ok 19 - existing history records not present on disk are left unchanged
+  ---
+  duration_ms: 4.649397
+  type: 'test'
+  ...
+# Subtest: manually applied compatible reader schema can be recorded without losing rows
+ok 20 - manually applied compatible reader schema can be recorded without losing rows
+  ---
+  duration_ms: 4.625367
+  type: 'test'
+  ...
+# Subtest: empty folder/file fail before any database writes
+ok 21 - empty folder/file fail before any database writes
+  ---
+  duration_ms: 3.012061
+  type: 'test'
+  ...
+# Subtest: CLI loads project-root .env even when launched from another working directory
+ok 22 - CLI loads project-root .env even when launched from another working directory
+  ---
+  duration_ms: 63.944657
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 263.261856

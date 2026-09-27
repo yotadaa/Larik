@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import {
   ArrowPathIcon,
+  ShareIcon,
   BookOpenIcon,
   MapPinIcon,
   ShieldCheckIcon,
@@ -22,6 +23,7 @@ const items = [
 export function ReferenceNav({ novelId, active, counts }: { novelId: string; active?: string; counts?: ReferenceCounts }) {
   return (
     <nav className="reference-nav" aria-label="Story reference">
+      <Link className={active === "atlas" ? "is-active" : ""} to={`/novels/${encodeURIComponent(novelId)}/atlas`} aria-current={active === "atlas" ? "page" : undefined}><ShareIcon className="reference-nav__icon" aria-hidden="true" /><span>Visual atlas</span></Link>
       {items.map(([slug, label, Icon]) => (
         <Link key={slug} className={active === slug ? "is-active" : ""} to={hrefReference(novelId, slug)}>
           <Icon className="reference-nav__icon" aria-hidden="true" />

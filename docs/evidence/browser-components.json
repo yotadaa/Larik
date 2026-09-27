@@ -1,0 +1,27 @@
+{
+  "environment": "Chromium injected components + exact service/loader SQLite adapter; NOT React Router/Cloudflare end-to-end build",
+  "passed": 19,
+  "checks": [
+    "guest bookmark protection and explicit prototype warning",
+    "email form submits to real login service and opens empty personal shelf",
+    "novel save and optimistic button confirmation",
+    "first chapter body and disabled previous navigation",
+    "chapter bookmark persists through the actual action service",
+    "down/up scroll, inert hidden controls, and keyboard/manual reveal",
+    "next/previous links retain exact encoded chapter identifiers",
+    "shelf type filter and scoped removal with revalidation",
+    "a second email profile cannot see the first profile shelf",
+    "re-entering the normalized email restores its remaining bookmark",
+    "spoiler gate excludes metadata from loader payload",
+    "real 599-entity corpus renders its client-side atlas",
+    "desktop focused graph has no overlapping node cards",
+    "graph zoom, fit, and keyboard pan/reset",
+    "anchored evidence provenance and paginated connection list",
+    "search empty state, equivalent list, and citation-ordered timeline",
+    "320/390/768/1440 layouts do not overflow; mobile graph has five non-overlapping touch targets",
+    "mobile chapter layout and reduced-motion dock CSS",
+    "zero uncaught browser component errors"
+  ],
+  "browserErrors": [],
+  "mobileTargetHeight": 62.23681640625
+}

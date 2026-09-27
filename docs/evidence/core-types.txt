@@ -1,0 +1,4 @@
+
+> novel-reader-cloudflare-react-router@1.1.0 test:core-types
+> tsc --noEmit --strict --skipLibCheck --target ES2023 --module ESNext --moduleResolution Bundler --lib ES2023,DOM,DOM.Iterable --allowImportingTsExtensions app/lib/auth.server.ts app/lib/http.server.ts app/lib/bookmarks.server.ts app/lib/chapter-markdown.ts app/lib/atlas.ts app/lib/atlas.server.ts
+

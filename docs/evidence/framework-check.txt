@@ -1,0 +1,13 @@
+
+> novel-reader-cloudflare-react-router@1.1.0 check
+> npm run typecheck && npm run build && wrangler deploy --dry-run
+
+
+> novel-reader-cloudflare-react-router@1.1.0 typecheck
+> npm run typegen && tsc -b --noEmit
+
+
+> novel-reader-cloudflare-react-router@1.1.0 typegen
+> wrangler types .wrangler/worker-configuration.d.ts && react-router typegen
+
+sh: 1: wrangler: not found

@@ -1,0 +1,4256 @@
+{
+  "source_archive_sha256": "c0b9fb255c0ec21984807d5001f4266c1818db3658f335ccaf102f84337e06a1",
+  "top_level_markdown_files_read": 333,
+  "nested_markdown_files_read": 39,
+  "corpus_markdown_files_preserved": 313,
+  "original_markdown_files_intentionally_updated": [
+    "IMPLEMENTATION_PLAN.md",
+    "README.md",
+    "VERIFICATION.md"
+  ],
+  "original_markdown_inventory": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 17735,
+      "lines": 687,
+      "sha256": "4a1cc7af5a4bef0b98a231c208f4d1deb05aeb53fb6bfb66624ac61dec9f0af9",
+      "headings": [
+        "# Novel Translation Agent Workflow",
+        "## Mission",
+        "# 1. Required Inputs",
+        "# 2. Mandatory Pre-Translation Workflow",
+        "## Step 2.1 — Parse chapter metadata",
+        "## Step 2.2 — Resolve the project directory",
+        "## Step 2.3 — Build a translation context",
+        "# 3. Translation Priority Order",
+        "# 4. Translation Rules",
+        "## 4.1 Meaning",
+        "## 4.2 Names and terminology",
+        "## 4.3 Dialogue",
+        "## 4.4 Narration",
+        "## 4.5 Honorifics and forms of address",
+        "## 4.6 Idioms and wordplay",
+        "## 4.7 Typography",
+        "# 5. Drafting Workflow",
+        "### Pass A — Comprehension",
+        "### Pass B — Canonical terminology",
+        "### Pass C — Literary translation",
+        "### Pass D — Continuity",
+        "### Pass E — Style",
+        "### Pass F — QA",
+        "# 6. Chapter Output",
+        "# Chapter 3 — Translated Chapter Title"
+      ]
+    },
+    {
+      "path": "CLAUDE.md",
+      "bytes": 3556,
+      "lines": 44,
+      "sha256": "0e54d81f2b49a66303fe26e419c01b45261c65ba97f5e2a2d8ef58246b2df661",
+      "headings": [
+        "# GitNexus — Code Intelligence",
+        "## Always Do",
+        "## Never Do",
+        "## Resources",
+        "## CLI"
+      ]
+    },
+    {
+      "path": "IMPLEMENTATION_PLAN.md",
+      "bytes": 6202,
+      "lines": 147,
+      "sha256": "3b85152497a191eb08eb9ac12ce02c666dd709b0c58c2b1222398fac6a8092da",
+      "headings": [
+        "# React Router + Cloudflare Workers Redesign",
+        "## Goal",
+        "## Why this architecture",
+        "### Request path",
+        "## Database constraints preserved",
+        "## Routes",
+        "## UX direction",
+        "### Reading UX",
+        "## Cloudflare runtime design",
+        "### `workers/app.ts`",
+        "### `app/lib/cloudflare-context.ts`",
+        "### `app/lib/repository.ts`",
+        "## Security",
+        "## Verification plan",
+        "## Visual system refinement"
+      ]
+    },
+    {
+      "path": "README.md",
+      "bytes": 1958,
+      "lines": 57,
+      "sha256": "e8e19105d0741409ff2f51325c527aed7c973d3fee58cf772f50b52ce12fc7d7",
+      "headings": [
+        "# Larik",
+        "## Requirements",
+        "## Environment",
+        "## Run locally",
+        "## Checks and deployment",
+        "## Project layout"
+      ]
+    },
+    {
+      "path": "VERIFICATION.md",
+      "bytes": 1926,
+      "lines": 58,
+      "sha256": "d48bd6f40f758a6f732e4011949f096de99863d5f9c1061a909fa443a605087b",
+      "headings": [
+        "# Verification Report",
+        "## Completed in this environment",
+        "## Not verified here",
+        "### Live production D1",
+        "### Framework build/runtime",
+        "## No production-data fallback"
+      ]
+    },
+    {
+      "path": "docs/FILE_CONVENTIONS.md",
+      "bytes": 1178,
+      "lines": 77,
+      "sha256": "bc21ffdadaedcd35b4931b6f74364042975526772e69182c453cef8370162f06",
+      "headings": [
+        "# File and Naming Conventions",
+        "## Language ID",
+        "## Novel slug",
+        "## Chapter number",
+        "## Chapter title slug",
+        "## Chapter directories",
+        "## Source text",
+        "## Stable paths"
+      ]
+    },
+    {
+      "path": "docs/GLOSSARY_POLICY.md",
+      "bytes": 1596,
+      "lines": 69,
+      "sha256": "4ba09c76edbcf6d608deb6b12cb77773f15663643bf23d3805f901d72f44e0e1",
+      "headings": [
+        "# Glossary Policy",
+        "## Purpose",
+        "## Add an entry when a term is likely to recur or when inconsistency would matter.",
+        "## Do not add",
+        "## Canonical entry format",
+        "## Ambiguous terms",
+        "## Changing a canonical translation",
+        "## Capitalization"
+      ]
+    },
+    {
+      "path": "docs/QA_CHECKLIST.md",
+      "bytes": 2561,
+      "lines": 79,
+      "sha256": "ad3e516be914565958d8ee2fbd1c2f896b143ec836702f8073f2aca4ca36518b",
+      "headings": [
+        "# Chapter Translation QA Checklist",
+        "## Metadata",
+        "## Completeness",
+        "## Meaning",
+        "## Canonical Consistency",
+        "## Character Voice",
+        "## Literary Quality",
+        "## Continuity",
+        "## Markdown",
+        "## Memory Updates"
+      ]
+    },
+    {
+      "path": "docs/TRANSLATION_PIPELINE.md",
+      "bytes": 2697,
+      "lines": 144,
+      "sha256": "79948630958eb3bae6645bdd430964410f00546cbc50d1de1e72495ce51b810e",
+      "headings": [
+        "# Translation Pipeline",
+        "## Phase 0 — Intake",
+        "## Phase 1 — Context Retrieval",
+        "## Phase 2 — Preflight Term Map",
+        "## Phase 3 — Full-Chapter Comprehension",
+        "## Phase 4 — Translation",
+        "## Phase 5 — Literary Revision",
+        "## Phase 6 — Consistency Pass",
+        "## Phase 7 — Completeness Pass",
+        "## Phase 8 — Memory Extraction",
+        "## Phase 9 — Write Outputs",
+        "## Phase 10 — Link Repair",
+        "## Phase 11 — Final QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/NOVEL.md",
+      "bytes": 159,
+      "lines": 7,
+      "sha256": "580a1625637ef3eaf0fce74a1f11356b885994b7e4a64b68975ad9a47e8fdb87",
+      "headings": [
+        "# A Regressor’s Tale of Cultivation"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/README_READER.md",
+      "bytes": 7700,
+      "lines": 133,
+      "sha256": "1b1f549abb66b6eaecbf27819bb401780407c19227014f7fe04f125bd04a1bd2",
+      "headings": [
+        "# Ruang Baca - panduan menjalankan",
+        "## Cara utama: buka proyek melalui server lokal",
+        "## Cara tanpa server",
+        "## File yang penting",
+        "## Setelah agent menambah atau memperbaiki bab",
+        "## Halaman dan fitur",
+        "## Cara kerja spoiler",
+        "## Penyimpanan dan cadangan",
+        "## Data sumber dalam paket ini",
+        "## Memakai template untuk novel lain",
+        "## Batas yang perlu diketahui"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/RENCANA_READER.md",
+      "bytes": 14200,
+      "lines": 185,
+      "sha256": "dc1c79872ed596c898b16cede52dac77d317382a88429fcb18ed7fcb5716a353",
+      "headings": [
+        "# Rencana implementasi: Ruang Baca",
+        "## 1. Tujuan dan batasan",
+        "## 2. Temuan sumber yang memengaruhi desain",
+        "## 3. Dasar riset dan keputusan UX",
+        "### Membaca sebagai aktivitas utama",
+        "### Tipografi yang dapat disesuaikan",
+        "### Tema mengikuti konteks pengguna",
+        "### Aksesibilitas sebagai syarat desain",
+        "### Tidak mengandalkan fetch file lokal",
+        "### Markdown tidak dipercaya sebagai HTML aman",
+        "## 4. Arah visual",
+        "## 5. Arsitektur informasi",
+        "## 6. Kontrak data dan penemuan berkas",
+        "## 7. Pengendalian spoiler",
+        "## 8. Fitur pembaca",
+        "## 9. Strategi penyimpanan dan privasi",
+        "## 10. Rencana implementasi berurutan",
+        "### Tahap A: fondasi data",
+        "### Tahap B: kerangka dan tampilan",
+        "### Tahap C: pengalaman membaca",
+        "### Tahap D: pemanfaatan Markdown pendukung",
+        "### Tahap E: template dan handoff",
+        "### Tahap F: pengujian",
+        "## 11. Deliverable",
+        "## 12. Kriteria penerimaan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/STYLE_GUIDE.md",
+      "bytes": 588,
+      "lines": 8,
+      "sha256": "b0cde1b2f5542b565e0df3c7086eb9773f3c13559055c3f5d6f92331c4f3719c",
+      "headings": [
+        "# Panduan Gaya"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/TEST_REPORT.md",
+      "bytes": 4072,
+      "lines": 40,
+      "sha256": "f76f90f21cdcadb3e14542b06b66b65e83c1b2308d9837741b325b07af834ce3",
+      "headings": [
+        "# Test report - Ruang Baca",
+        "## Result",
+        "## What was actually exercised",
+        "## Test environment and limitations",
+        "## Fixes made during verification",
+        "## Visual review"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapter-index.md",
+      "bytes": 19321,
+      "lines": 155,
+      "sha256": "e7350aa4ccd6172dc6a07b68c2a4e93dab08c324d99f58a6bda83dce32c9709e",
+      "headings": [
+        "# Indeks Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/001-hari-pertama-regresor.md",
+      "bytes": 23360,
+      "lines": 680,
+      "sha256": "2e928cf3a0138f9cdd4a24ae132add734e4bb2a70334cd1ce7513975097dab51",
+      "headings": [
+        "# Bab 1 — Hari Pertama Sang Regresor",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/002-takdir-yang-tersebar.md",
+      "bytes": 35886,
+      "lines": 998,
+      "sha256": "c3c7575a26d069a01452ddab24189e12b144ee79c03beb452f79ba15166d5779",
+      "headings": [
+        "# Bab 2 — Takdir yang Tersebar (1)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/003-takdir-yang-tersebar.md",
+      "bytes": 12323,
+      "lines": 353,
+      "sha256": "b74f4cba2d1f9be96e96649e9bc49a073dc33c16d5858f3fc90873c19a09995a",
+      "headings": [
+        "# Bab 3 — Takdir yang Tersebar (2)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/004-direktur-kim-jenius-bela-diri.md",
+      "bytes": 16539,
+      "lines": 366,
+      "sha256": "06109d2ca9fc10c5c76bddf39c264784df9ea259eb54f994cfa8c7eaa8c5607e",
+      "headings": [
+        "# Bab 4 — Direktur Kim Jenius Bela Diri (1)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/005-direktur-kim-jenius-bela-diri-2.md",
+      "bytes": 32766,
+      "lines": 822,
+      "sha256": "ea521089325f2cd18284e3ee14f90e7dadf8e96a912eb64605393cb71c716abd",
+      "headings": [
+        "# Bab 5 — Direktur Kim Jenius Bela Diri (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/006-hari-pertama-siklus-kedua.md",
+      "bytes": 13542,
+      "lines": 354,
+      "sha256": "8f141f7d19cb850b0abd758a7fe00843a964c77b1c09c663738737a52a43be02",
+      "headings": [
+        "# Bab 6 — Hari Pertama Siklus Kedua",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/007-bakat-anugerah-langit-1.md",
+      "bytes": 15141,
+      "lines": 333,
+      "sha256": "5fd6e4cd252fb2e40491535fde8057954b507577eb0ec9b79029dc126e000994",
+      "headings": [
+        "# Bab 7 — Bakat Anugerah Langit (1)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/008-bakat-anugerah-langit-2.md",
+      "bytes": 21492,
+      "lines": 574,
+      "sha256": "0b75c02feebe6b33521c64dfe538d74917c661cc8aa899d127923083a31b28bf",
+      "headings": [
+        "# Bab 8 — Bakat Anugerah Langit (2)",
+        "## Catatan Bab",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/009-bakat-anugerah-langit-3.md",
+      "bytes": 27579,
+      "lines": 549,
+      "sha256": "f0cea435131eba7a3ee0db96ebae594498c3d58d9140cae870b1a3cbc25b50bf",
+      "headings": [
+        "# Bab 9 — Bakat Anugerah Langit (3)",
+        "## Catatan Bab",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/010-bakat-anugerah-langit-4.md",
+      "bytes": 19162,
+      "lines": 478,
+      "sha256": "2126ee6bbfae2463221e856e2116ada7800c091e31d4f8f2a0394927fe50ac07",
+      "headings": [
+        "# Bab 10 — Bakat Anugerah Langit (4)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/011-bakat-anugerah-langit-5.md",
+      "bytes": 26450,
+      "lines": 604,
+      "sha256": "bb8655f3c36603b2d9670c9048736be6e547766b4b3e8cbaf32f33280a6f8125",
+      "headings": [
+        "# Bab 11 — Bakat Anugerah Langit (5)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/012-hari-pertama-siklus-ketiga.md",
+      "bytes": 12947,
+      "lines": 428,
+      "sha256": "1ff5cf4445198f98662fe07b868bbc6c66977c437abfc3b57a665fc539d21f5f",
+      "headings": [
+        "# Bab 12 — Hari Pertama Siklus Ketiga",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/013-bakat-ditinggalkan-langit-1.md",
+      "bytes": 15675,
+      "lines": 394,
+      "sha256": "aca28ddb57bfb9968ba96033fa3ece54d222406f63dc57829998b52cc7a6a0d4",
+      "headings": [
+        "# Bab 13 — Bakat yang Ditinggalkan Langit (1)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/014-bakat-ditinggalkan-langit-2.md",
+      "bytes": 28987,
+      "lines": 658,
+      "sha256": "6d3eab1f911099e3932aa243db93b208b0ae1d6b074203f817b038251c7f8878",
+      "headings": [
+        "# Bab 14 — Bakat yang Ditinggalkan Langit (2)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/015-bakat-ditinggalkan-langit-3.md",
+      "bytes": 27232,
+      "lines": 726,
+      "sha256": "477e1e3da9fd1b188ee48e8026c0f51c1d814a787c95c3913bb36efd5f6d60f9",
+      "headings": [
+        "# Bab 15 — Bakat yang Ditinggalkan Langit (3)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/016-bakat-ditinggalkan-langit-4.md",
+      "bytes": 36527,
+      "lines": 1152,
+      "sha256": "8637bac1117f340c285c62c4486d7908b8197eebe583242deb76027533dd636c",
+      "headings": [
+        "# Bab 16 — Bakat yang Ditinggalkan Langit (4)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/017-hari-pertama-siklus-keempat.md",
+      "bytes": 12173,
+      "lines": 322,
+      "sha256": "c6de9150694661a463ce4763fcacd79458cee3adcf681646e3ced20c3e6ce1c7",
+      "headings": [
+        "# Bab 17 — Hari Pertama Siklus Keempat",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/018-peak-master-1.md",
+      "bytes": 15555,
+      "lines": 464,
+      "sha256": "fe1172861f14913760966dedc39104f44d0e7c9b1b424702e7d247086effee90",
+      "headings": [
+        "# Bab 18 — Peak Master (1)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/019-peak-master-2.md",
+      "bytes": 36088,
+      "lines": 998,
+      "sha256": "74def8ed7c004fb2f70efe4c8b7179e159944d153d0e6f601ed0438d686a9e30",
+      "headings": [
+        "# Bab 19 — Peak Master (2)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/020-peak-master-3.md",
+      "bytes": 23828,
+      "lines": 566,
+      "sha256": "912eb62b3f901c694e9e893a35fe681c21fb8d0f0523bf4c4346637e81a7791b",
+      "headings": [
+        "# Bab 20 — Peak Master (3)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/021-peak-master-4.md",
+      "bytes": 24213,
+      "lines": 648,
+      "sha256": "1c5cf494c4e5564df1c6b13441a49e8ce0e26562d8ae39029c76af0c1bf8ec10",
+      "headings": [
+        "# Bab 21 — Peak Master (4)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/022-refining-1.md",
+      "bytes": 17874,
+      "lines": 426,
+      "sha256": "c5e9a8f5050c35bed05deef6fe4aaf160c33eb11cd65a3a27f7dba4f05a5d348",
+      "headings": [
+        "# Bab 22 — Pemurnian (1)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/023-refining-2.md",
+      "bytes": 30978,
+      "lines": 954,
+      "sha256": "60d3cfdca8747d87f29e1d8cacdf0780bd8ebf890c6cd83a130b16609758a650",
+      "headings": [
+        "# Bab 23 — Pemurnian (2)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/024-refining-3.md",
+      "bytes": 29441,
+      "lines": 978,
+      "sha256": "143e1d24f596495c1462cfb4deeb14b91b2b0861ca6af6075fb3708b35978c52",
+      "headings": [
+        "# Bab 24 — Pemurnian (3)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/025-hari-pertama-siklus-kelima.md",
+      "bytes": 14046,
+      "lines": 454,
+      "sha256": "519b4a04f2029c7d37eee0730072c9f59e65ed70f5e1e867449f77be368226ff",
+      "headings": [
+        "# Bab 25 — Hari Pertama Siklus Kelima",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/026-life-1.md",
+      "bytes": 14830,
+      "lines": 334,
+      "sha256": "76e7b1a11d75a411754eab1b610cd1e2a4ffefdc8081402e7c22d2b760d711ea",
+      "headings": [
+        "# Bab 26 — Kehidupan (1)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/027-life-2.md",
+      "bytes": 32472,
+      "lines": 856,
+      "sha256": "4b867d0d64d3c56d8645d2673669893991a149e61686213902f9ffbf90457aff",
+      "headings": [
+        "# Bab 27 — Kehidupan (2)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/028-life-3.md",
+      "bytes": 31108,
+      "lines": 808,
+      "sha256": "5e9629d0ddbe732749f079cc5ab0bcdd41d1281ce78d9e0b9ac7bce106a2fc4a",
+      "headings": [
+        "# Bab 28 — Kehidupan (3)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/029-life-4.md",
+      "bytes": 25221,
+      "lines": 712,
+      "sha256": "740c11b74d3eabb0ed78c89550d9f4f1c6a1cdf5d3b2af4ff44b0537de9dc671",
+      "headings": [
+        "# Bab 29 — Kehidupan (4)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/030-life-5.md",
+      "bytes": 28652,
+      "lines": 754,
+      "sha256": "a93b622115b8dd1e43aee11cdfef72459fe739e75a84665789156c8848530829",
+      "headings": [
+        "# Bab 30 — Kehidupan (5)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/031-life-6.md",
+      "bytes": 29516,
+      "lines": 756,
+      "sha256": "e2dcccd0a6d722454f9aa4983a2c8df7b5e5f6c30ce34cde9a5a7aecfaa7b1f3",
+      "headings": [
+        "# Bab 31 — Kehidupan (6)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/032-life-7.md",
+      "bytes": 23277,
+      "lines": 624,
+      "sha256": "dc3e94525b5ba61c79c9f11b4e65ed96b2c5440fa33e6c0abb888495e16ddfca",
+      "headings": [
+        "# Bab 32 — Kehidupan (7)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/033-life-8.md",
+      "bytes": 17693,
+      "lines": 520,
+      "sha256": "a094d3247985b58519776bff3fd8dc5ede081a5aa3014afbd261cea286cafa75",
+      "headings": [
+        "# Bab 33 — Kehidupan (8)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/034-endless-mountains-beyond-mountains.md",
+      "bytes": 29426,
+      "lines": 1000,
+      "sha256": "07a841ffd45fbe12586a7fc0f1570d3fc9026519f5d16be8e1d3e2e4d0e6b0d6",
+      "headings": [
+        "# Bab 34 — Gunung Tak Berujung di Balik Gunung (山外山不盡)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/035-sixth-cycle-first-day.md",
+      "bytes": 13274,
+      "lines": 408,
+      "sha256": "4135ad8a4bfde00b3865533f5b2c4d6730dbc7cab03c5fa9dbbfa95998d16647",
+      "headings": [
+        "# Bab 35 — Hari Pertama Siklus Keenam",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/036-five-energies-converging-to-the-origin.md",
+      "bytes": 22744,
+      "lines": 536,
+      "sha256": "37587378e7043ca726e8759372252900486bf080bdc42b9dbd55bfbaab4988f3",
+      "headings": [
+        "# Bab 36 — Five Energies Converging to the Origin dan Perubahan Setelahnya",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/037-cultivator-1.md",
+      "bytes": 16420,
+      "lines": 472,
+      "sha256": "0848e69906af33752839167f9e3e922086cec2d6f44b1111f8c85d54718899b4",
+      "headings": [
+        "# Bab 37 — Cultivator (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/038-cultivator-2.md",
+      "bytes": 25644,
+      "lines": 536,
+      "sha256": "f0524f6cca478a82bc33cd4368eb503ed78a5f024300fbc0a8721b813e6150e6",
+      "headings": [
+        "# Bab 38 — Cultivator (2)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/039-cultivator-3.md",
+      "bytes": 21388,
+      "lines": 480,
+      "sha256": "e0012f9b2f2c149fac2de974fe1cab2caa5ec8f8c52cf3ecef3af2bd501ae104",
+      "headings": [
+        "# Bab 39 — Cultivator (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/040-cultivator-4.md",
+      "bytes": 20785,
+      "lines": 396,
+      "sha256": "368ab11a10bb0eb257b01e995b57060a393d6ccd101a441437b7ef9ca136dcc3",
+      "headings": [
+        "# Bab 40 — Cultivator (4)",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/041-qi-refining-1.md",
+      "bytes": 28134,
+      "lines": 630,
+      "sha256": "cbe851f5be7257669b3791c7836a1ad256b4b84ffb468f8908b3810b24e3ed8d",
+      "headings": [
+        "# Bab 41 — Qi Refining (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/042-qi-refining-2.md",
+      "bytes": 15153,
+      "lines": 390,
+      "sha256": "6d258c0ca25b41709955c4b816db8794848e6499aa1101ec69556fb4e57a53ea",
+      "headings": [
+        "# Bab 42 — Qi Refining (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/043-qi-refining-3.md",
+      "bytes": 28227,
+      "lines": 668,
+      "sha256": "1edbba79fd22ef8aa13aee44213724abf3faefbf87eedca4fabcd74b550cdbc2",
+      "headings": [
+        "# Bab 43 — Qi Refining (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/044-qi-refining-4.md",
+      "bytes": 26833,
+      "lines": 586,
+      "sha256": "0b3f5b65039773843391ef843ee2b7079ba5b43c80806381702d6d25893cefb6",
+      "headings": [
+        "# Bab 44 — Qi Refining (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/045-forbidden-1.md",
+      "bytes": 22571,
+      "lines": 554,
+      "sha256": "1fe27d30021961aaa35f2a75bd4c5c2b4011bb9b5493963027dfceaafd226c66",
+      "headings": [
+        "# Bab 45 — Terlarang (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/046-forbidden-2.md",
+      "bytes": 16909,
+      "lines": 440,
+      "sha256": "a5da35cc32eaf7029a3bbe5d170f56fff3416a3a1570f8a54dc70b3a7f9547b0",
+      "headings": [
+        "# Bab 46 — Terlarang (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/047-forbidden-3.md",
+      "bytes": 18518,
+      "lines": 454,
+      "sha256": "12ca27746c199e58f367648946f3b8dc1e8a5e4a989e4e849f36fe56c112ccf7",
+      "headings": [
+        "# Bab 47 — Terlarang (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/048-forbidden-4.md",
+      "bytes": 24250,
+      "lines": 782,
+      "sha256": "bec519dd4d6d2c8f112a428db22a8d05c1799e481bd41fe58e1648182b7e05ec",
+      "headings": [
+        "# Bab 48 — Terlarang (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/049-giant-tree.md",
+      "bytes": 21009,
+      "lines": 682,
+      "sha256": "ac3ce8a108e61ddab472193a9adf2620ab5c64f598fbe90a797df623e9da84d6",
+      "headings": [
+        "# Bab 49 — Pohon Raksasa"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/050-7th-cycles-first-day.md",
+      "bytes": 24060,
+      "lines": 596,
+      "sha256": "0efe4c8c03ffd3ba6666d78e5e04595ab438c9f7b53042f83a0483e7f6c0f668",
+      "headings": [
+        "# Bab 50 — Hari Pertama Siklus Ketujuh"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/051-heavens-above-1.md",
+      "bytes": 24223,
+      "lines": 696,
+      "sha256": "2c10e78f444800fcbc652e49741d6e85d44e20d45f32e71823cf618bd5fad9cb",
+      "headings": [
+        "# Bab 51 — Wahai Langit (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/052-heavens-above-2.md",
+      "bytes": 18176,
+      "lines": 616,
+      "sha256": "abde48a6380898fe1d507df11422d6239a42167c6a614b85cbcc7922c6c46089",
+      "headings": [
+        "# Bab 52 — Wahai Langit (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/053-heavens-above-3.md",
+      "bytes": 14234,
+      "lines": 456,
+      "sha256": "df0614a23be4a73e4c043bf9a25f7fbd90bfd1496b8b3dbfdb207896dcb6514a",
+      "headings": [
+        "# Bab 53 — Wahai Langit (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/054-heavenly-thunder-1.md",
+      "bytes": 13410,
+      "lines": 350,
+      "sha256": "c18c1b36530b4ecd39ebe33739c63e726eb4729679587e5466d79897b459ad1f",
+      "headings": [
+        "# Bab 54 — Petir Surgawi (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/055-heavenly-thunder-2.md",
+      "bytes": 12617,
+      "lines": 376,
+      "sha256": "a2f5fc2a75ead47a9e398e2dc29ba3f9632a98652124bddbbf5750ee11046a58",
+      "headings": [
+        "# Bab 55 — Petir Surgawi (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/056-heavenly-thunder-3.md",
+      "bytes": 13977,
+      "lines": 304,
+      "sha256": "594359f9d3976e71e3391d3b15ff4adb71323f25e1c61c8be2f21a7d25746e0c",
+      "headings": [
+        "# Bab 56 — Petir Surgawi (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/057-heavenly-thunder-4.md",
+      "bytes": 19245,
+      "lines": 600,
+      "sha256": "80e03a94a783e2fe14f0b7d92a64010c7e9b4489995703b5f062a973256e807e",
+      "headings": [
+        "# Bab 57 — Petir Surgawi (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/058-heavenly-thunder-5.md",
+      "bytes": 27677,
+      "lines": 644,
+      "sha256": "e9d24bc02ae48f8a084d52f9655229632708c0b46320af29dc931840d609aed9",
+      "headings": [
+        "# Bab 58 — Petir Surgawi (5)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/059-heavenly-thunder-6.md",
+      "bytes": 17713,
+      "lines": 630,
+      "sha256": "c085be6c4712fcda62f21f5d8250db1779f964671775b3ade38da01248c12e54",
+      "headings": [
+        "# Bab 59 — Petir Surgawi (6)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/060-eighth-cycle-first-day.md",
+      "bytes": 13544,
+      "lines": 452,
+      "sha256": "3bf2e403671186064c5f70167bd4fefbb98f50061eb6b1ce759ba36b4db56499",
+      "headings": [
+        "# Bab 60 — Hari Pertama Siklus Kedelapan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/061-violent-storm-1.md",
+      "bytes": 7529,
+      "lines": 210,
+      "sha256": "953940cfe993e65f2e53086d48cc15c88127ddc2c18bc1ec43921592d9dc7fff",
+      "headings": [
+        "# Bab 61 — Badai Dahsyat (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/062-violent-storm-2.md",
+      "bytes": 23888,
+      "lines": 712,
+      "sha256": "a260326d2e7b4367daa76a1cbbb5d779530acb3e798c1d2bbecd7723dde187e8",
+      "headings": [
+        "# Bab 62 — Badai Dahsyat (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/063-violent-storm-3.md",
+      "bytes": 18790,
+      "lines": 524,
+      "sha256": "740d42b59265e998a38cd41103f35d2bde89a81775136ada39a64dbe908ed655",
+      "headings": [
+        "# Bab 63 — Badai Dahsyat (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/064-violent-storm-4.md",
+      "bytes": 18114,
+      "lines": 468,
+      "sha256": "abaf699d1c2d678f614aef5c29048e1563cb977b873854af8891c6f119ea6745",
+      "headings": [
+        "# Bab 64 — Badai Dahsyat (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/065-violent-storm-5.md",
+      "bytes": 19431,
+      "lines": 638,
+      "sha256": "d29a3dc1cba9e21a3417ab9d9e9b2a0984eaab03e316a28cad756d307df01586",
+      "headings": [
+        "# Bab 65 — Badai Dahsyat (5)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/066-violent-storm-6.md",
+      "bytes": 22534,
+      "lines": 600,
+      "sha256": "679bab4a6cfa0f2ff6597a2a7e92bf8eb723a7856995cda479e12c94b50972b5",
+      "headings": [
+        "# Bab 66 — Badai Dahsyat (6)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/067-violent-storm-7.md",
+      "bytes": 12926,
+      "lines": 354,
+      "sha256": "4fda9864478c7e1f466ee6623c0462257a87800f8d4e7c6e2fddb56d6c599ea1",
+      "headings": [
+        "# Bab 67 — Badai Dahsyat (7)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/068-eve-1.md",
+      "bytes": 20059,
+      "lines": 570,
+      "sha256": "604b2ff5954daa25d146e123db0ce31dbcf14391b052e4a3559467aa0b6a741b",
+      "headings": [
+        "# Bab 68 — Malam Menjelang (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/069-eve-2.md",
+      "bytes": 19296,
+      "lines": 530,
+      "sha256": "b6f23add105c78ded26346f6730fed01e23b71475dba2f5c863c406b4c570dd8",
+      "headings": [
+        "# Bab 69 — Malam Menjelang (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/070-eve-3.md",
+      "bytes": 19889,
+      "lines": 576,
+      "sha256": "aa431ab086893371681280c75e75bae70cb5497dddd611ebf96a10b2f4aef115",
+      "headings": [
+        "# Bab 70 — Malam Menjelang (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/071-eve-4.md",
+      "bytes": 24796,
+      "lines": 754,
+      "sha256": "509c37ccaa00aeb40bef01cbcc134c1d2cce830f0fa85c8b38a413cf9d146e00",
+      "headings": [
+        "# Bab 71 — Malam Menjelang (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/072-eve-5.md",
+      "bytes": 21336,
+      "lines": 662,
+      "sha256": "374991d0eaf1d5ff781be8c8d8fded36fed0387381e8d7ab23e2981cafd03532",
+      "headings": [
+        "# Bab 72 — Malam Menjelang (5)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/073-eve-6.md",
+      "bytes": 14224,
+      "lines": 430,
+      "sha256": "3521ccca84eb3689f3f0e2369aceb125690f08c77d33fda5b0b4b3a7ac40462e",
+      "headings": [
+        "# Bab 73 — Malam Menjelang (6)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/074-eve-7.md",
+      "bytes": 13695,
+      "lines": 450,
+      "sha256": "b788b10e103e0eb18da87b8f482eed6267bec42e284bb1b8bd67d9590ff5ccde",
+      "headings": [
+        "# Bab 74 — Malam Menjelang (7)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/075-9th-cycles-first-day.md",
+      "bytes": 26328,
+      "lines": 740,
+      "sha256": "c21c5ca5cb4cb4a9351a9a9a3fd80c737fcaae879e1fc5b93e7bfaf79590d91f",
+      "headings": [
+        "# Bab 75 — Hari Pertama Siklus Kesembilan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/076-fate-1.md",
+      "bytes": 24720,
+      "lines": 590,
+      "sha256": "bfe86d24acf21541d497910e0a76530de7058503829da3901268d8e3dc4d19e2",
+      "headings": [
+        "# Bab 76 — Takdir (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/077-fate-2.md",
+      "bytes": 19137,
+      "lines": 434,
+      "sha256": "3ec8605dc4032499279552af2a7a231dc1d597709a177230970b8a56b0d15b07",
+      "headings": [
+        "# Bab 77 — Takdir (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/078-fate-3.md",
+      "bytes": 19931,
+      "lines": 520,
+      "sha256": "d67ee909f0df1babdeec30f464e9d7d383991c02d18b260b985993e524e89efd",
+      "headings": [
+        "# Bab 78 — Takdir (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/079-fate-4.md",
+      "bytes": 20614,
+      "lines": 738,
+      "sha256": "585e341a291616c98b5397e522b49ce0ddcd77c7e76e870ffa4f1b240f77be5b",
+      "headings": [
+        "# Bab 79 — Takdir (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/080-qi-building.md",
+      "bytes": 18718,
+      "lines": 474,
+      "sha256": "9b230bd29837096d3c2b39a4b24dd51d7d00246625917ff5b6905cb928bee45e",
+      "headings": [
+        "# Bab 80 — Qi Building"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/081-entering-heavens-beyond-the-path.md",
+      "bytes": 12716,
+      "lines": 350,
+      "sha256": "c6ca94cc6e927bbf5f536ded1d7c05dd35a1119a523a904f08b6b09e0c0239e1",
+      "headings": [
+        "# Bab 81 — Menapaki Langit Melampaui Jalan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/082-martial-artist.md",
+      "bytes": 19469,
+      "lines": 584,
+      "sha256": "1fd85795b4f3ca6e02dd396ce22c87766a6c0787864136493e7c34c52d72490d",
+      "headings": [
+        "# Bab 82 — Ahli Bela Diri"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/083-deathbed-1.md",
+      "bytes": 20522,
+      "lines": 600,
+      "sha256": "6355bf60a2c7ce53b11e2dff60a948fdfa8a806e8805ad237ffacef9a540dabc",
+      "headings": [
+        "# Bab 83 — Di Ambang Kematian (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/084-deathbed-2.md",
+      "bytes": 26770,
+      "lines": 826,
+      "sha256": "e7ae331a837395f8cce2ce39fc9c42bb0d7fdeae77f838c9ea423968a1f012dd",
+      "headings": [
+        "# Bab 84 — Di Ambang Kematian (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/085-deathbed-3.md",
+      "bytes": 23853,
+      "lines": 554,
+      "sha256": "3963a9e0ecfe535a91aab6b284b667aff1b464dbc52076b38bbacf177ea3d98b",
+      "headings": [
+        "# Bab 85 — Di Ambang Kematian (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/086-deathbed-4.md",
+      "bytes": 15482,
+      "lines": 448,
+      "sha256": "72b5afd5b35333387cb3ebc64b2f3cdee103be03d5df8adcf40bddb72717acc0",
+      "headings": [
+        "# Bab 86 — Di Ambang Kematian (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/087-deathbed-5.md",
+      "bytes": 24170,
+      "lines": 834,
+      "sha256": "2f601463dc156f56685a0b96f7ff5247d22f31c0896f7617fbdea4a98b665ddd",
+      "headings": [
+        "# Bab 87 — Di Ambang Kematian (5)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/088-living-flower-1.md",
+      "bytes": 18440,
+      "lines": 594,
+      "sha256": "19cc822cec08ac0c92a78f80021dbdf15072c6ec00ea3159a65f8f0f7b5ae37c",
+      "headings": [
+        "# Bab 88 — Bunga yang Hidup (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/089-living-flower-2.md",
+      "bytes": 31077,
+      "lines": 883,
+      "sha256": "63397b69990444f5e5a4e5666b47041ba00f5452e77a287991107c52e4d772be",
+      "headings": [
+        "# Bab 89 — Bunga yang Hidup (2)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/090-living-flower-3.md",
+      "bytes": 21333,
+      "lines": 564,
+      "sha256": "d33ee9f7d824e8eab5c8ec9bd7c625825db8a906371640eb3be2f61895e21fe6",
+      "headings": [
+        "# Bab 90 — Bunga yang Hidup (3)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/091-living-flower-4.md",
+      "bytes": 18853,
+      "lines": 584,
+      "sha256": "8f8e3f1db33435c7e173f666da2beb4f38722c08f4ce43bce8fd8630176fddd6",
+      "headings": [
+        "# Bab 91 — Bunga yang Hidup (4)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/092-tenth-cycle-first-day.md",
+      "bytes": 33626,
+      "lines": 1031,
+      "sha256": "5be6a0ebd06029e22d21c6ba40a31a0228a33d184e958f22b56dbc37396252cb",
+      "headings": [
+        "# Bab 92 — Hari Pertama Siklus ke-10",
+        "## Berburu Rubah",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/093-lotus-1.md",
+      "bytes": 28697,
+      "lines": 724,
+      "sha256": "04ae3913049a3067e69db2a8dbb61034c31840492b35f831f12c21c56c0f5f15",
+      "headings": [
+        "# Bab 93 — Teratai (1)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/094-lotus-2.md",
+      "bytes": 15604,
+      "lines": 396,
+      "sha256": "dcf12cc2ef4ddf842359fd2781682d308366a494afa71f9e28586e3cc83d40eb",
+      "headings": [
+        "# Bab 94 — Teratai (2)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/095-lotus-3.md",
+      "bytes": 14708,
+      "lines": 398,
+      "sha256": "4ec2a83f32a5e57a5727fa13c4650b108d6bc2ea61653dde2e96fe3b680ad797",
+      "headings": [
+        "# Bab 95 — Teratai (3)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/096-lotus-4.md",
+      "bytes": 16016,
+      "lines": 360,
+      "sha256": "ce791ddac09c1bb53fd170fd24b9f23e02b7d1adc845495cc595919e789d979d",
+      "headings": [
+        "# Bab 96 — Teratai (4)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/097-lotus-5.md",
+      "bytes": 17306,
+      "lines": 351,
+      "sha256": "ade927bb7f37ccd60d9614f74e1aa9fcd38e216f6c22cc20220c36e079cc3e8e",
+      "headings": [
+        "# Bab 97 — Teratai (5)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/098-lotus-6.md",
+      "bytes": 35834,
+      "lines": 956,
+      "sha256": "ee659215657154520093586ff65760f83f8082bfa2ebdff97eb41b598eaf1435",
+      "headings": [
+        "# Bab 98 — Teratai (6)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/099-lotus-7.md",
+      "bytes": 23925,
+      "lines": 613,
+      "sha256": "15c60efc28f5129711659c7cf19abaa099d2e1ec2531c44607865ae3fe51022b",
+      "headings": [
+        "# Bab 99 — Teratai (7)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/100-lotus-8.md",
+      "bytes": 24573,
+      "lines": 650,
+      "sha256": "a983f99f9596d698a8b154f14c3a214a9d6e7f75ced7e159a7e1425561b925da",
+      "headings": [
+        "# Bab 100 — Teratai (8)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/101-lotus-9.md",
+      "bytes": 17308,
+      "lines": 486,
+      "sha256": "5c1ecc59a1e55555138059c91e0874902df4403a5aa60b61e28379f7e1eabf08",
+      "headings": [
+        "# Bab 101 — Teratai (9)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/102-lotus-10.md",
+      "bytes": 26597,
+      "lines": 695,
+      "sha256": "6718007237e6b636825f03b38ec93690c4719c8e12f43627dcc76b8da9bfff4a",
+      "headings": [
+        "# Bab 102 — Teratai (10)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/103-lotus-11.md",
+      "bytes": 23677,
+      "lines": 586,
+      "sha256": "737811962cd6f875f5f9a2c9a721a874c8ff3cf30a5f09e5cd8dcbfef524e4c7",
+      "headings": [
+        "# Bab 103 — Teratai (11)",
+        "## Catatan Bab"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/104-lotus-12.md",
+      "bytes": 22031,
+      "lines": 597,
+      "sha256": "c940b1e510d4a72014db1076fae69472ce7c4c1d46f04aecf7a69c8e283d769b",
+      "headings": [
+        "# Bab 104 — Teratai (12)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/105-lotus-13.md",
+      "bytes": 24938,
+      "lines": 725,
+      "sha256": "62c9db9902d5212e9461f2c056c81378ea5b177a32f04e04e9bd1c7c4508b6d1",
+      "headings": [
+        "# Bab 105 — Teratai (13)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/106-lotus-14.md",
+      "bytes": 27029,
+      "lines": 769,
+      "sha256": "3f6d7ba5bd5b3c8e74d0cd0e488bf3d9d251fc11df52d9c4d0426855c07fb72d",
+      "headings": [
+        "# Bab 106 — Teratai (14)",
+        "## Catatan Bab",
+        "## Catatan Penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/107-lotus-15.md",
+      "bytes": 15737,
+      "lines": 463,
+      "sha256": "ef9803301c531703f200a0701d74e9b140ec3c70f8846c491679b393ebb35bd5",
+      "headings": [
+        "# Bab 107 — Teratai (15)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/108-lotus-16.md",
+      "bytes": 13523,
+      "lines": 437,
+      "sha256": "9d631502357e0e8a87bfe00797deb1540a10e15b7835188bcf7d76ad8b23b8b7",
+      "headings": [
+        "# Bab 108 — Teratai (16)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/109-lotus-17.md",
+      "bytes": 13360,
+      "lines": 411,
+      "sha256": "cd4491136fa66000f30349f4cfd56458fdabdda137e77003dfee20ec9c527a80",
+      "headings": [
+        "# Bab 109 — Teratai (17)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/110-lotus-18.md",
+      "bytes": 31476,
+      "lines": 977,
+      "sha256": "eb3dad712536e2b601f5ca96640fb2719d1ea3fdf6853f0c1cea3556ebcea933",
+      "headings": [
+        "# Bab 110 — Teratai (18)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/111-lotus-19.md",
+      "bytes": 16752,
+      "lines": 547,
+      "sha256": "17ab169f815686b170f12a655b7763e83cb4350016127300c54b186518cef121",
+      "headings": [
+        "# Bab 111 — Teratai (19)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/112-lotus-20.md",
+      "bytes": 15564,
+      "lines": 409,
+      "sha256": "0af5241b944f435fe91bf54489e41879229e691d0ff3b765f2a6f0483dc5e58d",
+      "headings": [
+        "# Bab 112 — Teratai (20)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/113-what-you-trampled-on-1.md",
+      "bytes": 25763,
+      "lines": 675,
+      "sha256": "0322cc3744ddac89d64ca0733bcb31a4613122f48f6867597e328a27abb8cf9e",
+      "headings": [
+        "# Bab 113 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/114-what-you-trampled-on-2.md",
+      "bytes": 14957,
+      "lines": 437,
+      "sha256": "bcdf0a9f2ee6cea8966cba1e8612a9cb1fb1f6b3dec9f9174b47200b2fe07e55",
+      "headings": [
+        "# Bab 114 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/115-what-you-trampled-on-3.md",
+      "bytes": 16493,
+      "lines": 321,
+      "sha256": "06b55d3ec3337713684c36dd4812c668fda0033ce789d63e77431d85c7cae6af",
+      "headings": [
+        "# Bab 115 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/116-what-you-trampled-on-4.md",
+      "bytes": 18579,
+      "lines": 543,
+      "sha256": "3ac2a2ea8553ac2a957bf85050f2939cdd15bc261818a3f7e4a374ed03e0bb37",
+      "headings": [
+        "# Bab 116 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/117-what-you-trampled-on-5.md",
+      "bytes": 22509,
+      "lines": 611,
+      "sha256": "2644358c723ebc317da78c275353c0a0b5a39e4bd7159c7a45a2a24443677f07",
+      "headings": [
+        "# Bab 117 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (5)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/118-what-you-trampled-on-6.md",
+      "bytes": 13822,
+      "lines": 443,
+      "sha256": "d437aac327c8c310ac7bd9480f132905b17a7b439e10cb0abcd5b863161b75f3",
+      "headings": [
+        "# Bab 118 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (6)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/119-what-you-trampled-on-7.md",
+      "bytes": 16393,
+      "lines": 387,
+      "sha256": "fa43fcd27bc035e37b8e296b906e26121de531664481467f5dc13ab32573d694",
+      "headings": [
+        "# Bab 119 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (7)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/120-what-you-trampled-on-9.md",
+      "bytes": 15684,
+      "lines": 519,
+      "sha256": "770fbca65d4d58de4f52d2a32a9dba96da25c7e39b4cbbaefff596ec021d9d7c",
+      "headings": [
+        "# Bab 120 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (9)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/121-what-you-trampled-on-9.md",
+      "bytes": 13164,
+      "lines": 407,
+      "sha256": "d96caccdd975bb0918f033ab024583fdf8a482eb0b87f8429507fa8090e96872",
+      "headings": [
+        "# Bab 121 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (9)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/122-what-you-trampled-on-10.md",
+      "bytes": 32711,
+      "lines": 1020,
+      "sha256": "49247e234c7fc700c6729d5a3d1f72c992655244a28de67511a4822314c6efe9",
+      "headings": [
+        "# Bab 122 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (10)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/123-what-you-trampled-on-11.md",
+      "bytes": 19203,
+      "lines": 560,
+      "sha256": "7292c65e5942d43cafa84a41d6781cef809e980d1dc136f31ec6c4a5f0ba9d10",
+      "headings": [
+        "# Bab 123 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (11)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/124-what-you-trampled-on-12.md",
+      "bytes": 26567,
+      "lines": 743,
+      "sha256": "0632e450b3f904818e9ea8de1b856c435dcbb88b90834dad8a37ca50d2c4c172",
+      "headings": [
+        "# Bab 124 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (12)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/125-what-you-trampled-on-13.md",
+      "bytes": 19692,
+      "lines": 619,
+      "sha256": "25078792e2dfdbcd5fe9460a97b3848842da9741bbc04ef26d435f5b9c306613",
+      "headings": [
+        "# Bab 125 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (13)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/126-what-you-trampled-on-14.md",
+      "bytes": 27786,
+      "lines": 979,
+      "sha256": "4064212bdecf7e72ff67f244a31fefacc696b98d5027cec1e3c71c309581fe7b",
+      "headings": [
+        "# Bab 126 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (14)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/127-what-you-trampled-on-15.md",
+      "bytes": 21937,
+      "lines": 834,
+      "sha256": "6c2a45734e43991e55882237079eaef82a913d4ff1e4ef2f494cad5fa65736eb",
+      "headings": [
+        "# Bab 127 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (15)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/128-what-you-trampled-on-16.md",
+      "bytes": 25005,
+      "lines": 888,
+      "sha256": "6e8cdf6bfce1bd70dcb0cd9053e18b0987141fb013b699d40a70fa3692b2174b",
+      "headings": [
+        "# Bab 128 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (16)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/129-what-you-trampled-on-17.md",
+      "bytes": 11909,
+      "lines": 417,
+      "sha256": "e35729228869cdea7bca59115cde0c02336cb2cdc63450207cf67315890add78",
+      "headings": [
+        "# Bab 129 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (17)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/130-11th-cycles-first-day.md",
+      "bytes": 14563,
+      "lines": 461,
+      "sha256": "128d44e32e3766e8be593f7da6c40169990f7f8a8cb403d7768db1c08b9ec4c4",
+      "headings": [
+        "# Bab 130 — Hari Pertama Siklus Kesebelas"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/131-mad-lords-grasp-1.md",
+      "bytes": 18472,
+      "lines": 659,
+      "sha256": "fe5e68d467eb20f6c0c743457e73a8066705760969589d988fb49098145c9c42",
+      "headings": [
+        "# Bab 131 — Cengkeraman Mad Lord (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/132-mad-lords-grasp-2.md",
+      "bytes": 15306,
+      "lines": 586,
+      "sha256": "a87208abc06ffe0f33796ac4064658cb3900e4b3866d1bcd52396964f2c75613",
+      "headings": [
+        "# Bab 132 — Cengkeraman Mad Lord (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/133-12th-cycles-first-day.md",
+      "bytes": 20399,
+      "lines": 732,
+      "sha256": "1f8b670cc6de0b41810d347513814015b69f56d361dca7dd1dc8c6591ba6ccaf",
+      "headings": [
+        "# Bab 133 — Hari Pertama Siklus Kedua Belas"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/134-baihui-1.md",
+      "bytes": 21259,
+      "lines": 712,
+      "sha256": "c17ec5dc382617bb7a27d7aca6b5d6c1a3693043dc50dba1467f67f546a7b3e2",
+      "headings": [
+        "# Bab 134 — Baihui (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/135-baihui-2.md",
+      "bytes": 17968,
+      "lines": 674,
+      "sha256": "41a787e5977700726d7a083a9a5c50c4f5d32a571bc396a18224d14bf61ec14b",
+      "headings": [
+        "# Bab 135 — Baihui (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/136-baihui-3.md",
+      "bytes": 27212,
+      "lines": 854,
+      "sha256": "32231973e4b239a9fec275586b2cb031cc1fbbd1aa6f72b25225db7089565961",
+      "headings": [
+        "# Bab 136 — Baihui (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/137-baihui-4.md",
+      "bytes": 22072,
+      "lines": 748,
+      "sha256": "b05802765e3f4bb754a9fcb07512e92963617aa1ac814ce070c427b5d41c06b4",
+      "headings": [
+        "# Bab 137 — Baihui (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/138-baihui-5.md",
+      "bytes": 24312,
+      "lines": 785,
+      "sha256": "e3819f69c367e78fa0715757d09dbc05c101b413b1ce4463907513140652f230",
+      "headings": [
+        "# Bab 138 — Baihui (5)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/139-ascension.md",
+      "bytes": 23403,
+      "lines": 729,
+      "sha256": "c122055b56196f1be335110349377545edfae04edfdcf4ba96fadfcac9092db1",
+      "headings": [
+        "# Bab 139 — Ascension"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/140-13th-cycles-first-day.md",
+      "bytes": 12724,
+      "lines": 395,
+      "sha256": "30a888cd556329d6bfea767c46081a07fd4dde4289f11e03208e191924a87ec5",
+      "headings": [
+        "# Bab 140 — Hari Pertama Siklus Ketiga Belas"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/141-madman-1.md",
+      "bytes": 16662,
+      "lines": 508,
+      "sha256": "2824e0f935a6339d532fa2a426c0ba98746508d4bd830fca3d1626c28c279561",
+      "headings": [
+        "# Bab 141 — Orang Gila (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/142-madman-2.md",
+      "bytes": 26795,
+      "lines": 867,
+      "sha256": "4ba5726e0e646084f036571df2b8849928d4cfd0b06d0a0d6384e30cac9f2809",
+      "headings": [
+        "# Bab 142 — Orang Gila (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/143-madman-3.md",
+      "bytes": 15876,
+      "lines": 435,
+      "sha256": "e3c1e8af1ed6294a46a0e3f1b36600bf1b50af7fa98360c8cc940d1303d92428",
+      "headings": [
+        "# Bab 143 — Orang Gila (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/144-madman-4.md",
+      "bytes": 13712,
+      "lines": 464,
+      "sha256": "a457e747817b596387248494d4fa703d8f23e4a6d4ab5e63bebf8a6e88c0ef4b",
+      "headings": [
+        "# Bab 144 — Orang Gila (4)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/145-madman-5.md",
+      "bytes": 19426,
+      "lines": 484,
+      "sha256": "b42a7763bee858900aec9b1d1cfb211233b03b849234a56ec4d9c6257f1b5938",
+      "headings": [
+        "# Bab 145 — Orang Gila (5)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/146-yeons-yeon-1.md",
+      "bytes": 26157,
+      "lines": 817,
+      "sha256": "cf22d1db2245eaa8860062608ddd8be457ad53b3b2e1d7d433e6dc5e4ece68da",
+      "headings": [
+        "# Bab 146 — Yeon-nya Yeon (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/147-yeons-yeon-2.md",
+      "bytes": 22821,
+      "lines": 650,
+      "sha256": "2c12af70abbcf399ed7c165d8a65d21147ca2393db886768b02254d40da1c85f",
+      "headings": [
+        "# Bab 147 — Yeon-nya Yeon (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/148-yeons-yeon-3.md",
+      "bytes": 17369,
+      "lines": 605,
+      "sha256": "e8b6ef635a84c52274af7c5734bf52283f9cdfac5b7ce1a04b400c3429fde401",
+      "headings": [
+        "# Bab 148 — Yeon-nya Yeon (3)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/149-14th-cycles-first-day.md",
+      "bytes": 16463,
+      "lines": 430,
+      "sha256": "288efd06504c2c39738fbfc040cd8e3930f816b3b02d1d65ccacd6abe9e71f30",
+      "headings": [
+        "# Bab 149 — Hari Pertama Siklus ke-14"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/150-azure-heaven-creation-sect-1.md",
+      "bytes": 23736,
+      "lines": 565,
+      "sha256": "6b5f8722d895b6c081733a839c067985574b800e36418256ff4a74e9f981684d",
+      "headings": [
+        "# Bab 150 — Azure Heaven Creation Sect (1)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/chapters/151-azure-heaven-creation-sect-2.md",
+      "bytes": 24874,
+      "lines": 736,
+      "sha256": "5cef0cd6bba338650ef051906f7c4a08f6b1ef48bcee076f3ce364bd8d6196a0",
+      "headings": [
+        "# Bab 151 — Azure Heaven Creation Sect (2)"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/characters.md",
+      "bytes": 4310,
+      "lines": 16,
+      "sha256": "b27d44a1474ad00e60f0162a7a1c664367f1aea0794cb346b40d53437290133c",
+      "headings": [
+        "# Tokoh"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/continuity.md",
+      "bytes": 121262,
+      "lines": 124,
+      "sha256": "785b1dae7dcd0ca09bb183fd3fc48e72b812cf4c06773e3c4611708270f875c1",
+      "headings": [
+        "# Kontinuitas"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/glossarium.md",
+      "bytes": 57832,
+      "lines": 341,
+      "sha256": "0ac9bb3b410d0b44c079e0954f66c81cb960bad343516da5316c8a358a7534e3",
+      "headings": [
+        "# Glosarium"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/locations.md",
+      "bytes": 12241,
+      "lines": 65,
+      "sha256": "08040ff6fdab7b30027986349efeb9fe7232cbe90804634c587b8100f4e1a116",
+      "headings": [
+        "# Lokasi"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/qa-log.md",
+      "bytes": 17719,
+      "lines": 37,
+      "sha256": "6281deb178eaccc54cc4a340fd7ebceedbe357602321cc2c3f76d2ee2b80f709",
+      "headings": [
+        "# Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/001-hari-pertama-regresor.md",
+      "bytes": 3168,
+      "lines": 40,
+      "sha256": "513f6843f6b2d28c299a029e31d6a06394ee949d38047ec814a2924902e49348",
+      "headings": [
+        "# Bab 1 Recap — Hari Pertama Sang Regresor",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/002-takdir-yang-tersebar.md",
+      "bytes": 4498,
+      "lines": 42,
+      "sha256": "abc078e11b0fb9cabc018c67660f9ca07567b53bab28425464f678f09e2c2587",
+      "headings": [
+        "# Bab 2 Recap — Takdir yang Tersebar (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/003-takdir-yang-tersebar.md",
+      "bytes": 3722,
+      "lines": 40,
+      "sha256": "643b6973579c0a835f57b10f3057ecc8796e0eabfb3ff0ce6ab4818170d85b2e",
+      "headings": [
+        "# Bab 3 Recap — Takdir yang Tersebar (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/004-direktur-kim-jenius-bela-diri.md",
+      "bytes": 3630,
+      "lines": 38,
+      "sha256": "a236a8d41595ce0165b78b7aa2c5c80dec4bfcaa065a4932102a2a8a5ada3789",
+      "headings": [
+        "# Bab 4 Recap — Direktur Kim Jenius Bela Diri (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/005-direktur-kim-jenius-bela-diri-2.md",
+      "bytes": 4967,
+      "lines": 48,
+      "sha256": "f9ebc5a9cd2cabb28b8d99c5df52717a20b4ebc1a5ec0478be485717b2b4b4d2",
+      "headings": [
+        "# Bab 5 Recap — Direktur Kim Jenius Bela Diri (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/006-hari-pertama-siklus-kedua.md",
+      "bytes": 3414,
+      "lines": 38,
+      "sha256": "b067b21f877db25cd4a315c530efb7f4a550875c03ff7482c0809e3b3214ed6b",
+      "headings": [
+        "# Bab 6 Recap — Hari Pertama Siklus Kedua",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/007-bakat-anugerah-langit-1.md",
+      "bytes": 3768,
+      "lines": 39,
+      "sha256": "261d74cff74e881d3f179c10732b8f109cd5d134edc2fe1d06eade00db7907da",
+      "headings": [
+        "# Bab 7 Recap — Bakat Anugerah Langit (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/008-bakat-anugerah-langit-2.md",
+      "bytes": 3909,
+      "lines": 40,
+      "sha256": "7339caac852a7100d572a2246714f9a881646e0e3261f5647c01505c9b80984b",
+      "headings": [
+        "# Bab 8 Recap — Bakat Anugerah Langit (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/009-bakat-anugerah-langit-3.md",
+      "bytes": 4230,
+      "lines": 41,
+      "sha256": "70d354ce867452d5b33a8c45bf2876b6f76759916020208b863ff32e3982f0cb",
+      "headings": [
+        "# Bab 9 Recap — Bakat Anugerah Langit (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/010-bakat-anugerah-langit-4.md",
+      "bytes": 4890,
+      "lines": 45,
+      "sha256": "f3bc4aa89fadf52721f71e3c111505e7e099df7cee4e443613429185d7193915",
+      "headings": [
+        "# Bab 10 Recap — Bakat Anugerah Langit (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/011-bakat-anugerah-langit-5.md",
+      "bytes": 6247,
+      "lines": 51,
+      "sha256": "cd272e69adb0f46f1d3e356cfe62d3edee8c3b95f41f423ff819ebfbaddfbb18",
+      "headings": [
+        "# Bab 11 Recap — Bakat Anugerah Langit (5)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/012-hari-pertama-siklus-ketiga.md",
+      "bytes": 3911,
+      "lines": 41,
+      "sha256": "779f8acf059c89e649a41c0a39ac6bc4d71bc8d375a0d191dbae9a6588ce5ba9",
+      "headings": [
+        "# Bab 12 Recap — Hari Pertama Siklus Ketiga",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/014-bakat-ditinggalkan-langit-2.md",
+      "bytes": 5076,
+      "lines": 46,
+      "sha256": "7034a0031345526d34bdc4b6fde2bb57a41a921bddc434c0f811024dc9f2bfbe",
+      "headings": [
+        "# Bab 14 Recap — Bakat yang Ditinggalkan Langit (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/015-bakat-ditinggalkan-langit-3.md",
+      "bytes": 4805,
+      "lines": 45,
+      "sha256": "d4f0329d00b51982974acaf48d449089a0bc22f8da4b9f6683c5ddff95e89baf",
+      "headings": [
+        "# Bab 15 Recap — Bakat yang Ditinggalkan Langit (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/016-bakat-ditinggalkan-langit-4.md",
+      "bytes": 5058,
+      "lines": 49,
+      "sha256": "82facf4d285bf19899fa1428b7810195167550e6aad2e0d781ed6ab64a5ddf20",
+      "headings": [
+        "# Bab 16 Recap — Bakat yang Ditinggalkan Langit (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/017-hari-pertama-siklus-keempat.md",
+      "bytes": 3534,
+      "lines": 41,
+      "sha256": "20a6ea2d765f276aeada9888fa148a824b128af3faea8c9ad8e02f38f9fe0637",
+      "headings": [
+        "# Bab 17 Recap — Hari Pertama Siklus Keempat",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/018-peak-master-1.md",
+      "bytes": 3838,
+      "lines": 42,
+      "sha256": "7af0194316cbbe61d59ed7712337351fe8dd14707982e9888caed685f19322d3",
+      "headings": [
+        "# Bab 18 Recap — Peak Master (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/019-peak-master-2.md",
+      "bytes": 5552,
+      "lines": 52,
+      "sha256": "fe9dbba3d8c872c3d4e1723eed7a556e56c8c885fd46b303da4b004b111ed086",
+      "headings": [
+        "# Bab 19 Recap — Peak Master (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/020-peak-master-3.md",
+      "bytes": 4141,
+      "lines": 48,
+      "sha256": "82d2e231900a90e5ad7840f5ab9b9d8d4eb46130668be98bedcd31fe2169d4ec",
+      "headings": [
+        "# Bab 20 Recap — Peak Master (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/021-peak-master-4.md",
+      "bytes": 4285,
+      "lines": 47,
+      "sha256": "81b9de6afe4dff913e7cf6fc2277cf0a38e5d38d5912e656b66193c076624def",
+      "headings": [
+        "# Bab 21 Recap — Peak Master (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/022-refining-1.md",
+      "bytes": 4168,
+      "lines": 46,
+      "sha256": "864b75ababb273d551fdb662b2f8666f640dc058efcadb71926e899acab00cfc",
+      "headings": [
+        "# Bab 22 Recap — Pemurnian (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/023-refining-2.md",
+      "bytes": 4760,
+      "lines": 47,
+      "sha256": "bdc72b0957b01bb6a40822bb714043d2c0369f563c51a2bf2eae6654da658240",
+      "headings": [
+        "# Bab 23 Recap — Pemurnian (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/024-refining-3.md",
+      "bytes": 3969,
+      "lines": 44,
+      "sha256": "834114b072d9c1a04e6371e168511dccdccd31d83636052ae046392c5c3751b5",
+      "headings": [
+        "# Bab 24 Recap — Pemurnian (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/025-hari-pertama-siklus-kelima.md",
+      "bytes": 3068,
+      "lines": 41,
+      "sha256": "529c76caa987d30e76878ee6fd7ca02393687aaf0771be258fe66303312f30e5",
+      "headings": [
+        "# Bab 25 Recap — Hari Pertama Siklus Kelima",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/026-life-1.md",
+      "bytes": 3712,
+      "lines": 44,
+      "sha256": "1bcab647a2fd29f30672ffe27a6f43c64caecbb60a7ad57557d02484a2e146b2",
+      "headings": [
+        "# Bab 26 Recap — Kehidupan (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/027-life-2.md",
+      "bytes": 4284,
+      "lines": 48,
+      "sha256": "4ed2686ad0067a3eb15645bf6c008386ad649bb9e33f396c161762dcfbea4cb6",
+      "headings": [
+        "# Bab 27 Recap — Kehidupan (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/028-life-3.md",
+      "bytes": 4241,
+      "lines": 48,
+      "sha256": "63e5e349baacf6a967feb7ee50757fafc6b4ab65aff5089cea79a756f97d6a8b",
+      "headings": [
+        "# Bab 28 Recap — Kehidupan (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/029-life-4.md",
+      "bytes": 3849,
+      "lines": 44,
+      "sha256": "5aacd82f1810c3af908e0f7020b3a021c870d2b893436256674f416b19661251",
+      "headings": [
+        "# Bab 29 Recap — Kehidupan (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/030-life-5.md",
+      "bytes": 3936,
+      "lines": 47,
+      "sha256": "06d3e970e4b03ed9a4539c0735fce0efb65f03be0b85602052cf7207af051c12",
+      "headings": [
+        "# Bab 30 Recap — Kehidupan (5)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/031-life-6.md",
+      "bytes": 4283,
+      "lines": 45,
+      "sha256": "2e36d170708591048560d4a97ac7b021c1eb8cba0549d4f51f1e0323475242c7",
+      "headings": [
+        "# Bab 31 Recap — Kehidupan (6)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/032-life-7.md",
+      "bytes": 3501,
+      "lines": 44,
+      "sha256": "ac765ecf99810554de6c4d5f0eb94240e021a260ecef9cd5a4d06008b06b7aec",
+      "headings": [
+        "# Bab 32 Recap — Kehidupan (7)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/033-life-8.md",
+      "bytes": 3440,
+      "lines": 44,
+      "sha256": "db358b1200a533d2126882d031de9ee529384bff98b38d04b188e71faf29d1cf",
+      "headings": [
+        "# Bab 33 Recap — Kehidupan (8)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/034-endless-mountains-beyond-mountains.md",
+      "bytes": 3615,
+      "lines": 42,
+      "sha256": "647905a85c24d167bf95c24cde85d948d7b161017fb458fcc1e8d4f07498e3f1",
+      "headings": [
+        "# Rekap Bab 34 — Gunung Tak Berujung di Balik Gunung",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/035-sixth-cycle-first-day.md",
+      "bytes": 2947,
+      "lines": 35,
+      "sha256": "9b6fc08e13e0e7659df2e728dae715de5cf321b4e628a7e76a3c747ae2595cf2",
+      "headings": [
+        "# Rekap Bab 35 — Hari Pertama Siklus Keenam",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/036-five-energies-converging-to-the-origin.md",
+      "bytes": 3923,
+      "lines": 42,
+      "sha256": "1674698b6d6a7235aece67190a6982abf7b6c2eb4748fef08a575ddd28c2d50a",
+      "headings": [
+        "# Rekap Bab 36 — Five Energies Converging to the Origin dan Perubahan Setelahnya",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/037-cultivator-1.md",
+      "bytes": 3520,
+      "lines": 39,
+      "sha256": "55a573eec5c427585a706038c53f7c60b618a37f7c75cc26aea2139880f63646",
+      "headings": [
+        "# Rekap Bab 37 — Cultivator (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/038-cultivator-2.md",
+      "bytes": 3849,
+      "lines": 42,
+      "sha256": "44f3b4445f246f75b299976f3a8915b6e0178c5beae178414a947dbf62467a30",
+      "headings": [
+        "# Rekap Bab 38 — Cultivator (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/039-cultivator-3.md",
+      "bytes": 3673,
+      "lines": 41,
+      "sha256": "d8e8db48a216a82d8d9f9f973188ee600cbb97c4254844732d2cd97a0f7004bc",
+      "headings": [
+        "# Rekap Bab 39 — Cultivator (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/040-cultivator-4.md",
+      "bytes": 4084,
+      "lines": 41,
+      "sha256": "f2bfa2a9ce8df474b23f13792c049503f6c3b8a3049c71ee032eb00fff031a1e",
+      "headings": [
+        "# Rekap Bab 40 — Cultivator (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/041-qi-refining-1.md",
+      "bytes": 4215,
+      "lines": 43,
+      "sha256": "971c613588b71241c3e2db1d2966e183d7578064559a33d69f96cfa6a482bfea",
+      "headings": [
+        "# Rekap Bab 41 — Qi Refining (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/042-qi-refining-2.md",
+      "bytes": 2942,
+      "lines": 37,
+      "sha256": "d34f26a7d1a60089e879aa4fc0ddd27daa42be84d937ae0f95e9b1858e92b7b8",
+      "headings": [
+        "# Rekap Bab 42 — Qi Refining (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/043-qi-refining-3.md",
+      "bytes": 4201,
+      "lines": 44,
+      "sha256": "60e2aa9377d532c3defcf38187de6d566149569405d055a876012e4feb80e652",
+      "headings": [
+        "# Rekap Bab 43 — Qi Refining (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/044-qi-refining-4.md",
+      "bytes": 6061,
+      "lines": 50,
+      "sha256": "1fbb38a22850818f299763ed3e0d8964086cc404ebaf2fdbd5f12eacf68e85e9",
+      "headings": [
+        "# Rekap Bab 44 — Qi Refining (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/045-forbidden-1.md",
+      "bytes": 4972,
+      "lines": 43,
+      "sha256": "764f6a7f268004f4283c509b4a16faf0f4ff3e6f89a356efc48af4670f4d9dad",
+      "headings": [
+        "# Rekap Bab 45 — Terlarang (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/046-forbidden-2.md",
+      "bytes": 5823,
+      "lines": 49,
+      "sha256": "2521d498204a724d5e5bd301605fe631677497dd3da32a7a4369ebe4a6bba96e",
+      "headings": [
+        "# Rekap Bab 46 — Terlarang (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/047-forbidden-3.md",
+      "bytes": 5116,
+      "lines": 49,
+      "sha256": "c168bfc19031024b389344f2a91e3d8bbd9bd261a254dc8d390e206340294d55",
+      "headings": [
+        "# Rekap Bab 47 — Terlarang (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/048-forbidden-4.md",
+      "bytes": 5574,
+      "lines": 48,
+      "sha256": "94e1160d56bce8c702bc32d89108791d82e8e2f33d9939563a0c554e74a220ef",
+      "headings": [
+        "# Rekap Bab 48 — Terlarang (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/049-giant-tree.md",
+      "bytes": 5217,
+      "lines": 47,
+      "sha256": "f96a1fb0d7aee0df2c4e4fac286a8d2e2fdcfdc079cd1c8972a28dfc9c3c2f1e",
+      "headings": [
+        "# Rekap Bab 49 — Pohon Raksasa",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/050-7th-cycles-first-day.md",
+      "bytes": 6633,
+      "lines": 54,
+      "sha256": "ce2ec63380cdb74371b7981d635a07747f231d8902e97bdab65faf00030553a8",
+      "headings": [
+        "# Rekap Bab 50 — Hari Pertama Siklus Ketujuh",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/051-heavens-above-1.md",
+      "bytes": 5952,
+      "lines": 49,
+      "sha256": "71d07a5b0385761360fbae04a3e65717b17b5609c6e53035d42c73dba62e32e1",
+      "headings": [
+        "# Rekap Bab 51 — Wahai Langit (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/052-heavens-above-2.md",
+      "bytes": 5468,
+      "lines": 46,
+      "sha256": "65c911c71b37cc330d121ad4c87eca498720ac745b3ffbe551a71092c68c134f",
+      "headings": [
+        "# Rekap Bab 52 — Wahai Langit (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/053-heavens-above-3.md",
+      "bytes": 4533,
+      "lines": 44,
+      "sha256": "f5d938e128bc4049ee112ca4aaf9f0eab0d5babcbf74381d8f3cc0d3bd0dad11",
+      "headings": [
+        "# Rekap Bab 53 — Wahai Langit (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/054-heavenly-thunder-1.md",
+      "bytes": 4511,
+      "lines": 44,
+      "sha256": "62e24b44cf5e4c0f487db64cf9450f036be5fc59c10966c7d1485aa365c13995",
+      "headings": [
+        "# Rekap Bab 54 — Petir Surgawi (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/055-heavenly-thunder-2.md",
+      "bytes": 5433,
+      "lines": 50,
+      "sha256": "56c82ad9e9d90a8b00acb7709598e228edaa22ca3ee4cfc5ecaa92257c6a3cf8",
+      "headings": [
+        "# Rekap Bab 55 — Petir Surgawi (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/056-heavenly-thunder-3.md",
+      "bytes": 4998,
+      "lines": 48,
+      "sha256": "6d0f7903625d9ef483f7f6c2d7b57c57e44c319e8bd052d847de114774398c23",
+      "headings": [
+        "# Rekap Bab 56 — Petir Surgawi (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/057-heavenly-thunder-4.md",
+      "bytes": 5552,
+      "lines": 51,
+      "sha256": "257d1273c14a89c1571fb8a7a1d662e9fc57b5debd5622e0c7657b48098a69f6",
+      "headings": [
+        "# Rekap Bab 57 — Petir Surgawi (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/058-heavenly-thunder-5.md",
+      "bytes": 8417,
+      "lines": 60,
+      "sha256": "e282b43b2317706b7cb561b203ef7dcf4d6c6e976f445adfb69a67dc721e5807",
+      "headings": [
+        "# Rekap Bab 58 — Petir Surgawi (5)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/059-heavenly-thunder-6.md",
+      "bytes": 5260,
+      "lines": 49,
+      "sha256": "68fc4825371833ce3095a9185c92bb4014ec7016dca603e455f5faae0f01ac18",
+      "headings": [
+        "# Rekap Bab 59 — Petir Surgawi (6)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/060-eighth-cycle-first-day.md",
+      "bytes": 5515,
+      "lines": 52,
+      "sha256": "d4ad3be64f5bc994c28ee4af35395c57cf86d7461210b9f0c1fb5064c4dcf6ca",
+      "headings": [
+        "# Rekap Bab 60 — Hari Pertama Siklus Kedelapan",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/061-violent-storm-1.md",
+      "bytes": 5102,
+      "lines": 46,
+      "sha256": "a5333e255cd88958ca86f59a421a6baaefb63bf3842bf1123ffa293f6d25bdfb",
+      "headings": [
+        "# Rekap Bab 61 — Badai Dahsyat (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/062-violent-storm-2.md",
+      "bytes": 5229,
+      "lines": 51,
+      "sha256": "8121e53fd50489d0abd6dc6ce0c362006e902cd24ee687bb3f98f9b2b94f8458",
+      "headings": [
+        "# Rekap Bab 62 — Badai Dahsyat (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/063-violent-storm-3.md",
+      "bytes": 5548,
+      "lines": 51,
+      "sha256": "fe3ce4c627a30613575f3e9fcc901065e1e7f5cd1b92ed6cf9b15479198c894d",
+      "headings": [
+        "# Rekap Bab 63 — Badai Dahsyat (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/064-violent-storm-4.md",
+      "bytes": 5486,
+      "lines": 51,
+      "sha256": "ca43db707644223c57b491ab3e26b7e5f743bbc83abb23a413bb3245b09426df",
+      "headings": [
+        "# Rekap Bab 64 — Badai Dahsyat (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/065-violent-storm-5.md",
+      "bytes": 6387,
+      "lines": 56,
+      "sha256": "7345ddf8494da264cdd32d5228b59de897e9ec1250632ad14a6adf677a69ad32",
+      "headings": [
+        "# Rekap Bab 65 — Badai Dahsyat (5)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/066-violent-storm-6.md",
+      "bytes": 6712,
+      "lines": 54,
+      "sha256": "cbca8480e0d10f7fb30f72ede95cd4fbee986a03acda070317d286fef323f737",
+      "headings": [
+        "# Rekap Bab 66 — Badai Dahsyat (6)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/067-violent-storm-7.md",
+      "bytes": 5582,
+      "lines": 52,
+      "sha256": "859bb7949172ee572a97844102a91c37c3cdaf3483727cd60f10d2265245076c",
+      "headings": [
+        "# Rekap Bab 67 — Badai Dahsyat (7)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/068-eve-1.md",
+      "bytes": 6770,
+      "lines": 58,
+      "sha256": "a78c22fa440ceb14eb46fb339aadf5c13f8708d071de528ea9ca5235dea8dfff",
+      "headings": [
+        "# Rekap Bab 68 — Malam Menjelang (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/069-eve-2.md",
+      "bytes": 6900,
+      "lines": 59,
+      "sha256": "30189ebc318f1e3ca45eb8befc9fe22703128b6073b35d48f928fb303dd62faa",
+      "headings": [
+        "# Rekap Bab 69 — Malam Menjelang (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/070-eve-3.md",
+      "bytes": 5663,
+      "lines": 52,
+      "sha256": "8436bd9faeb21359c913de05c072168a42aac2e46a902723706866b35424c26d",
+      "headings": [
+        "# Rekap Bab 70 — Malam Menjelang (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/071-eve-4.md",
+      "bytes": 6031,
+      "lines": 51,
+      "sha256": "927eb14d1e6a85c74ca6d8358e368bbf261f2619f0c7b8085a821d2b0f29cb7e",
+      "headings": [
+        "# Rekap Bab 71 — Malam Menjelang (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/072-eve-5.md",
+      "bytes": 8575,
+      "lines": 62,
+      "sha256": "c0b06b11f87776c067de49088aab0409bd8634186f434d2c1da7fc2ebeeeaca7",
+      "headings": [
+        "# Rekap Bab 72 — Malam Menjelang (5)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/073-eve-6.md",
+      "bytes": 6252,
+      "lines": 56,
+      "sha256": "fd4fade494450d3a0613e0407fe4a7ce95346f07200e00aa55329aae4ad77ec6",
+      "headings": [
+        "# Rekap Bab 73 — Malam Menjelang (6)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/074-eve-7.md",
+      "bytes": 5875,
+      "lines": 51,
+      "sha256": "c4e0b6f33095234637d59e9cf125673a1fd98b6f82ab410ae6b911fb58055dc4",
+      "headings": [
+        "# Rekap Bab 74 — Malam Menjelang (7)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/075-9th-cycles-first-day.md",
+      "bytes": 9875,
+      "lines": 68,
+      "sha256": "2c29079ac8f986d1968d2d64b8561cbaa47a6b51776b5e627b3d885bef29a7b6",
+      "headings": [
+        "# Rekap Bab 75 — Hari Pertama Siklus Kesembilan",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/076-fate-1.md",
+      "bytes": 8993,
+      "lines": 65,
+      "sha256": "66287a484b350eb3f6e1e6d91a7e321f97b1db2375671edf70cb9d0abff304ed",
+      "headings": [
+        "# Rekap Bab 76 — Takdir (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/077-fate-2.md",
+      "bytes": 8797,
+      "lines": 64,
+      "sha256": "314973ca404da1c166a5cf04360127259e4ff8c4a04b1d445bdd7d5ebe993406",
+      "headings": [
+        "# Rekap Bab 77 — Takdir (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/078-fate-3.md",
+      "bytes": 7225,
+      "lines": 54,
+      "sha256": "bbd58dabd1d8a520e921afe040b1f267ed1747990df0d7c8398be34642a3c6ca",
+      "headings": [
+        "# Rekap Bab 78 — Takdir (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/079-fate-4.md",
+      "bytes": 7929,
+      "lines": 58,
+      "sha256": "3db383fa4d5a16031b6a756f5ee993dc071b4c10ba518db6afe69f8e61873d68",
+      "headings": [
+        "# Rekap Bab 79 — Takdir (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/080-qi-building.md",
+      "bytes": 8403,
+      "lines": 59,
+      "sha256": "d765e0292543e3d04d4efd512db4ced4440b98be6c80a07281f1f0bb76eee4e6",
+      "headings": [
+        "# Rekap Bab 80 — Qi Building",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/081-entering-heavens-beyond-the-path.md",
+      "bytes": 7012,
+      "lines": 54,
+      "sha256": "eef0dae397d85781ec74e4df692324d3ed99531841dfc99649aa1c09cea2eb56",
+      "headings": [
+        "# Rekap Bab 81 — Menapaki Langit Melampaui Jalan",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/082-martial-artist.md",
+      "bytes": 7049,
+      "lines": 53,
+      "sha256": "513ebaff2aa33cf93321ddf6ff5b2bfee84fc0f36a7dfe04af6c8b4acb688961",
+      "headings": [
+        "# Rekap Bab 82 — Ahli Bela Diri",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/083-deathbed-1.md",
+      "bytes": 7924,
+      "lines": 60,
+      "sha256": "5e624f840b349012e5a87aa207ae3455fe0487862af53a68ea50c7fbf4dadc1e",
+      "headings": [
+        "# Rekap Bab 83 — Di Ambang Kematian (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/084-deathbed-2.md",
+      "bytes": 8378,
+      "lines": 58,
+      "sha256": "634e27679f60e1d2530e3de7608ea216b7d3647568f0343c49f432f3ee6d1479",
+      "headings": [
+        "# Rekap Bab 84 — Di Ambang Kematian (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/085-deathbed-3.md",
+      "bytes": 10083,
+      "lines": 65,
+      "sha256": "30374a38db2ff0086f284870c2b805fcd744eeaed0becd914f303b485ee2946b",
+      "headings": [
+        "# Rekap Bab 85 — Di Ambang Kematian (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/086-deathbed-4.md",
+      "bytes": 8656,
+      "lines": 62,
+      "sha256": "0195677e46bf9dbf0ed5ace151327be819e8ba801305d8ed96258743824649da",
+      "headings": [
+        "# Rekap Bab 86 — Di Ambang Kematian (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/087-deathbed-5.md",
+      "bytes": 9659,
+      "lines": 68,
+      "sha256": "af04214103399359833de0ab0629a3cc07734d2663196e865001f4ce8af24ced",
+      "headings": [
+        "# Rekap Bab 87 — Di Ambang Kematian (5)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/088-living-flower-1.md",
+      "bytes": 8632,
+      "lines": 64,
+      "sha256": "98bdff363c7f3d62d9470badbb0239d4405c6423283a6ba7e9ee119977ce235d",
+      "headings": [
+        "# Rekap Bab 88 — Bunga yang Hidup (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/089-living-flower-2.md",
+      "bytes": 12469,
+      "lines": 78,
+      "sha256": "201f03f7d0505c6db615be337155075c5a9760f866018e41d7c9d1a50d03f195",
+      "headings": [
+        "# Rekap Bab 89 — Bunga yang Hidup (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/090-living-flower-3.md",
+      "bytes": 9289,
+      "lines": 64,
+      "sha256": "79cd5759d5ee19e9b9756ebd531766959ab0fa330894025b7faa05a6a09ca655",
+      "headings": [
+        "# Rekap Bab 90 — Bunga yang Hidup (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/091-living-flower-4.md",
+      "bytes": 10397,
+      "lines": 65,
+      "sha256": "559d198597f6b8cf0df22f4b6f5db0a9453c9af1802b28ea999aca944002bd50",
+      "headings": [
+        "# Rekap Bab 91 — Bunga yang Hidup (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/092-tenth-cycle-first-day.md",
+      "bytes": 9893,
+      "lines": 65,
+      "sha256": "af39a27216c4429c003030f4dc723e92ca77845d0f5f6b73310b1ac085c5dd5c",
+      "headings": [
+        "# Rekap Bab 92 — Hari Pertama Siklus ke-10",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/093-lotus-1.md",
+      "bytes": 11941,
+      "lines": 73,
+      "sha256": "a8660b4237b3aa408c7a70b5af0a38d61ac23116fc352651fa053bd5b4f1b61b",
+      "headings": [
+        "# Rekap Bab 93 — Teratai (1)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/094-lotus-2.md",
+      "bytes": 8012,
+      "lines": 64,
+      "sha256": "380d4acb64a08f3963bf359dac6eef7ff0a171d17c39d8c8db7aa81cae13ed83",
+      "headings": [
+        "# Rekap Bab 94 — Teratai (2)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/095-lotus-3.md",
+      "bytes": 7146,
+      "lines": 57,
+      "sha256": "40d6af1faf395a8206a83ebac1485318f6d5e7df202c9cb00cf33a4bcd6e6b61",
+      "headings": [
+        "# Rekap Bab 95 — Teratai (3)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/096-lotus-4.md",
+      "bytes": 7914,
+      "lines": 59,
+      "sha256": "d5c994ef185a4612cd90dc597adeeaa1fa45e17bba46f6cb92d2b6725bde1da2",
+      "headings": [
+        "# Rekap Bab 96 — Teratai (4)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/097-lotus-5.md",
+      "bytes": 6801,
+      "lines": 51,
+      "sha256": "d222528e790ebd022c1887edb340769d98b91073cb557972c369bd635bf1a619",
+      "headings": [
+        "# Rekap Bab 97 — Teratai (5)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/098-lotus-6.md",
+      "bytes": 8228,
+      "lines": 60,
+      "sha256": "6cc414de4f90cd45b0aabf5588f22e39bef1968b1bc198dfa62c0095cf52eba5",
+      "headings": [
+        "# Rekap Bab 98 — Teratai (6)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/099-lotus-7.md",
+      "bytes": 8673,
+      "lines": 62,
+      "sha256": "b26a1b26d2905572cb01c393b001c747f5e8349cc274c741c86cb117e81400d8",
+      "headings": [
+        "# Rekap Bab 99 — Teratai (7)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/100-lotus-8.md",
+      "bytes": 9298,
+      "lines": 65,
+      "sha256": "93db50456096a8747174b9f260a32e4daa71f85e5913b05ccca3e392cd0aefa8",
+      "headings": [
+        "# Rekap Bab 100 — Teratai (8)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/101-lotus-9.md",
+      "bytes": 7384,
+      "lines": 66,
+      "sha256": "ecf39b4d7b501af497b92e2fa3e8efc673132a3a8f2aa39e1e51c8e3ae546971",
+      "headings": [
+        "# Rekap Bab 101 — Teratai (9)",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/102-lotus-10.md",
+      "bytes": 7036,
+      "lines": 63,
+      "sha256": "b0e860fe169d059963dca2bce88dadfcaea074888ad64130ce91c2021801d26a",
+      "headings": [
+        "# Rekap Bab 102 — Teratai (10)",
+        "## Plot",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Barang, kekuatan, dan istilah",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/103-lotus-11.md",
+      "bytes": 7629,
+      "lines": 65,
+      "sha256": "0e4c07193bb881046747cc181c76fca52c0c7187ed81452ae75f62ae78077340",
+      "headings": [
+        "# Rekap Bab 103 — Teratai (11)",
+        "## Plot",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Barang, kekuatan, dan istilah",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/104-lotus-12.md",
+      "bytes": 9766,
+      "lines": 70,
+      "sha256": "4571b8a988c0300283c3780c5546309cc3123389bd3f3336c18a2778803a6453",
+      "headings": [
+        "# Rekap Bab 104 — Teratai (12)",
+        "## Plot",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Barang, kekuatan, dan istilah",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/105-lotus-13.md",
+      "bytes": 12435,
+      "lines": 80,
+      "sha256": "ec2193461dedbaccb1e6d9f2dc0cab7c5d1c0f52dc85e41c044717e3d664b254",
+      "headings": [
+        "# Rekap Bab 105 — Teratai (13)",
+        "## Plot",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Barang, kekuatan, dan istilah",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/106-lotus-14.md",
+      "bytes": 10128,
+      "lines": 71,
+      "sha256": "53ff1dee47e25c5860e376084d6d7599db8f9797868c0754f7a7b9126d9e4c9d",
+      "headings": [
+        "# Rekap Bab 106 — Teratai (14)",
+        "## Plot",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Barang, kekuatan, dan istilah",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/107-lotus-15.md",
+      "bytes": 8522,
+      "lines": 65,
+      "sha256": "a45a16968b6e861f1dc5a3f5791c4b0b8a7dfecdd3182b3e6835fbec02087b47",
+      "headings": [
+        "# Rekap Bab 107 — Teratai (15)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Barang, kekuatan, dan istilah",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/108-lotus-16.md",
+      "bytes": 6048,
+      "lines": 57,
+      "sha256": "ab643a52ae63403f423551e9397fb84bca0807edaf48ec30ae67991d74487160",
+      "headings": [
+        "# Rekap Bab 108 — Teratai (16)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/109-lotus-17.md",
+      "bytes": 5821,
+      "lines": 55,
+      "sha256": "df6650b6944d082f5ec3e63ddb9c69b9d58dab04fb084737c4be09b88315a49a",
+      "headings": [
+        "# Rekap Bab 109 — Teratai (17)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/110-lotus-18.md",
+      "bytes": 7897,
+      "lines": 60,
+      "sha256": "157558d63f892004e801db87f21a1b10b9e608747910faece992f8be567a9368",
+      "headings": [
+        "# Rekap Bab 110 — Teratai (18)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/111-lotus-19.md",
+      "bytes": 7594,
+      "lines": 62,
+      "sha256": "aee5d86ed65fad5acd6fb78c748a626a8e3c772f8fe85478e0b37d7b5f2a8028",
+      "headings": [
+        "# Rekap Bab 111 — Teratai (19)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/112-lotus-20.md",
+      "bytes": 6856,
+      "lines": 56,
+      "sha256": "c9834ddd084d075d050e5384d84d54aedff406bfe39e0a0e0e7c7d5e804c136e",
+      "headings": [
+        "# Rekap Bab 112 — Teratai (20)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/113-what-you-trampled-on-1.md",
+      "bytes": 8111,
+      "lines": 61,
+      "sha256": "5b549d9fc34cc3f15385918615f714076c22c2f947b1fd5e558da4eab4ecdc26",
+      "headings": [
+        "# Rekap Bab 113 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (1)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/114-what-you-trampled-on-2.md",
+      "bytes": 7304,
+      "lines": 63,
+      "sha256": "663bb433a0ef61f3e8fc2248444e0aec255357ef14b39ba066366725551d3925",
+      "headings": [
+        "# Rekap Bab 114 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (2)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/115-what-you-trampled-on-3.md",
+      "bytes": 7921,
+      "lines": 62,
+      "sha256": "3d017bdf63abf800cdc3824bf63e87f2a27e701d01ea2c8371cba2825bf2929f",
+      "headings": [
+        "# Rekap Bab 115 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (3)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/116-what-you-trampled-on-4.md",
+      "bytes": 8370,
+      "lines": 62,
+      "sha256": "ce7571204f17fb6e09baf536f45590c9459d8767dc1e17b44c668effbd0a98c7",
+      "headings": [
+        "# Rekap Bab 116 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (4)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/117-what-you-trampled-on-5.md",
+      "bytes": 7877,
+      "lines": 60,
+      "sha256": "6f46924b102967da24cc22f9022191a5e0303ce8db7ebbf91b02f8beeb6a5285",
+      "headings": [
+        "# Rekap Bab 117 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (5)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/118-what-you-trampled-on-6.md",
+      "bytes": 7113,
+      "lines": 60,
+      "sha256": "6c25b2da3fd3a580b3f23124b90141f165c7589e08983a287b14eafe4aced2d6",
+      "headings": [
+        "# Rekap Bab 118 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (6)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/119-what-you-trampled-on-7.md",
+      "bytes": 7557,
+      "lines": 62,
+      "sha256": "338ce3e618595afda5c0c075c6f6895ae162738e8e4887d4e4fa6b226496e3e1",
+      "headings": [
+        "# Rekap Bab 119 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (7)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/120-what-you-trampled-on-9.md",
+      "bytes": 7257,
+      "lines": 60,
+      "sha256": "2702e2b538ffe2d77de105dbb3ebb454d9829bfde5560f2de19e2eba02ae1c81",
+      "headings": [
+        "# Rekap Bab 120 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (9)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/121-what-you-trampled-on-9.md",
+      "bytes": 6233,
+      "lines": 57,
+      "sha256": "a767872c1ed42b10fdfee5c2a2408171ec33c5c991f47242b7673fdd72c565f8",
+      "headings": [
+        "# Rekap Bab 121 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (9)",
+        "## Perkembangan karakter",
+        "## Informasi baru",
+        "## Hubungan",
+        "## Lokasi dan waktu",
+        "## Hal yang belum terjawab",
+        "## Catatan penerjemahan"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/122-what-you-trampled-on-10.md",
+      "bytes": 4247,
+      "lines": 37,
+      "sha256": "676487bec22a1cc8002c56770b13f09918acade0834216d41157b7e2628a6f49",
+      "headings": [
+        "# Rekap Bab 122 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (10)",
+        "## Fakta dan batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/123-what-you-trampled-on-11.md",
+      "bytes": 4883,
+      "lines": 40,
+      "sha256": "7380a085e9f225482f7421efd00b090d6247536d5fe6e970d9d1bb61168369c7",
+      "headings": [
+        "# Rekap Bab 123 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (11)",
+        "## Perkembangan dan batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/124-what-you-trampled-on-12.md",
+      "bytes": 4823,
+      "lines": 38,
+      "sha256": "4acf0cbdc55339a8b4c586411e3e10812411f072c0f38d8fc42c88af685063ef",
+      "headings": [
+        "# Rekap Bab 124 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (12)",
+        "## Perkembangan dan batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/125-what-you-trampled-on-13.md",
+      "bytes": 3631,
+      "lines": 36,
+      "sha256": "35c977d96285e3742964c527973a8eceb9d9a812fdcdffe2c724ac8acbb75808",
+      "headings": [
+        "# Rekap Bab 125 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (13)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/126-what-you-trampled-on-14.md",
+      "bytes": 4012,
+      "lines": 36,
+      "sha256": "8bea08eb68d5540995b32fa6b72258b4540941f94db1e1528b5ccda62d10ad21",
+      "headings": [
+        "# Rekap Bab 126 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (14)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/127-what-you-trampled-on-15.md",
+      "bytes": 3924,
+      "lines": 36,
+      "sha256": "28fbf07f87212c8d41977f71ee0e0d4bf63ab097aea123d399bbb050fd7864f7",
+      "headings": [
+        "# Rekap Bab 127 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (15)",
+        "## Perkembangan dan batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/128-what-you-trampled-on-16.md",
+      "bytes": 3750,
+      "lines": 37,
+      "sha256": "4a9b82bae55b96aa21774e9e7122db58b6dffa8b6f0e18a567ddc8170054770e",
+      "headings": [
+        "# Rekap Bab 128 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (16)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/129-what-you-trampled-on-17.md",
+      "bytes": 3415,
+      "lines": 36,
+      "sha256": "5aa60edccf6bb4843dd161d16c2d5fb9e9317692dc484ecee22a0e054cbcc84f",
+      "headings": [
+        "# Rekap Bab 129 — Yang Kau Injak / Jalan yang Telah Kau Tempuh (17)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/130-11th-cycles-first-day.md",
+      "bytes": 3088,
+      "lines": 34,
+      "sha256": "22f94ce87abbbb2f8ed29d74b57e52fcd0e47a9415fe6b31470fc1ae2ee998a8",
+      "headings": [
+        "# Rekap Bab 130 — Hari Pertama Siklus Kesebelas",
+        "## Perkembangan dan batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/131-mad-lords-grasp-1.md",
+      "bytes": 3502,
+      "lines": 36,
+      "sha256": "fc1d14ec83446a38f109a58e46082c03b2c7c3924cf7edadba955b96b79eab3d",
+      "headings": [
+        "# Rekap Bab 131 — Cengkeraman Mad Lord (1)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/132-mad-lords-grasp-2.md",
+      "bytes": 3389,
+      "lines": 37,
+      "sha256": "84546f8a0633d91a2f1a9e19a8a4b9122df1fb11adfdfb17858e9edb30488b04",
+      "headings": [
+        "# Rekap Bab 132 — Cengkeraman Mad Lord (2)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/133-12th-cycles-first-day.md",
+      "bytes": 3897,
+      "lines": 38,
+      "sha256": "b7952d53099597ed8fe8bb6ff42835fc5f846e2fe3ff0831a5c14be5f538e1d3",
+      "headings": [
+        "# Rekap Bab 133 — Hari Pertama Siklus Kedua Belas",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/134-baihui-1.md",
+      "bytes": 2524,
+      "lines": 30,
+      "sha256": "4f9a01fba76bc7fb569f16ca4d5a515593d64345fca52dc2f451a578891cb530",
+      "headings": [
+        "# Rekap Bab 134 — Baihui (1)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/135-baihui-2.md",
+      "bytes": 2558,
+      "lines": 33,
+      "sha256": "4b2417f2ce68a4b967c0d6e8b7fbb8d7816507cd4e2e1b4e4c2d87013f6f2e24",
+      "headings": [
+        "# Rekap Bab 135 — Baihui (2)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/136-baihui-3.md",
+      "bytes": 3381,
+      "lines": 37,
+      "sha256": "559c5a2695f4c1f8e7f835d8b830824c582ced9383addb5b70cd9e4cc25f10f0",
+      "headings": [
+        "# Rekap Bab 136 — Baihui (3)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/137-baihui-4.md",
+      "bytes": 2832,
+      "lines": 34,
+      "sha256": "be68200a97d4179c8dd468231f5c81c374da237b944bf88f56efabd7037d05a5",
+      "headings": [
+        "# Rekap Bab 137 — Baihui (4)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/138-baihui-5.md",
+      "bytes": 3304,
+      "lines": 36,
+      "sha256": "113cf0128f55190a3191ea1de02b7271af7389a8503f98fa9e691a261bed5f50",
+      "headings": [
+        "# Rekap Bab 138 — Baihui (5)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/139-ascension.md",
+      "bytes": 2547,
+      "lines": 33,
+      "sha256": "2ed16842749cf226cb3b91e14f6241c6a4c82057f59182677510cba020372ddd",
+      "headings": [
+        "# Rekap Bab 139 — Ascension",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/140-13th-cycles-first-day.md",
+      "bytes": 1925,
+      "lines": 29,
+      "sha256": "01b52f342bdf7951bd1751e0e44c17d677d933eb1b434765bcd9a3a7fb039be0",
+      "headings": [
+        "# Rekap Bab 140 — Hari Pertama Siklus Ketiga Belas",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/141-madman-1.md",
+      "bytes": 2561,
+      "lines": 33,
+      "sha256": "301e6703476901724a2973bdef1dd6a95d255d30ee6964d472c1573c0b4f32d5",
+      "headings": [
+        "# Rekap Bab 141 — Orang Gila (1)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/142-madman-2.md",
+      "bytes": 2601,
+      "lines": 33,
+      "sha256": "c6204b504761ee636eda78963025e00b57263017e9063994b4cf145e9a216ed0",
+      "headings": [
+        "# Rekap Bab 142 — Orang Gila (2)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/143-madman-3.md",
+      "bytes": 2723,
+      "lines": 33,
+      "sha256": "0bfd2db602b66b210dadd3baef15f5297319b1ba00e67007e33745537b5635b0",
+      "headings": [
+        "# Rekap Bab 143 — Orang Gila (3)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/144-madman-4.md",
+      "bytes": 2582,
+      "lines": 32,
+      "sha256": "67108e03d6bb0da65649655ca49146198d7c135cd48d40e183aa7097fe4a552f",
+      "headings": [
+        "# Rekap Bab 144 — Orang Gila (4)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/145-madman-5.md",
+      "bytes": 2842,
+      "lines": 34,
+      "sha256": "b97f3fc2088e1114ba771f8ca323d9823494cc9dadd63a5cf56d4c1026f8ba64",
+      "headings": [
+        "# Rekap Bab 145 — Orang Gila (5)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/146-yeons-yeon-1.md",
+      "bytes": 2872,
+      "lines": 36,
+      "sha256": "884574077aaa8cdb08930a1c458e81110131210575f145afbb4aae404218ad41",
+      "headings": [
+        "# Rekap Bab 146 — Yeon-nya Yeon (1)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/147-yeons-yeon-2.md",
+      "bytes": 3049,
+      "lines": 34,
+      "sha256": "3e7b91104ca5361ac4c8003e149c5770668c5abd40969e74d1577135e51cc570",
+      "headings": [
+        "# Rekap Bab 147 — Yeon-nya Yeon (2)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka",
+        "## Catatan QA"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/148-yeons-yeon-3.md",
+      "bytes": 2816,
+      "lines": 30,
+      "sha256": "94ba26a4d43c18e471014dd4df5a96d7cde4c48d1a8910134d2117605bc53e55",
+      "headings": [
+        "# Rekap Bab 148 — Yeon-nya Yeon (3)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/149-14th-cycles-first-day.md",
+      "bytes": 2543,
+      "lines": 28,
+      "sha256": "abc5261b6a53cc9776a2667835e22de473ced45477b7cdd49e2ed05dc9812646",
+      "headings": [
+        "# Rekap Bab 149 — Hari Pertama Siklus ke-14",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/150-azure-heaven-creation-sect-1.md",
+      "bytes": 3176,
+      "lines": 30,
+      "sha256": "23628a842b4c50c99f0a3711af0c7bd0a6d6bdba310653c94f9f6b08195558f3",
+      "headings": [
+        "# Rekap Bab 150 — Azure Heaven Creation Sect (1)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/recaps/151-azure-heaven-creation-sect-2.md",
+      "bytes": 2773,
+      "lines": 30,
+      "sha256": "98ef7b90bed9c417e2b10870dd6b7c9065b00dda4490b3509d1ca8f2e2f8ae62",
+      "headings": [
+        "# Rekap Bab 151 — Azure Heaven Creation Sect (2)",
+        "## Batas kepastian",
+        "## Pertanyaan terbuka"
+      ]
+    },
+    {
+      "path": "id/a-regressors-tale-of-cultivation/terminology.md",
+      "bytes": 29222,
+      "lines": 122,
+      "sha256": "299a841307e2c0805fc72875f218272b1d7947d57788375c0834b09cbba86cb0",
+      "headings": [
+        "# Terminologi"
+      ]
+    },
+    {
+      "path": "templates/NOVEL.template.md",
+      "bytes": 620,
+      "lines": 30,
+      "sha256": "0c5987e5662de4ef24699f310d88e42e804464093f136cb4f57c66c2a1637f49",
+      "headings": [
+        "# Novel Project",
+        "## Metadata",
+        "## Translation Objective",
+        "## Global Notes",
+        "## Canonical Resources"
+      ]
+    },
+    {
+      "path": "templates/STYLE_GUIDE.template.md",
+      "bytes": 943,
+      "lines": 62,
+      "sha256": "43ee8f7a39d80bed26c067477c89d98bf61d4ed65e82516ab0ce434dd848a9dd",
+      "headings": [
+        "# Translation Style Guide",
+        "## Target Language",
+        "## Translation Philosophy",
+        "## Dialogue",
+        "## Narration",
+        "## Names",
+        "## Specialized Terms",
+        "## Typography",
+        "## Translator Notes"
+      ]
+    },
+    {
+      "path": "templates/chapter-index.template.md",
+      "bytes": 82,
+      "lines": 4,
+      "sha256": "1d644541c607a5ed8c0946e496f627ef5e39ae5616691d457d46593f11338543",
+      "headings": [
+        "# Chapter Index"
+      ]
+    },
+    {
+      "path": "templates/chapter.template.md",
+      "bytes": 384,
+      "lines": 24,
+      "sha256": "a4ac07a57dae13e9665230f3e159db8904d8c75af3e017cc30d92427d02acb5e",
+      "headings": [
+        "# Chapter 0 — Title",
+        "## Chapter Notes"
+      ]
+    },
+    {
+      "path": "templates/characters.template.md",
+      "bytes": 296,
+      "lines": 18,
+      "sha256": "6f35e77601943efb0199e7fbce4e5819bcb225a123f08202bf15aab946d01ce1",
+      "headings": [
+        "# Characters",
+        "## Entry Template",
+        "### Canonical Name"
+      ]
+    },
+    {
+      "path": "templates/continuity.template.md",
+      "bytes": 299,
+      "lines": 29,
+      "sha256": "2b0a377197f3239a1b546236ff5fd47b33ad52a02c3087f019bfa70fa7145e4e",
+      "headings": [
+        "# Continuity Memory",
+        "## Active Character States",
+        "## Knowledge Boundaries",
+        "## Item Ownership",
+        "## Relationships / Promises / Debts",
+        "## Location / Travel State",
+        "## Unresolved Plot-Relevant Facts",
+        "## Resolved"
+      ]
+    },
+    {
+      "path": "templates/glossarium.template.md",
+      "bytes": 104,
+      "lines": 4,
+      "sha256": "8b8e5c4731d7c345e0fe29fca2ff7ed8b94a5e0828ee74053819ec559cdee191",
+      "headings": [
+        "# Glossarium"
+      ]
+    },
+    {
+      "path": "templates/locations.template.md",
+      "bytes": 105,
+      "lines": 4,
+      "sha256": "e10457bab6372675f098c5c19ac545541e574a8ebd82068537984c842141c6c3",
+      "headings": [
+        "# Locations"
+      ]
+    },
+    {
+      "path": "templates/qa-log.template.md",
+      "bytes": 174,
+      "lines": 6,
+      "sha256": "fcd0f1cfa55351de4d36e4226d941da3795fff22acc71b517c9168928cc6505c",
+      "headings": [
+        "# Translation QA Log"
+      ]
+    },
+    {
+      "path": "templates/recap.template.md",
+      "bytes": 252,
+      "lines": 33,
+      "sha256": "4737b38fb6e134efb92b19f7cfebb279e60f71725cce1eca4d1c59989af9dee3",
+      "headings": [
+        "# Chapter 0 Recap — Title",
+        "## Plot",
+        "## Character Developments",
+        "## New Information",
+        "## Items / Powers / Techniques",
+        "## Relationship Changes",
+        "## Location / Timeline",
+        "## Unresolved Threads",
+        "## Translation-Relevant Details"
+      ]
+    },
+    {
+      "path": "templates/terminology.template.md",
+      "bytes": 446,
+      "lines": 22,
+      "sha256": "25e1584cc0d77aaf0aba6875d92b67d9765bc45c3eae5981a1192bca7943b49b",
+      "headings": [
+        "# Terminology Systems",
+        "## Ranks / Levels",
+        "## Abilities / Techniques",
+        "## Organizations / Titles",
+        "## Other Systems"
+      ]
+    }
+  ]
+}

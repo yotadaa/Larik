@@ -1,3 +1,7 @@
+> Historical baseline retained from the uploaded project. For the account/bookmark/atlas release,
+> see [the updated plan](docs/FEATURE_PLAN.md) and [actual evaluation](docs/EVALUATION.md).
+> Claims below describe the earlier implementation, not checks executed for this release.
+
 # Verification Report
 
 ## Completed in this environment
