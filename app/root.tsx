@@ -1,0 +1,125 @@
+import {
+  isRouteErrorResponse,
+  Links,
+  Link,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useRouteError,
+} from "react-router";
+import {
+  ArrowRightIcon,
+  BookOpenIcon,
+  HomeIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/24/outline";
+import type { Route } from "./+types/root";
+import { NavigationStatus } from "~/components/NavigationStatus";
+import "./styles.css";
+
+export const meta: Route.MetaFunction = () => [
+  { title: "The Reading Room — D1 Novel Library" },
+  {
+    name: "description",
+    content: "A quiet, database-backed reading room for translated novels on Cloudflare Workers.",
+  },
+];
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/brand-mark.svg" type="image/svg+xml" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <a className="skip-link" href="#main">Skip to content</a>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export default function App() {
+  return (
+    <>
+      <NavigationStatus />
+      <header className="site-header">
+        <div className="site-header__inner">
+          <Link className="brand" to="/" aria-label="The Reading Room home">
+            <img className="brand__logo" src="/brand-mark.svg" alt="" width="42" height="42" />
+            <span>
+              <strong>The Reading Room</strong>
+              <small>Cloudflare D1 library</small>
+            </span>
+          </Link>
+          <nav className="site-nav" aria-label="Primary navigation">
+            <Link to="/library"><BookOpenIcon aria-hidden="true" /><span>Library</span></Link>
+            <a href="#about"><InformationCircleIcon aria-hidden="true" /><span>About</span></a>
+          </nav>
+        </div>
+      </header>
+      <main id="main">
+        <Outlet />
+      </main>
+      <footer className="site-footer" id="about">
+        <div className="site-footer__inner">
+          <div className="footer-brand">
+            <img src="/brand-mark.svg" alt="" width="40" height="40" />
+            <div>
+              <p className="eyebrow">The Reading Room</p>
+              <p>A focused interface for long-form reading. Data comes from Cloudflare D1 at request time.</p>
+            </div>
+          </div>
+          <div className="footer-note">
+            <span>React Router</span>
+            <span>Cloudflare Workers</span>
+            <span>D1</span>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  let title = "Something went wrong";
+  let detail = "The page could not be loaded.";
+  let status = 500;
+
+  if (isRouteErrorResponse(error)) {
+    status = error.status;
+    title = error.status === 404 ? "Page not found" : error.status === 400 ? "Invalid request" : "Request failed";
+    detail = typeof error.data === "string" ? error.data : error.statusText || detail;
+  } else if (error instanceof Error) {
+    detail = error.message.includes("D1") || error.message.includes("database")
+      ? "The database could not be reached. This application does not fall back to bundled Markdown."
+      : error.message;
+  }
+
+  return (
+    <div className="error-page page-shell">
+      <p className="eyebrow">Error {status}</p>
+      <h1>{title}</h1>
+      <p>{detail}</p>
+      <div className="button-row">
+        <Link className="button" to="/">
+          <span className="button__icon"><HomeIcon aria-hidden="true" /></span>
+          <span>Return home</span>
+        </Link>
+        <Link className="button button--ghost" to="/library">
+          <span className="button__icon"><BookOpenIcon aria-hidden="true" /></span>
+          <span>Open library</span>
+          <ArrowRightIcon className="button__arrow" aria-hidden="true" />
+        </Link>
+      </div>
+    </div>
+  );
+}

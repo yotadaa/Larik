@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+
+  "name": "novel",
+  "main": "./workers/app.ts",
+  "compatibility_date": "2026-09-27",
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "novel",
+      "database_id": "96880495-4649-4278-9c5a-6871b05a75d7",
+      "remote": true
+    }
+  ]
+}
