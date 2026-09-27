@@ -13,6 +13,9 @@ import {
   listLocations,
   listQaLogs,
   listTerminologies,
+  type CharacterRecord,
+  type GlossaryRecord,
+  type TextRecord,
 } from "~/lib/repository";
 import { readSearchParam, validateRouteSegment } from "~/lib/params";
 
@@ -37,7 +40,7 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
 
   let title = "Reference";
   let description = "Story context stored with this novel.";
-  let items: unknown[] = [];
+  let items: Array<CharacterRecord | GlossaryRecord | TextRecord> = [];
 
   if (reference === "characters") {
     title = "Characters";
@@ -68,8 +71,8 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
   return { novel, counts, reference, title, description, q, items };
 }
 
-export function meta({ data }: Route.MetaArgs) {
-  return [{ title: data ? `${data.title} — ${data.novel.title || data.novel.novelId}` : "Reference — The Reading Room" }];
+export function meta({ loaderData }: Route.MetaArgs) {
+  return [{ title: loaderData ? `${loaderData.title} — ${loaderData.novel.title || loaderData.novel.novelId}` : "Reference — The Reading Room" }];
 }
 
 export default function Reference({ loaderData }: Route.ComponentProps) {
@@ -77,7 +80,7 @@ export default function Reference({ loaderData }: Route.ComponentProps) {
   let content: React.ReactNode;
 
   if (reference === "characters") {
-    const rows = items as Array<{ id: number; name: string; description: string }>;
+    const rows = items.filter((item): item is CharacterRecord => "name" in item);
     content = rows.length ? (
       <div className="reference-grid">{rows.map((item) => (
         <article className="reference-card" key={item.id}>
@@ -88,7 +91,7 @@ export default function Reference({ loaderData }: Route.ComponentProps) {
       ))}</div>
     ) : <EmptyState title="No characters found" detail={q ? "No character matched the search." : "No character rows are stored for this novel."} />;
   } else if (reference === "glossary") {
-    const rows = items as Array<{ id: number; sourceTerm: string; canonicalTranslation: string; type: string; firstSeen: string; notes: string }>;
+    const rows = items.filter((item): item is GlossaryRecord => "canonicalTranslation" in item);
     content = rows.length ? (
       <div className="reference-grid">{rows.map((item) => (
         <article className="reference-card" key={item.id}>
@@ -101,7 +104,7 @@ export default function Reference({ loaderData }: Route.ComponentProps) {
       ))}</div>
     ) : <EmptyState title="Glossary is empty" detail={q ? "No glossary term matched the search." : "This is a valid state: existing migrated rows may not contain glossary data yet."} />;
   } else {
-    const rows = items as Array<{ id: number; text: string }>;
+    const rows = items.filter((item): item is TextRecord => "text" in item);
     const cards = rows.length ? (
       <div className="reference-grid">{rows.map((item) => {
         const [name, detail] = splitText(item.text);

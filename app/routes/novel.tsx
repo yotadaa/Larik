@@ -24,8 +24,8 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
   return { novel, chapters, counts, q };
 }
 
-export function meta({ data }: Route.MetaArgs) {
-  return [{ title: data?.novel ? `${data.novel.title || data.novel.novelId} — The Reading Room` : "Novel — The Reading Room" }];
+export function meta({ loaderData }: Route.MetaArgs) {
+  return [{ title: loaderData ? `${loaderData.novel.title || loaderData.novel.novelId} — The Reading Room` : "Novel — The Reading Room" }];
 }
 
 export default function Novel({ loaderData }: Route.ComponentProps) {
