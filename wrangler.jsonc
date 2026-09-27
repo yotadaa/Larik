@@ -15,5 +15,10 @@
       "database_name": "novel",
       "database_id": "00000000-0000-0000-0000-000000000001"
     }
-  ]
+  ],
+  "vars": {
+    "CLOUDFLARE_S3_URI": "https://1c98ecc019ff6897711ad7543d353019.r2.cloudflarestorage.com",
+    "DATABASE_ID": "96880495-4649-4278-9c5a-6871b05a75d7",
+    "DATABASE_NAME": "novel"
+  }
 }
