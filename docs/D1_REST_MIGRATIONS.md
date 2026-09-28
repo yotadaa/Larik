@@ -3,7 +3,7 @@
 The project includes `scripts/migrate-d1.mjs`, a standalone Node.js migration runner for the remote
 Cloudflare D1 database. It does **not** invoke Wrangler, start a local D1 database, deploy a Worker,
 or require an npm package. It reads the existing project-root `.env` and applies the SQL files under
-`migrations/` directly through Cloudflare's D1 REST API.
+`database/migrations/` directly through Cloudflare's D1 REST API (with the old root `migrations/` directory retained only as a compatibility fallback).
 
 ## Configuration
 
@@ -56,8 +56,7 @@ confirmation prompts, so only an explicit `--apply` writes migrations.
 
 ## Current migration chain
 
-The runner applies top-level `.sql` files in numeric filename order and records each completed file in
-`d1_migrations`.
+The runner applies `database/migrations/*.sql` in numeric filename order and records each completed file in `d1_migrations`.
 
 ### `0001_reader_accounts.sql`
 
@@ -90,19 +89,28 @@ eligible prototype account can perform the one-time password upgrade flow.
 The FTS backfill reads existing `novel-content` rows. Therefore run this migration only after the
 normal content schema/data already exists in the target database.
 
+### `0003_atlas_full_story_ranges.sql`
+
+Keeps the legacy Story Atlas dataset capable of representing later chapter ranges while metadata-v2 is not yet synchronized. This remains a compatibility layer.
+
+### `0004_markdown_metadata_v2.sql`
+
+Adds the canonical Markdown metadata snapshot schema, including source documents, chapter/index state, entities, aliases, relationships, atomic facts, events, states, scenes, arcs, cycles, characteristics, glossary/reference memory, integrity issues, sync history and chapter-content staging.
+
+The schema migration creates tables only. Current Markdown data is loaded afterward by `database/migrator.py`.
+
 ## Runner behavior and safety boundary
 
 1. Validate account ID, database ID, expected database name and API token configuration.
 2. Fetch remote database metadata. A name/UUID mismatch stops before migration SQL is sent.
-3. Read and sort every `migrations/*.sql` file.
+3. Read and sort every `database/migrations/*.sql` file (legacy root fallback only if the dedicated folder is absent).
 4. Read `d1_migrations` if present. Status mode never creates it.
 5. In apply mode, create migration history if necessary and skip already-recorded files.
 6. Send each migration intact together with its history insert. The runner never naïvely splits SQL on
    semicolons, so trigger bodies and semicolons inside strings remain intact.
 7. Stop on API or SQL failure. Timed-out writes are **not** retried automatically because their remote
    outcome may be unknown.
-8. Once both current reader migrations are present, verify password auth columns, reader-state and
-   story-knowledge tables/indexes, plus `story_chapter_fts`.
+8. Once the reader migrations are present, verify password auth columns, reader-state and legacy story-knowledge tables/indexes, plus `story_chapter_fts`. Metadata-v2 content is separately validated by `npm run db:metadata:validate` / `npm run test:metadata`.
 
 Take a D1 backup/snapshot or establish a recovery path before applying production migrations. Run only
 one migrator against a database at a time. Applied migrations are tracked by filename, not checksum;
@@ -113,7 +121,7 @@ A verification failure after migration does not roll back migrations that alread
 
 ## Offline validation
 
-The current migration runner has **22/22 passing** offline tests using an injected Cloudflare HTTP test
+The current migration runner has **22/22 passing** focused offline tests using an injected Cloudflare HTTP test
 double backed by Node's in-memory SQLite engine. The suite executes the actual `0001` and `0002` SQL,
 checks the FTS trigger, validates reruns/data preservation, exercises API/configuration failures,
 confirms token redaction and no automatic retry, and verifies `.env` loading from another working
@@ -132,3 +140,14 @@ No live Cloudflare account was contacted during those tests and no remote D1 mig
 - D1 migration history conventions: https://developers.cloudflare.com/d1/reference/migrations/
 - D1 FTS5: https://developers.cloudflare.com/d1/sql-api/sql-statements/#full-text-search
 - Node `.env` loader: https://nodejs.org/api/process.html#processloadenvfilepath
+
+## Combined schema + metadata sync
+
+For the normal deployment workflow use:
+
+```bash
+npm run db:sync:preview
+npm run db:sync
+```
+
+`db:sync` first applies pending SQL migrations and only then runs the deterministic Markdown-to-D1 synchronizer.

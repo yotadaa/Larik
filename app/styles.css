@@ -825,8 +825,8 @@ input, select, button { max-width: 100%; }
 .atlas-search input { background: transparent; border: 0; color: var(--ink); width: 100%; min-height: 30px; min-width: 0; font-size: .85rem; }
 .atlas-chapter-filter { display: flex; align-items: center; gap: .5rem; font-size: .7rem; border: 1px solid var(--line-strong); padding: .4rem .6rem; background: var(--sheet); }
 .atlas-chapter-filter input { width: 75px; min-height: 34px; background: transparent; color: var(--ink); border: 0; }
-.atlas-view-switch { display: flex; border: 1px solid var(--line-strong); }
-.atlas-view-switch button { display: flex; gap: .35rem; align-items: center; min-height: 44px; border: 0; background: transparent; color: var(--muted); padding: .5rem .7rem; font-size: .75rem; cursor: pointer; }
+.atlas-view-switch { display: flex; flex-wrap: wrap; border: 1px solid var(--line-strong); }
+.atlas-view-switch button { display: flex; flex: 1 1 auto; justify-content: center; gap: .35rem; align-items: center; min-height: 44px; border: 0; background: transparent; color: var(--muted); padding: .5rem .7rem; font-size: .75rem; cursor: pointer; }
 .atlas-view-switch button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); }
 .atlas-view-switch svg { width: 18px; height: 18px; }
 .atlas-results-note { display: flex; align-items: center; flex-wrap: wrap; gap: .8rem; color: var(--muted); font-size: .73rem; padding: .85rem 0 1.1rem; }

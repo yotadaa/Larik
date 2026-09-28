@@ -42,17 +42,17 @@ export function AtlasStoryline({ atlas }: { atlas: AtlasData }) {
   const ticks = Array.from({ length: Math.ceil(rangeLength / tickStep) }, (_, index) => start + index * tickStep).filter((value) => value <= end);
   if (!ticks.includes(end)) ticks.push(end);
 
-  if (!characters.length) return <section className="atlas-storyline empty-state"><h2>No character metadata in this window</h2><p>Try a wider range or open Events for chapter recap coverage.</p></section>;
+  if (!characters.length) return <section className="atlas-storyline empty-state"><h2>No character metadata in this window</h2><p>Try a wider range or open Events for structured event coverage.</p></section>;
 
   return <section className="atlas-storyline" aria-labelledby="storyline-title">
     <div className="atlas-storyline__heading">
       <div><p className="eyebrow">Temporal story view</p><h2 id="storyline-title">Character reveals, stored connections, and chapter events</h2></div>
-      <p>Window: chapters {start}–{end}. Solid relationship markers are reviewed; dashed markers are metadata links. Recap-derived events remain explicitly unreviewed.</p>
+      <p>Window: chapters {start}–{end}. Solid relationship markers are reviewed; dashed markers are metadata links. Unreviewed event metadata remains explicitly unreviewed.</p>
     </div>
     <div className="atlas-storyline__scroll" tabIndex={0} aria-label={`Storyline from chapter ${start} through chapter ${end}`}>
       <svg className="atlas-storyline__svg" viewBox={`0 0 ${width} ${height}`} style={{ minWidth: Math.min(width, 2200) }} role="img" aria-labelledby="storyline-svg-title storyline-svg-desc">
         <title id="storyline-svg-title">Storyline from chapter {start} through chapter {end}</title>
-        <desc id="storyline-svg-desc">Character lanes show when indexed characters are visible. Relationship markers and recap events are limited to the selected chapter window.</desc>
+        <desc id="storyline-svg-desc">Character lanes show when indexed characters are visible. Relationship markers and stored events are limited to the selected chapter window.</desc>
         <g className="storyline-grid">
           {ticks.map((chapter) => <g key={chapter}>
             <line x1={x(chapter)} x2={x(chapter)} y1={26} y2={bottom - 18} />
@@ -83,12 +83,12 @@ export function AtlasStoryline({ atlas }: { atlas: AtlasData }) {
         <g className="storyline-events">
           <line x1={left} x2={right} y1={bottom - 18} y2={bottom - 18} />
           <text x={left - 16} y={bottom - 13} textAnchor="end">Events</text>
-          {atlas.events.map((event) => <circle key={event.id} className={event.reviewed ? "is-reviewed" : "is-metadata"} cx={x(event.chapterOrdinal)} cy={bottom - 18} r={event.reviewed ? 6 : 4}><title>{event.label}: {event.reviewed ? "reviewed event" : "recap metadata"}</title></circle>)}
+          {atlas.events.map((event) => <circle key={event.id} className={event.reviewed ? "is-reviewed" : "is-metadata"} cx={x(event.chapterOrdinal)} cy={bottom - 18} r={event.reviewed ? 6 : 4}><title>{event.label}: {event.reviewed ? "reviewed event" : "unreviewed metadata"}</title></circle>)}
         </g>
       </svg>
     </div>
     <div className="atlas-storyline__sources">
-      {atlas.events.slice(0, 24).map((event) => <Link key={event.id} to={event.source.href}><strong>Ch. {event.chapterOrdinal} · {event.reviewed ? "reviewed" : "recap"}</strong><span>{event.label}</span></Link>)}
+      {atlas.events.slice(0, 24).map((event) => <Link key={event.id} to={event.source.href}><strong>Ch. {event.chapterOrdinal} · {event.reviewed ? "reviewed" : "unreviewed"}</strong><span>{event.label}</span></Link>)}
       {atlas.events.length > 24 ? <div className="atlas-storyline__more">+ {atlas.events.length - 24} more event sources are available in the Events view.</div> : null}
     </div>
   </section>;

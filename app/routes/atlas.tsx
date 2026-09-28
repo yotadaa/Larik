@@ -91,14 +91,14 @@ export default function Atlas({ loaderData }: Route.ComponentProps) {
         <div>
           <p className="eyebrow">Spoiler warning</p>
           <h2>This selection goes beyond manually reviewed chapter {selection.latestReviewed.ordinal}.</h2>
-          <p>The remaining visualization uses glossary metadata and stored chapter recaps from D1. It can reveal characters, locations, techniques, outcomes, and chapter summaries up to your selected end boundary. Those rows are stored ahead of time, but they are not manually fact-reviewed like the opening pilot.</p>
+          <p>The remaining visualization uses the normalized metadata snapshot stored in D1: entities, aliases, relationships, atomic facts, events, states, scenes, arcs, and cycles. It can reveal story information up to your selected end boundary. Unreviewed rows stay explicitly labeled and are never promoted to reviewed facts.</p>
           <Link className="button button--primary" to={unlockHref}>{selection.mode === "all" ? `Reveal all ${totalCount} chapters` : "Reveal this chapter window"}</Link>
         </div>
       </section> : null}
 
       {atlas?.unreviewedUnlocked ? <section className="atlas-coverage-warning" role="status">
         <ExclamationTriangleIcon aria-hidden="true" />
-        <div><strong>Spoiler metadata is unlocked through chapter {atlas.through.ordinal}.</strong><p>Manually reviewed facts remain marked as reviewed. Metadata-derived facts, structural links, and recap events are labeled separately so they are never presented as editorially verified relationships.</p></div>
+        <div><strong>Spoiler metadata is unlocked through chapter {atlas.through.ordinal}.</strong><p>Manually reviewed rows remain marked as reviewed. Later structured metadata stays labeled as unreviewed so imported facts, relationships, events, states, and scenes are never presented as editorially verified by accident.</p></div>
       </section> : null}
 
       {atlas ? <AtlasView atlas={atlas} /> : selection?.needsSpoilerUnlock ? null : <section className="atlas-gate atlas-gate--compact"><p className="eyebrow">Choose a scope</p><h2>Select a chapter window to begin.</h2><p>You can stay inside reviewed coverage or explicitly unlock later spoiler metadata.</p></section>}

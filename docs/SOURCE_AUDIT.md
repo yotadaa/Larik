@@ -1,37 +1,52 @@
-# Source audit and preservation
+# Source audit and preservation — 2026-09-28
 
-The uploaded `app.zip` was extracted into a working directory without modifying the upload.
-All 333 top-level-archive Markdown files were decoded and read, including the project
-instructions, prior plans, schema/workflow conventions, chapter prose, recap files, glossary,
-characters, places, terminology, continuity and QA notes. A path/hash/line/heading inventory is
-retained in `evidence/source-audit.json`.
+The uploaded `app-3.zip` was extracted into an isolated working directory. The original upload was not
+modified.
 
-The nested corpus ZIP was extracted separately and its 39 Markdown files were read.
-That older snapshot was not overlaid on the current 151-chapter workspace. The original nested
-archive remains preserved as supplied; it is not the runtime data source.
+## Markdown read pass
 
-## Preservation checks
+The application contains 1,442 readable Markdown files (about 646k lines / 25 MB of Markdown text).
+All were decoded/read during the audit pass.
 
-- All 313 original Markdown files under `id/` are byte-identical to the upload.
-- The corpus import reads 151 chapters and 150 available recaps. It does not rewrite source files.
-- Original `AGENTS.md`, `CLAUDE.md`, translation templates and editorial convention documents are
-  retained. No chapter translation or canonical glossary wording was rewritten.
-- Original Markdown intentionally updated: `IMPLEMENTATION_PLAN.md`, `README.md`, `VERIFICATION.md`.
-  The old implementation/verification narratives are retained below a historical notice; README
-  now documents the restored scripts and this release.
+The metadata-specific pass then inspected every root Markdown file under:
 
-## Missing or generated input artifacts
+```text
+id/a-regressors-tale-of-cultivation/
+```
 
-The upload lacked the referenced `scripts/` directory, the migration implementation, dependency
-lockfile, installed packages and GitNexus runner/index. The local schema/fixture/import and checks
-were restored from the application repository contract and actual corpus, with regression tests.
-No live production schema was silently assumed verified.
+while deliberately excluding `chapters/` and `recaps/`, as requested. That root contains 23 Markdown
+documents, including the metadata-v2 registries (`entities.md`, `aliases.md`, `relationships.md`,
+`facts.md`, `events.md`, `states.md`, `scenes.md`, `arcs.md`, `cycles.md`, `characteristics.md`) plus
+translation/reference memory (`characters.md`, `continuity.md`, `glossarium.md`, `locations.md`,
+`qa-log.md`, `terminology.md`, `chapter-index.md`, and project guidance documents).
 
-The supplied compiled `build/` tree included local runtime configuration. It was neither used as
-updated application source nor copied into the deliverable. Only its non-secret JavaScript runtime
-assets were reused outside the deliverable for explicitly isolated component evaluation. Credential
-values were not needed. Old compiled output, `.dev.vars`, local environment files, caches, local
-D1 state, build-info files and test-only recovered runtimes are excluded from the release archives.
+## Current corpus state
 
-See `CHANGE_MANIFEST.md` for the complete source change list and `EVALUATION.md` for the verification
-boundary. The original input archive remains untouched.
+- Actual chapter files: 182.
+- Actual recap files: 181.
+- Chapter-index rows: 200.
+- Metadata status in the index: 163 reviewed, 37 unreviewed/planned.
+- Actual reviewed boundary: chapter 163.
+
+The chapter index contains future planning rows through chapter 200; the synchronizer does not invent
+missing chapter content for rows 183–200.
+
+## Source inconsistencies retained as warnings
+
+The parser currently reports 74 warnings and zero errors. Examples include:
+
+- chapter-index filename mismatches (for example chapter 35),
+- a recap-path mismatch around chapter 58,
+- no matching recap file for actual chapter 182,
+- duplicate entity IDs in `entities.md`,
+- unresolved entity/fact/event/scene references,
+- unresolved evidence wikilinks that no longer match an actual chapter filename.
+
+These are stored in `metadata_integrity_issues`. They are not silently fixed because doing so could
+change story meaning or provenance.
+
+## Packaging boundary
+
+The uploaded ZIP already contained many Git-dirty and untracked files. Therefore the changed-files
+package for this task is calculated by comparing file hashes against the extracted upload, not by
+using `git status`. This prevents unrelated pre-existing work from being included accidentally.

@@ -7,12 +7,12 @@ language: "id"
 status: "translated"
 source: "https://wetriedtls.com/series/a-regressors-tale-of-cultivation/chapter-151"
 previous: "150-azure-heaven-creation-sect-1.md"
-next: ""
+next: "152-azure-heaven-creation-sect-3.md"
 ---
 
 # Bab 151 — Azure Heaven Creation Sect (2)
 
-[← Bab Sebelumnya](150-azure-heaven-creation-sect-1.md) · [Indeks Bab](../chapter-index.md)
+[← Bab Sebelumnya](150-azure-heaven-creation-sect-1.md) · [Indeks Bab](../chapter-index.md) · [Bab Berikutnya](152-azure-heaven-creation-sect-3.md)
 
 Bzzzt!
 

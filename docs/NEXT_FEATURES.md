@@ -42,9 +42,7 @@ be obtained merely by entering an address.
 
 ### 3. Expand curated knowledge incrementally
 
-Do not promise spoiler-safe coverage for all 151 chapters yet. Extend `story_chapter_sequence` and
-reviewed facts in small versioned batches. Add tests at every reveal boundary. Unknown visibility
-must continue to fail closed.
+The current uploaded corpus has 182 actual chapter files and metadata marked reviewed through chapter 163. Expand curated coverage beyond 163 through the metadata-v2 source files and review workflow; keep every reveal boundary tested and continue to fail closed for unknown/unreviewed knowledge.
 
 ### 4. Editorial evidence workflow
 
@@ -66,3 +64,14 @@ not pixel offsets. Define logout/cache behavior and conflict handling before shi
 - visible graph node/edge counts at mobile breakpoints.
 
 Avoid detailed reading surveillance or storing every scroll event.
+
+## 2026-09-28 metadata-v2 update
+
+The metadata-v2 ingestion requested after the original checkpoint is now implemented. The immediate
+next product feature should be a **Metadata Review Queue / Provenance Editor**, not another passive
+visualization. The current synchronizer already records integrity warnings and preserves source
+evidence, so a review workflow can expand trustworthy spoiler-safe coverage beyond the current reviewed
+boundary while keeping Markdown as the source of truth.
+
+See `docs/research/NEXT_FEATURE_RESEARCH_2026-09-28.md` for the current D1 constraints, proposed review
+data model, editor workflow, and follow-on reader visualizations.

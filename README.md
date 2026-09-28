@@ -2,7 +2,7 @@
 
 A React Router 8 novel reader for Cloudflare Workers + D1. This feature release replaces the
 blind-email prototype with password registration/login, adds D1-backed reading state and discovery,
-and changes Story Atlas into a reviewed, chapter-bounded knowledge model.
+and changes Story Atlas into a chapter-bounded knowledge model backed by normalized Markdown metadata snapshots.
 
 ## Identity model
 
@@ -28,28 +28,24 @@ and changes Story Atlas into a reviewed, chapter-bounded knowledge model.
 | Chapter dock | Previous / novel / bookmark / next; hides while reading down and returns on upward movement or focus |
 | Inline lookup | Chapter-safe facts open beside the text without navigating away |
 | Chapter discovery | D1 FTS5 searches stored chapter title/text and returns excerpts; no Worker corpus scan |
-| Story Atlas | Reviewed chapter boundary, network, temporal storyline, facts and events |
+| Story Atlas | Spoiler-filtered network, storyline, atomic facts, events, states, scenes, arcs and cycles |
 | Custom dropdowns | Native HTML `select` controls are not used in the application UI |
 
 ## Spoiler-safe Story Atlas
 
-The old mention-inference model has been removed from runtime. Atlas facts are now explicit,
-versioned D1 records:
+The app now prefers the latest **completed metadata-v2 snapshot** in D1. The canonical schema lives in
+`database/migrations/0004_markdown_metadata_v2.sql` and stores entities, aliases, relationships, atomic
+facts, events, entity states, scenes, arcs, cycles, characteristics, glossary rows, source documents and
+integrity findings. Legacy `story_*` tables remain a safe fallback until the first metadata-v2 sync.
 
-- `story_knowledge_versions`
-- `story_chapter_sequence`
-- `story_entities`
-- `story_relations`
-- `story_events`
+`reveal_chapter` and reviewed/unreviewed status are filtered in SQL **before data reaches the browser**.
+Future aliases/hidden identities are filtered independently as well, so a canonical entity cannot leak a
+later alias through its node payload. Visualization layout remains browser-side; runtime does not parse
+the Markdown corpus or infer relationships from prose.
 
-Every published fact has a reviewed flag and reveal ordinal. The Atlas loader requires an exact
-reviewed chapter boundary and filters in SQL **before data reaches the browser**. Unknown or uncovered
-boundaries fail closed instead of guessing. The included pilot deliberately covers only chapters 1-3
-of `a-regressors-tale-of-cultivation`.
-
-Visualization layout/filtering is browser-side. The Worker does not perform relationship extraction,
-NLP, graph inference, or corpus scans. Chapter full-text search is maintained by a D1 FTS5 table and
-trigger. See `docs/research/VISUALIZATION_RESEARCH_2026.md`.
+The uploaded workspace currently contains 182 chapter files, 181 recap files, and a 200-row chapter
+index with reviewed metadata through chapter 163. The validator records source inconsistencies as
+warnings rather than inventing corrections.
 
 ## Remote D1 migration without Wrangler
 
@@ -64,26 +60,21 @@ CLOUDFLARE_ID=<cloudflare account id>
 CLOUDFLARE_API_TOKEN=<token with D1 write permission>
 ```
 
-Preview the remote target and pending migrations:
+Preview the target plus the Markdown metadata snapshot:
 
 ```sh
-npm run db:migrate:status
+npm run db:sync:preview
 ```
 
-Apply pending migrations:
+Apply pending schema migrations and synchronize the latest Markdown data in one command:
 
 ```sh
-npm run db:migrate:remote
+npm run db:sync
 ```
 
-Then verify the password-auth, reader-state, knowledge and FTS schema:
+Read-only reader-schema verification remains available with `npm run db:verify:readers`.
 
-```sh
-npm run db:verify:readers
-```
-
-`0002_verified_identity_progress_knowledge.sql` is additive to the reader schema created by
-`0001_reader_accounts.sql`. Back up production D1 before applying it. Never commit `.env` or API
+`database/migrations/` is now the canonical migration directory. `scripts/migrate-d1.mjs` still falls back to the old root `migrations/` directory for older checkouts/test fixtures. Back up production D1 before applying schema changes. Never commit `.env` or API
 credentials.
 
 ## Validation
@@ -112,6 +103,8 @@ are recorded in `docs/EVALUATION.md`.
 - `docs/AUTH_AND_BOOKMARKS.md` — account security and prototype-session upgrade
 - `docs/DATABASE.md` — migrations and D1 data model
 - `docs/research/VISUALIZATION_RESEARCH_2026.md` — visualization research and decisions
+- `docs/research/NEXT_FEATURE_RESEARCH_2026-09-28.md` — Metadata Review Queue / Provenance Editor research
+- `database/README.md` — canonical D1 migration and metadata-sync workflow
 - `docs/NEXT_FEATURES.md` — next implementation plan
 - `docs/EVALUATION.md` — checks actually executed
 - `docs/CHANGE_MANIFEST.md` — changed areas for this release

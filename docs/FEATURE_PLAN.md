@@ -31,19 +31,19 @@ requiring a network-enabled Node 22.22+ checkout.
 - Explicit Resume links restore the saved checkpoint in the browser.
 - D1 counters record progress syncs and resume opens so write behavior and resume usage are measurable.
 
-### Spoiler model pilot
+### Spoiler model foundation (historical pilot)
 
 - Added versioned chapter sequence, entities, explicit relationships and events.
 - Every fact has a reviewed flag and reveal ordinal.
 - Safe Atlas queries filter by reveal ordinal in D1 before serialization.
 - Uncovered chapters fail closed.
-- Seeded only a small manually reviewed chapters 1-3 pilot for the first novel.
+- The initial seed was a manually reviewed chapters 1-3 pilot. Metadata-v2 synchronization now supersedes this as the preferred canonical source while retaining the pilot tables as a compatibility fallback.
 
 ### Quiet discovery
 
 - Added chapter-side inline lookup using the same spoiler boundary as the Atlas.
 - Added D1 FTS5 chapter search and stored snippets; no Worker corpus scan.
-- Added temporal Storyline visualization alongside the focused network, fact list and event view.
+- Added temporal Storyline visualization alongside the focused network and structured Facts, Events, States, Scenes, and Arcs/Cycles views.
 
 ### UI controls
 

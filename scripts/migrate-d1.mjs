@@ -2,7 +2,7 @@
 /**
  * Remote-only D1 migrations, directly through Cloudflare's REST API.
  * No npm dependencies, Wrangler, local D1, or Worker deployment required.
- * Save as scripts/migrate-d1.mjs. Uses ../.env and ../migrations/*.sql.
+ * Save as scripts/migrate-d1.mjs. Uses ../.env and ../database/migrations/*.sql.
  *
  * node scripts/migrate-d1.mjs --status  (default; read-only)
  * node scripts/migrate-d1.mjs --apply   (writes to the remote database)
@@ -178,7 +178,7 @@ export async function run({
   if (mode === '--help') {
     log('Remote D1: node scripts/migrate-d1.mjs [--status | --apply | --verify]');
     log('--status / --dry-run: read-only pending-migration preview (also the default).');
-    log('--apply: apply every pending migrations/*.sql file to remote D1.');
+    log('--apply: apply every pending database/migrations/*.sql file to remote D1.');
     log('--verify: read-only checks for password auth, reader state, knowledge and FTS schema.');
     log('Reads project-root .env automatically. No Wrangler or local database.');
     return { applied: [], pending: [] };
@@ -197,8 +197,16 @@ export async function run({
     return { applied: [], pending: [] };
   }
 
-  const dir = resolve(root, 'migrations');
-  const entries = await readdir(dir, { withFileTypes: true });
+  let dir = resolve(root, 'database', 'migrations');
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+    // Backward-compatible fallback for test fixtures and older checkouts.
+    dir = resolve(root, 'migrations');
+    entries = await readdir(dir, { withFileTypes: true });
+  }
   const names = entries.filter((e) => e.isFile() && e.name.endsWith('.sql')).map((e) => e.name)
     .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
   if (!names.length) throw new Error(`No .sql migration files found in ${dir}.`);

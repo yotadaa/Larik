@@ -1,82 +1,120 @@
-# D1 schema and migration boundary
+# D1 schema and Markdown metadata synchronization
 
-This release assumes the existing content tables plus `migrations/0001_reader_accounts.sql`, then
-applies `migrations/0002_verified_identity_progress_knowledge.sql`.
+The canonical database workspace now lives under `database/`.
 
-## Reader identity
-
-`0002` extends the existing reader tables rather than replacing user IDs, so bookmarks remain attached
-to the same account during a safe prototype-session upgrade.
-
-`reader_users` additions:
-
-- `password_hash`
-- `password_salt`
-- `password_iterations`
-- `registered_at`
-
-`reader_sessions` addition:
-
-- `auth_method`, defaulting existing sessions to `prototype`
-
-Only sessions with `auth_method = 'password'` and a registered password account are accepted by
-`getUser()`. `email_verified_at` remains reserved for future mailbox verification and is not set by
-registration.
-
-## Reading state
-
-`reader_library_state` stores one row per `(user_id, novel_id)`:
-
-- shelf status: `planned | reading | paused | finished`
-- last chapter ID
-- bounded progress percentage
-- `progress_sync_count`
-- `resume_open_count`
-- `last_resumed_at`
-- last update time
-
-The browser submits progress only at `0, 25, 50, 75, 90, 100`, limiting normal synchronization to at
-most six writes per chapter. An explicit Resume link records one resume-open and restores the stored
-checkpoint client-side.
-
-## Spoiler-aware knowledge model
-
-The knowledge model is versioned and chapter-bounded:
-
-- `story_knowledge_versions` — draft/published/retired editorial versions
-- `story_chapter_sequence` — reviewed chapter IDs and spoiler ordinals
-- `story_entities` — reviewed characters/locations/terms/organizations/items with first-visible ordinal
-- `story_relations` — explicit reviewed relationships with reveal ordinal and source
-- `story_events` — reviewed events with chapter ordinal and source
-
-The application never infers a social relationship from name co-occurrence. SQL queries return only
-reviewed rows whose reveal ordinal is at or before the requested reviewed chapter boundary. If the
-chapter is outside curated coverage, the safe result is unavailable/empty rather than a guess.
-
-The bundled pilot is intentionally small: version 1 for `a-regressors-tale-of-cultivation`, chapters
-1-3 only. Expand coverage through additional reviewed rows/versioning, not request-time extraction.
-
-## D1 full-text search
-
-`story_chapter_fts` is an FTS5 virtual table containing the latest stored chapter revision. The
-migration backfills it and adds an insert trigger that replaces the indexed row for the same logical
-novel/chapter whenever a newer `novel-content` row is inserted.
-
-The Worker only sanitizes a small token list and issues a prepared FTS query. It does not read every
-Markdown row to search or generate excerpts.
-
-## Remote migration
-
-Use the JavaScript REST runner included in this patch; it does not require Wrangler:
-
-```sh
-npm run db:migrate:status
-npm run db:migrate:remote
-npm run db:verify:readers
+```text
+database/
+├── migrations/
+│   ├── 0001_reader_accounts.sql
+│   ├── 0002_verified_identity_progress_knowledge.sql
+│   ├── 0003_atlas_full_story_ranges.sql
+│   └── 0004_markdown_metadata_v2.sql
+├── schema/
+│   ├── content-schema.sql
+│   └── schema-contract.json
+└── migrator.py
 ```
 
-The runner reads `.env`, checks the account/database identity, uses `d1_migrations` as migration
-history, applies pending `.sql` files in filename order, and verifies the new schema afterward.
+`scripts/sqilte-migration/migrator.py` remains as a compatibility entry point and delegates to
+`database/migrator.py`.
 
-Back up production D1 before applying migrations. Do not use local content fixtures/importers as a
-production migration substitute.
+## One command for remote schema + data
+
+Preview:
+
+```sh
+npm run db:sync:preview
+```
+
+Apply pending numbered SQL migrations and then synchronize the latest Markdown snapshot:
+
+```sh
+npm run db:sync
+```
+
+The remote migration runner uses Cloudflare's D1 REST API and reads `database/migrations/` first. It
+falls back to the legacy root `migrations/` directory only for older checkouts/test fixtures.
+
+## Metadata-v2 schema
+
+`0004_markdown_metadata_v2.sql` adds these snapshot tables:
+
+- `metadata_documents` — every root Markdown document and content hash;
+- `metadata_chapters` — chapter/index/review/recap state;
+- `metadata_entity_history` — all source entity rows, including duplicate historical IDs;
+- `metadata_entities` — canonical current entity registry;
+- `metadata_aliases` — reveal-aware names/hidden identities;
+- `metadata_relationships` — temporal, evidence-backed relations;
+- `metadata_facts` — atomic facts with epistemic status;
+- `metadata_events` — chapter/scene ordered events;
+- `metadata_states` — temporal entity state history;
+- `metadata_scenes` — scene participants, locations and event links;
+- `metadata_arcs` — story-arc windows;
+- `metadata_cycles` — regression-cycle windows;
+- `metadata_characteristics` — entity/profile characteristics;
+- `metadata_glossary` — source/canonical terminology rows;
+- `metadata_memory_entries` — characters/locations/continuity/terminology/QA memory rows;
+- `metadata_integrity_issues` — deterministic warnings/errors from the source audit.
+
+`metadata_sync_runs` records completed snapshots. The canonical tables use the corpus SHA-256 as
+`snapshot_id`; app queries select only the newest completed snapshot. If a new sync stops partway
+through, its rows are not made reader-visible because no completed sync row exists yet.
+
+`metadata_novel_content_stage` is a persistent staging table for chapter bodies. The migrator uploads
+large content in bounded batches, then replaces `novel-content` only after staging has completed.
+
+## Latest-data semantics
+
+The old migrator appended rows when a fingerprint changed. That could leave stale reader/reference
+records beside newer metadata. The new synchronizer instead:
+
+1. parses the current Markdown source of truth;
+2. validates references without inventing missing information;
+3. writes an immutable canonical snapshot keyed by source hash;
+4. stages/replaces current reader chapter content;
+5. replaces legacy reference tables for compatibility;
+6. marks the new canonical snapshot complete only after all phases succeed.
+
+Running the same unchanged corpus again is idempotent at the canonical row level, and
+`metadata_sync_runs` is unique per `(novel_id, source_hash)`.
+
+## Current corpus state found during this implementation
+
+For `id/a-regressors-tale-of-cultivation` the current uploaded workspace contains:
+
+- 23 root Markdown metadata/reference documents;
+- 182 actual chapter files;
+- 181 actual recap files;
+- 200 rows in `chapter-index.md` (future rows 183–200 are planning/index rows, not fabricated content);
+- reviewed metadata through chapter 163.
+
+The current normalized snapshot produces 132 canonical entities, 18 aliases, 28 relationships,
+37 facts, 50 events, 28 states, 22 scenes, 15 arcs, 15 cycles, 64 characteristic rows, 411 glossary
+rows and 444 memory rows. The validator currently records 74 warnings and zero errors. Warnings include
+source/index filename mismatches, the missing chapter-182 recap, duplicate entity IDs, unresolved
+entity/event/scene references and unresolved wikilinks.
+
+These warnings are deliberately retained instead of silently rewriting story knowledge.
+
+## Spoiler boundary
+
+The app reads metadata-v2 through SQL queries that apply reveal/review boundaries before
+serialization. Future aliases are queried separately and are not attached to entity nodes before their
+own reveal chapter. Unreviewed metadata is returned only after the reader explicitly unlocks a later
+range.
+
+The legacy `story_*` knowledge tables remain as a fallback until the first completed metadata-v2 sync,
+so applying the schema migration alone does not break an existing deployment.
+
+## Validation commands
+
+```sh
+npm run db:metadata:validate
+npm run test:metadata
+npm run test:atlas
+npm run test:reader-features
+npm run test:syntax
+npm run test:core-types
+```
+
+No production D1 write is required by those commands.

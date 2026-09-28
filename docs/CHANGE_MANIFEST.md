@@ -31,3 +31,14 @@
 - JavaScript-only remote D1 migration runner restored for the project `.env` workflow,
 - visualization research refreshed in `docs/research/VISUALIZATION_RESEARCH_2026.md`,
 - future sequence updated in `docs/NEXT_FEATURES.md`.
+
+## Metadata-v2 / D1 synchronization patch — 2026-09-28
+
+- Added canonical `database/` workspace and migration `0004_markdown_metadata_v2.sql`.
+- Replaced the old Python append/fingerprint importer with a deterministic Markdown snapshot synchronizer; the legacy script path is now a compatibility wrapper.
+- Added one-command `npm run db:sync` plus read-only preview/validation commands.
+- Updated D1 migration discovery to prefer `database/migrations/`.
+- Updated Story Atlas server loading to prefer the latest completed metadata-v2 snapshot and fall back to legacy story tables before the first sync.
+- Added reveal-safe alias handling plus atomic Facts, States, Scenes, Arcs and Cycles visualization.
+- Added metadata-v2 regression/contract tests and current-corpus validation.
+- Added research for the next feature: Metadata Review Queue / Provenance Editor.

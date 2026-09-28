@@ -96,8 +96,7 @@
 | Lord Heo Semin | Lord Heo Semin | character | Ch. 26 | Pejabat korup Yanguo; salah satu pejabat paling korup menurut Seo. |
 | gold toad | gold toad | currency | Ch. 26 | Benda berharga berbentuk kodok emas yang Seo gunakan sebagai suap kepada cultivator klan Jin. |
 | Makli Jung | Makli Jung | character | Ch. 26 | Kaisar Yanguo dari klan Makli, target rencana pembunuhan klan Jin dan anak-anak penyintas. |
-- **Mentor pada awal siklus 10:** Jeon Myeong-hoon dibawa Jin Byuk-ho (Heavenly Golden Thunder Body); Kang Min-hee diklaim White Bone Ghost Devil (Ghostly Yin Transformation Immortal Root); Oh Hyun-seok dibawa Azure Tiger Saint (Unique Holy Body); Kim Yeon dibawa pemimpin Righteous Path Alliance; Oh Hye-seo dibawa Seo Hweol menuju Sea Dragon Tribe. Seo dan Kim Young-hoon ditinggal di Ascension Path.
-- **Warisan Seo Hweol:** Summoning Wind, Dragon Transformation, manik pemecah ruang; diberikan ke Seo dengan imbalan “bantuan sederhana” yang belum diungkap.
+| Initial Cycle Captives | Refer to terminology | continuity note | Ch. 92 | Ringkasan lintas-entitas tentang siapa yang membawa para staf pada awal siklus 10. Bukan istilah kanonis; detail berada di terminology.md. |
 | Love intent | Love | ability | Ch. 27 | Niat berwarna merah muda pucat; Seo menemukannya pada Man-ho terhadap Kae-hwa. |
 | Hatred intent | Hatred | ability | Ch. 27 | Niat berwarna merah tua gelap; pada para murid terutama mengarah kepada klan Makli. |
 | Joy intent | Joy | ability | Ch. 27 | Niat berwarna emas yang Seo temukan dalam perjalanan kembali ke wilayah Jin. |
@@ -339,3 +338,91 @@
 | Heart Path Method | Heart Path Method | cultivation method | Ch. 150 | Metode khas Heart Tribe untuk membaca heart essence dan emosi; penguasaan sejati sangat jarang. |
 | Temporal Fate Island | Temporal Fate Island | location | Ch. 150 | Sky Island di Human Territory tempat verifikasi identitas para pendaki dari alam bawah berlangsung. |
 | Starlight Protective Void Body | Starlight Protective Void Body | cultivation method | Ch. 151 | Metode yang Azure Tiger Saint pilih untuk mulai diajarkan kepada Seo; praktik dan mekanismenya belum ditampilkan. |
+| Azure Wing Heavenly Shatter | Azure Wing Heavenly Shatter | technique | Ch. 158 | Offensive technique with First through Ninth Wing; Tenth Wing is only legend. |
+| Second Wing | Second Wing | technique | Ch. 158 | Second stage of Azure Wing Heavenly Shatter. |
+| Third Wing | Third Wing | technique | Ch. 158 | Third stage of Azure Wing Heavenly Shatter. |
+| True Devil Realm | True Devil Realm | location | Ch. 158 | Realm from which an unidentified devil crossed into Bright Cold Realm. |
+| Heavenly Market Enclosure | Heavenly Market Enclosure | cultivation realm | Ch. 157 | Early Core Formation stage described through Oh Hyun-seok's advancement. |
+| Supreme Palace Enclosure | Supreme Palace Enclosure | cultivation realm | Ch. 157 | Middle Core Formation stage. |
+| Purple Forbidden Enclosure | Purple Forbidden Enclosure | cultivation realm | Ch. 157 | Late Core Formation stage. |
+| Celestial Dominion | Celestial Dominion | cultivation realm | Ch. 157 | Grand Perfection Core Formation stage. |
+| Heaven Tribe | Heaven Tribe | organization | Ch. 157 | Oh's reflections associate its view of fate with cultivation; do not treat his speculation about the heavens as established fact. |
+| Primordial Chaos | Primordial Chaos | ability | Ch. 158 | Power manifested by Oh Hyun-seok; its source is not understood by him. |
+| Light Spirit Sacred Water | Light Spirit Sacred Water | item | Ch. 159 | |
+| Temporal Fate Island | Temporal Fate Island | location | Ch. 162 | |
+| Devil Origin Pill | Devil Origin Pill | item | Ch. 163 | |
+| Devouring Space Grass | Devouring Space Grass | item | Ch. 163 | |
+| Vast Cold Jade | Vast Cold Jade | item | Ch. 163 | |
+| Heart Demon | Heart Demon | concept | Ch. 164 | Appears during Seo's Nascent Soul attempt and stops the breakthrough. |
+| Annihilation Formation | Annihilation Formation | technique | Ch. 164 | Formation used to breach the True Devil Realm barrier. |
+| Societal Tomb Child | Societal Tomb Child | title | Ch. 164 | Expedition commander; source places the name Gyu Seok (Silica Stone) nearby, mapping unresolved. |
+| Gyu Seok (Silica Stone) | Gyu Seok (Silica Stone) | character | Ch. 164 | Source's relationship to the Societal Tomb Child title is retained as unresolved. |
+| Artifact Spirit Method | Artifact Spirit Method | technique | Ch. 164 | Working descriptive name for Seo's unnamed method; not canonically named in narration. |
+| Devil Origin Heaven Refining Formation | Devil Origin Heaven Refining Formation | technique | Ch. 165 | Formation called by the Devil Army at the start of the battle. |
+| Light-Lightning Blade Lotus | Light-Lightning Blade Lotus | technique | Ch. 165 | Yeon Jin's yellow lightning blade lotus technique; source uses this compound name. |
+| Blood Body | Blood Body | concept | Ch. 165 | Yuan Yu's controlled flesh body used as Seo's puppet. |
+| White Orchid Blessing Incantation | White Orchid Blessing Incantation | technique | Ch. 165 | Temporarily empowers Seo's unit members. |
+| Yin Soul Ghost Incantation | Yin Soul Ghost Incantation | technique | Ch. 165 | Seo uses it to form circuits and transfer adverse effects to Yuan Yu. |
+| Blood Demon Suppressing Sea | Blood Demon Suppressing Sea | technique | Ch. 165 | Blood-red sea technique used by Yuan Yu. |
+| Blood Chain Binding Forest | Blood Chain Binding Forest | technique | Ch. 165 | Blood-red forest technique used by Yuan Yu. |
+| Devil Veins | Devil Veins | location | Ch. 165 | Devil Realm veins targeted for conversion into spiritual veins with Vast Cold Jade. |
+| Devil Tentacle Commander | Devil Tentacle Commander | character | Ch. 165 | Unnamed commander captured by Seo; species/name remain unspecified. |
+| Gyeon Shin | Gyeon Shin | character | Ch. 166 | Tentacle Devil commander captured by Seo; identifies himself as Yuchok. Source parenthetical reads “Seeing the New”; exact name gloss is unresolved. |
+| Yuchok Tribe | Yuchok Tribe | species | Ch. 166 | According to Gyeon Shin, its members suppress minds and parasitize hosts. |
+| Horn Devil Tribe | Horn Devil Tribe | species | Ch. 166 | Su In's tribe; source names the child as Su In (Longevity’s Cause). |
+| Batwing Tribe | Batwing Tribe | species | Ch. 166 | Hong Yeon's tribe; source names the child as Hong Yeon (Red Connection). |
+| Su In (Longevity’s Cause) | Su In | character | Ch. 166 | Horn Devil child who grows up and becomes engaged to Hong Yeon; gloss in parentheses retained as source-provided, exact meaning unverified. |
+| Hong Yeon (Red Connection) | Hong Yeon | character | Ch. 166 | Batwing child who grows up and becomes engaged to Su In; gloss in parentheses retained as source-provided, exact meaning unverified. |
+| Void Spirit Pond | Void Spirit Pond | location | Ch. 166 | Spatial veil beneath the governor's residence; dangerous spatial storms and possible access to unknown dimensions. |
+| Unbound Flying Immortal Platform | Unbound Flying Immortal Platform | concept | Ch. 166 | Possible future function of a stabilized Void Spirit Pond, per administrator. |
+| Devilish Gold | Devilish Gold | item | Ch. 166 | Metal extracted from Devil Ridge Mountains. |
+| Thunder Spirit Island | Thunder Spirit Island | location | Ch. 166 | Sky Island where Golden Divine Heavenly Thunder Sect is located; reported destroyed by Heavenly Lightning. |
+| Integration Stage | Integration Stage | cultivation realm | Ch. 166 | Realm mentioned in messenger report; Integration Grand Cultivators from Bright Cold Realm were reported killed or critically injured. |
+| True Immortal | True Immortal | title | Ch. 166 | Reported to have appeared in Human Territory; identity and details unknown. |
+| Yeon Wei (Profound Brilliance) | Yeon Wei | character | Ch. 167 | Yeon Jin's ancestor; says she is an elder of Thundercloud Pavilion and former defector from Golden Divine Heavenly Thunder Sect. Parenthetical is source gloss; exact name semantics not established. |
+| Thundercloud Pavilion | Thundercloud Pavilion | organization | Ch. 167 | Recipient of Golden Divine Heavenly Thunder Sect secrets by Yeon Wei's account. |
+| Tai Chi Thunder Body | Tai Chi Thunder Body | technique | Ch. 167 | Traditional Thunder Path method as described by Yeon Wei; her gender-changing use is personal. |
+| Realm Invasion Array | Realm Invasion Array | formation | Ch. 167 | Human Race Grand Alliance plans to use it to assimilate occupied territory through the fourth area; not activated yet. |
+| Realm Annihilation Heavenly Void Formation | Realm Annihilation Heavenly Void Formation | formation | Ch. 167 | Planned as a trap in three Void Spirit Ponds; intended effects reported by Grand Alliance envoy, not yet observed. |
+| Head Realm | Head Realm | realm | Ch. 167 | Realm Yeon Wei says she ascended from; relation to other realm classifications unspecified. |
+| Wi Ryeong-seon | Wi Ryeong-seon | character | Ch. 168 | Integration Grand Cultivator affiliated with Human Race Grand Alliance; says messengers and Sky Island administrators are his avatars. |
+| Vast Cold Jade | Vast Cold Jade | item | Ch. 168 | Seven are used as barrier anchors in the eighth occupied territory, per Wi Ryeong-seon. |
+| Human Race Grand Alliance tribunal | Human Race Grand Alliance tribunal | institution | Ch. 168 | Wi Ryeong-seon says Seo will face it; no hearing has occurred. |
+| Canvas of Myriad Forms and Connections (萬狀因緣圖) | Canvas of Myriad Forms and Connections (萬狀因緣圖) | technique | Ch. 169 | Name Seo gives to his perfected, unnamed technique combining Three Spirits Technique and Devil Legion Terracotta Scroll. |
+| Qi (氣) | Qi (氣) | concept | Ch. 170 | Seo's Nascent Soul insight describes Qi, Soul, and Fate as the same essence at different planes; preserve as his realization, not universal explanation. |
+| Soul (魂) | Soul (魂) | concept | Ch. 170 | Plane higher than Qi in Seo's explanation; associated with Heart Tribe by his inference. |
+| Fate (命) | Fate (命) | concept | Ch. 170 | Highest plane in Seo's explanation; associated with Heaven Tribe and True Immortal progression by his insight. |
+| Mysterious Bizarre Gu | Mysterious Bizarre Gu | technique | Ch. 171 | Yuchok mind-parasitism technique; Gyeon Shin says its origin was resistance to Heavenly Fiend enslavement. |
+| Heavenly Fiends | Heavenly Fiends | species/faction | Ch. 171 | Gyeon Shin's account: faction in Blood Yin Realm that enslaved Demonic Devils in the ancient united True Devil Realm. |
+| Demonic Devils | Demonic Devils | species/faction | Ch. 171 | Gyeon Shin's account: Yuchok and other devil kindred faction in True Devil Realm. |
+| Blood Yin Realm | Blood Yin Realm | realm | Ch. 171 | Gyeon Shin says the Heavenly Fiends reside there. |
+| Temporal Fate Island | Temporal Fate Island | location | Ch. 171 | Human Race identity island containing Life Registry, according to chapter exposition. |
+| Life Registry | Life Registry | system | Ch. 171 | Magical registry at Temporal Fate Island that signals registered Human Race members' life status; full access limited to Grand Alliance inspectors. |
+| Heavenly Lightning Banner | Heavenly Lightning Banner | item | Ch. 171 | Jeon says True Immortal used it as medium to bring Heavenly Tribulation over Thunder Spirit Island. |
+| Yang Su-jin | Yang Su-jin | character | Ch. 171 | Founder of Golden Divine Heavenly Thunder Sect, per Jeon Myeong-hoon. |
+| Four Symbols Nascent Soul Technique | Four Symbols Nascent Soul Technique | technique | Ch. 172 | Black Scaled Fish Commanding Sect technique that splits the original Nascent Soul into four, as Hyeon Shin explains. |
+| Black Dragon King Hyeon Eum (Mysterious Yin) | Black Dragon King Hyeon Eum | title/character | Ch. 172 | Integration-stage Black Dragon King; source gloss “Mysterious Yin” associated with his name. |
+| Hyeon Woon | Hyeon Woon | character | Ch. 172 | Chief Strategist of Devil Realm Conquest Army, brother of Hyeon Shin. |
+| Blood Yin Revered One | Yang Mulia Blood Yin | title/entity | Ch. 172 | Hyeon Eum invokes this being from Blood Yin Realm; no response shown yet. |
+| Heavenly Cauldron Mountain | Heavenly Cauldron Mountain | location | Ch. 172 | Integration Grand Cultivators' residence and council site on Heavenly Human Island. |
+| Left Hand of the Blood Yin Esteemed One | Left Hand of the Blood Yin Esteemed One | entity/aspect | Ch. 174 | Star Shattering-stage Heavenly Fiend avatar from Blood Yin Realm; described as a living coral hand with many eyes. |
+| Star Shattering Esteemed One | Star Shattering Esteemed One | title | Ch. 174 | Stage described as just below Sacred Vessel among Middle Realm peaks. |
+| Heaven-Collapsing Esteemed One Jang Ik | Heaven-Collapsing Esteemed One Jang Ik | title/character | Ch. 174 | His green podao strike's principle is compared by Seo to Heavenly Tribulation. |
+| Soul Extinguishing Yin Curse | Soul Extinguishing Yin Curse | technique | Ch. 175 | Left Hand's eye-contact attack that scatters souls; named by Oh Hyun-seok/Hyeon Woon. |
+| Vice | Vice | concept | Ch. 175 | Blood Yin spell injects wrongs committed by Human Race in Devil Realm into a target's heart essence. |
+| Sea of Righteousness (義海) | Sea of Righteousness (義海) | technique | Ch. 175 | Seo's 25th Severing Mountain Swordsmanship move; paired with Mountain of Grace in its declaration. |
+| Mountain of Grace (恩山) | Mountain of Grace (恩山) | technique | Ch. 175 | Phrase used with the 25th Severing Mountain Swordsmanship move. |
+| Colorless Glass Sword, All Heavens | Colorless Glass Sword, All Heavens | item/technique | Ch. 175 | Seo's combined formation of 3,000 Colorless Glass Swords overlaid with Formless Sword and other arts. |
+| Last Quarter, the Final Moon | Last Quarter, the Final Moon | ability | Ch. 196 | Manifestation tahap ketiga Heart Tribe; menyerupai Heavenly Tribulation dan dapat menambahkan satu tribulation berikutnya jika tidak berhasil diatasi. |
+| Great Leader of Many | Great Leader of Many | title | Ch. 196 | Gelar yang diberikan Sea Dragon Palace kepada Seo setelah ia menerima true blood dan mencapai Nascent Soul. |
+| Sea Moon True Dragon Transformation | Sea Moon True Dragon Transformation | technique | Ch. 196 | Teknik untuk ritual laut Sea Dragon Palace; diperintahkan untuk dikuasai Seo sebelum ritual sebulan kemudian. |
+| Yu Hwa | Yu Hwa | character | Ch. 193 | Agen mata-mata Heart Tribe, setengah manusia-setengah laba-laba; menguasai zither/heart essence kantuk dan Manifestation Last Quarter. |
+| Baek Nyeong | Baek Nyeong | character | Ch. 190 | Pemimpin White Goat Race; mantan budak, murid Yu Hwa dan pengguna Last Quarter, Mountain Repelling Whip. |
+| Cheon Ryang | Cheon Ryang | character | Ch. 198 | Pemimpin oposisi politik terhadap Seo Hweol, demon beast Celestial Dog Race. |
+| Hong Guk | Hong Guk | character | Ch. 198 | Demon beast babi Nascent Soul, veteran perang melawan Heavenly Fiends Blood Yin Realm. |
+| Long Spirit Cotton Farm | Long Spirit Cotton Farm | location | Ch. 198 | Ladang kapas Long Spirit Wood Flower milik wilayah Gyu Ryeon; bukti proyeksi Blood Yin Realm diduga tersimpan di tanah/dragon vein. |
+| Emptiness Floor | Emptiness Floor | location | Ch. 198 | Lantai terbawah Serving Command Ark, dikelola Ark Controlling Envoy Gyu Ryeon; memiliki celah ruang lintas dunia. |
+| Vast Cold Oath | Vast Cold Oath | cultural term | Ch. 195 | Mantra/ikatan pernikahan kuno; dipaksakan Gyu Ryeon kepada Seo Hweol dan disaksikan Seo Eun-hyun. |
+| Five Blessings | Five Blessings | cultural term | Ch. 200 | Lambang yang menurut Seo Hweol diwakili lima Middle Realm, berbeda dari Five Elements. |
+| Orthodox Axis Foundation | Orthodox Axis Foundation | rank/technique | Ch. 192 | Cara Seo Hweol membangun Four-Axis melalui pemahaman simbol Middle Realm/Four Divine Beasts, bukan akumulasi Five Elements; klaim rinci bab 200. |
+| Heterodox Axis Foundation | Heterodox Axis Foundation | rank/technique | Ch. 192 | Metode membangun Axis dengan mengambil unsur dari kultivator lain; Gyu Ryeon menggunakannya, menurut Hweol. |

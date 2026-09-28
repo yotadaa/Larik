@@ -3,10 +3,10 @@ novel: "[[NOVEL|A Regressor’s Tale of Cultivation]]"
 chapter: 151
 chapter_file: "[[151-azure-heaven-creation-sect-2|Bab 151 — Azure Heaven Creation Sect (2)]]"
 previous: "[[150-azure-heaven-creation-sect-1|Bab 150]]"
-next: ""
+next: "[[152-azure-heaven-creation-sect-3|Bab 152]]"
 ---
 
-[[chapter-index|Indeks Bab]] · [[151-azure-heaven-creation-sect-2|Buka Bab 151]]
+[[chapter-index|Indeks Bab]] · [[151-azure-heaven-creation-sect-2|Buka Bab 151]] · [[152-azure-heaven-creation-sect-3|Bab Berikutnya]]
 
 # Rekap Bab 151 — Azure Heaven Creation Sect (2)
 
