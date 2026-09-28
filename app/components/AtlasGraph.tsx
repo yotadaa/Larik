@@ -78,7 +78,7 @@ export function AtlasGraph({ atlas, selectedId, onSelect }: { atlas: AtlasData; 
           onClick={() => onSelect(node.id)}><small>{KIND_LABELS[node.kind]} · {node.reviewed ? "reviewed" : "metadata"}</small><strong>{node.label}</strong></button>; })}
       </div>
     </div>
-    <p className="atlas-graph-caption">Solid lines are manually reviewed relationships. Dashed lines are structural metadata links and do not claim a story relationship.{neighborhood.contextual ? " This focus has no stored edge in the selected window, so nearby reveal-context nodes are shown without connecting lines." : ""}</p>
+    <p className="atlas-graph-caption">Solid lines are reviewed relationships. Dashed lines are unreviewed or imported relationship metadata; interpret them only according to their stored label.{neighborhood.contextual ? " This focus has no stored edge in the selected window, so nearby reveal-context nodes are shown without connecting lines." : ""}</p>
     {neighborhood.omitted ? <p className="atlas-limit" role="status">{neighborhood.omitted} more context nodes are available. The canvas shows at most {maxNodes} nodes at this width to stay readable.</p> : null}
   </section>;
 }

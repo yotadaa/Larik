@@ -145,7 +145,7 @@ async function loadCanonicalAtlasData(db: D1DatabaseLike, novelId: string, norma
       WHERE novel_id = ? AND snapshot_id = ? AND COALESCE(reveal_chapter, valid_from_chapter, 0) <= ?${reviewClause}
       ORDER BY alias COLLATE NOCASE`).bind(novelId, sync.source_hash, dataEnd).all<Record<string, unknown>>(),
     db.prepare(`SELECT r.relationship_id, r.source_entity_id, r.target_entity_id, r.relation_type, r.status, r.certainty,
-        r.valid_from_chapter, r.valid_to_chapter, r.reveal_chapter, r.evidence, r.source_chapter_id, r.reviewed
+        r.valid_from_chapter, r.valid_to_chapter, r.reveal_chapter, r.cycle_id, r.evidence, r.source_chapter_id, r.reviewed
       FROM metadata_relationships r
       JOIN metadata_entities source ON source.novel_id = r.novel_id AND source.snapshot_id = r.snapshot_id AND source.entity_id = r.source_entity_id
       JOIN metadata_entities target ON target.novel_id = r.novel_id AND target.snapshot_id = r.snapshot_id AND target.entity_id = r.target_entity_id
@@ -156,31 +156,34 @@ async function loadCanonicalAtlasData(db: D1DatabaseLike, novelId: string, norma
       ORDER BY COALESCE(r.reveal_chapter, r.valid_from_chapter, 0), r.relationship_id`)
       .bind(novelId, sync.source_hash, dataEnd, dataEnd, dataEnd).all<Record<string, unknown>>(),
     db.prepare(`SELECT fact_id, subject_id, predicate, object_value, value_type, reveal_chapter, valid_from_chapter, valid_to_chapter,
-        epistemic_status, source_type, source_entity_id, evidence, source_chapter_id, reviewed
+        cycle_id, epistemic_status, source_type, source_entity_id, supersedes, contradicts, evidence, source_chapter_id, reviewed
       FROM metadata_facts WHERE novel_id = ? AND snapshot_id = ? AND COALESCE(reveal_chapter, valid_from_chapter, 0) BETWEEN ? AND ?${reviewClause}
       ORDER BY COALESCE(reveal_chapter, valid_from_chapter, 0), fact_id`)
       .bind(novelId, sync.source_hash, windowStart, dataEnd).all<Record<string, unknown>>(),
     db.prepare(`SELECT state_id, entity_id, property, value, value_type, reveal_chapter, valid_from_chapter, valid_to_chapter,
         cycle_id, certainty, evidence, source_chapter_id, reviewed
-      FROM metadata_states WHERE novel_id = ? AND snapshot_id = ? AND COALESCE(reveal_chapter, valid_from_chapter, 0) BETWEEN ? AND ?${reviewClause}
+      FROM metadata_states WHERE novel_id = ? AND snapshot_id = ?
+        AND COALESCE(reveal_chapter, valid_from_chapter, 0) <= ?
+        AND COALESCE(valid_from_chapter, reveal_chapter, 0) <= ?
+        AND COALESCE(valid_to_chapter, ?) >= ?${reviewClause}
       ORDER BY COALESCE(reveal_chapter, valid_from_chapter, 0), state_id`)
-      .bind(novelId, sync.source_hash, windowStart, dataEnd).all<Record<string, unknown>>(),
-    db.prepare(`SELECT event_id, chapter_number, scene_id, scene_order, cycle_id, event_type, summary, participant_ids_json,
-        source_chapter_id, reviewed FROM metadata_events
+      .bind(novelId, sync.source_hash, dataEnd, dataEnd, dataEnd, windowStart).all<Record<string, unknown>>(),
+    db.prepare(`SELECT event_id, chapter_number, scene_id, scene_order, cycle_id, timeline_order, event_type, summary, location_ids_json, participant_ids_json,
+        cause_event_ids_json, effect_event_ids_json, certainty, evidence, source_chapter_id, reviewed FROM metadata_events
       WHERE novel_id = ? AND snapshot_id = ? AND chapter_number BETWEEN ? AND ?${reviewClause}
       ORDER BY chapter_number, COALESCE(scene_order, 9999), event_id`)
       .bind(novelId, sync.source_hash, windowStart, dataEnd).all<Record<string, unknown>>(),
     db.prepare(`SELECT scene_id, chapter_number, scene_order, cycle_id, location_ids_json, time_marker, pov_entity_id,
-        participant_ids_json, event_ids_json, summary, source_chapter_id, reviewed FROM metadata_scenes
+        participant_ids_json, event_ids_json, summary, evidence, source_chapter_id, reviewed FROM metadata_scenes
       WHERE novel_id = ? AND snapshot_id = ? AND chapter_number BETWEEN ? AND ?${reviewClause}
       ORDER BY chapter_number, COALESCE(scene_order, 9999), scene_id`)
       .bind(novelId, sync.source_hash, windowStart, dataEnd).all<Record<string, unknown>>(),
     db.prepare(`SELECT arc_id, title, parent_arc_id, start_chapter, end_chapter, reveal_chapter, cycle_ids_json, status, summary,
-        key_entity_ids_json, key_event_ids_json, source_chapter_id, reviewed FROM metadata_arcs
+        key_entity_ids_json, key_event_ids_json, evidence, source_chapter_id, reviewed FROM metadata_arcs
       WHERE novel_id = ? AND snapshot_id = ? AND start_chapter <= ? AND COALESCE(end_chapter, ?) >= ? AND COALESCE(reveal_chapter, start_chapter, 0) <= ?${reviewClause}
       ORDER BY start_chapter, arc_id`).bind(novelId, sync.source_hash, dataEnd, dataEnd, windowStart, dataEnd).all<Record<string, unknown>>(),
     db.prepare(`SELECT cycle_id, cycle_number, start_chapter, end_chapter, reveal_chapter, world_start_marker, world_end_marker,
-        reset_trigger, status, source_chapter_id, reviewed FROM metadata_cycles
+        reset_trigger, status, evidence, source_chapter_id, reviewed FROM metadata_cycles
       WHERE novel_id = ? AND snapshot_id = ? AND start_chapter <= ? AND COALESCE(end_chapter, ?) >= ? AND COALESCE(reveal_chapter, start_chapter, 0) <= ?${reviewClause}
       ORDER BY COALESCE(cycle_number, 9999), start_chapter`).bind(novelId, sync.source_hash, dataEnd, dataEnd, windowStart, dataEnd).all<Record<string, unknown>>(),
     db.prepare(`SELECT COUNT(*) AS count FROM metadata_integrity_issues WHERE novel_id = ? AND snapshot_id = ?`).bind(novelId, sync.source_hash).all<Record<string, unknown>>(),
@@ -210,12 +213,13 @@ async function loadCanonicalAtlasData(db: D1DatabaseLike, novelId: string, norma
     id: String(row.relationship_id), source: String(row.source_entity_id), target: String(row.target_entity_id),
     relation: String(row.relation_type), label: String(row.relation_type).replaceAll("_", " "), evidence: String(row.evidence ?? ""),
     visibleFrom: visible(row), validFrom: row.valid_from_chapter == null ? null : Number(row.valid_from_chapter), validTo: row.valid_to_chapter == null ? null : Number(row.valid_to_chapter),
-    status: String(row.status ?? ""), certainty: String(row.certainty ?? ""), sourceRef: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
+    cycleId: String(row.cycle_id ?? ""), status: String(row.status ?? ""), certainty: String(row.certainty ?? ""), sourceRef: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
   }));
   const facts: AtlasFact[] = factRows.results.map((row) => ({
     id: String(row.fact_id), subjectId: String(row.subject_id), predicate: String(row.predicate), objectValue: String(row.object_value ?? ""), valueType: String(row.value_type ?? ""),
     visibleFrom: visible(row), validFrom: row.valid_from_chapter == null ? null : Number(row.valid_from_chapter), validTo: row.valid_to_chapter == null ? null : Number(row.valid_to_chapter),
-    epistemicStatus: String(row.epistemic_status ?? "unknown"), sourceType: String(row.source_type ?? ""), sourceEntityId: String(row.source_entity_id ?? ""), evidence: String(row.evidence ?? ""),
+    epistemicStatus: String(row.epistemic_status ?? "unknown"), sourceType: String(row.source_type ?? ""), sourceEntityId: String(row.source_entity_id ?? ""), cycleId: String(row.cycle_id ?? ""),
+    supersedes: String(row.supersedes ?? ""), contradicts: String(row.contradicts ?? ""), evidence: String(row.evidence ?? ""),
     source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
   }));
   const states: AtlasState[] = stateRows.results.map((row) => ({
@@ -226,23 +230,25 @@ async function loadCanonicalAtlasData(db: D1DatabaseLike, novelId: string, norma
   const events: AtlasEvent[] = eventRows.results.map((row) => ({
     id: String(row.event_id), chapterOrdinal: Number(row.chapter_number), chapterId: String(row.source_chapter_id ?? ""), sceneId: String(row.scene_id ?? ""), sceneOrder: row.scene_order == null ? null : Number(row.scene_order),
     cycleId: String(row.cycle_id ?? ""), kind: String(row.event_type ?? "event"), label: String(row.event_type ?? "event").replaceAll("_", " "), summary: String(row.summary ?? ""),
-    entityIds: safeJsonStrings(String(row.participant_ids_json ?? "[]")), source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
+    timelineOrder: String(row.timeline_order ?? ""), locationIds: safeJsonStrings(String(row.location_ids_json ?? "[]")), entityIds: safeJsonStrings(String(row.participant_ids_json ?? "[]")),
+    causeEventIds: safeJsonStrings(String(row.cause_event_ids_json ?? "[]")), effectEventIds: safeJsonStrings(String(row.effect_event_ids_json ?? "[]")),
+    certainty: String(row.certainty ?? ""), evidence: String(row.evidence ?? ""), source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
   }));
   const scenes: AtlasScene[] = sceneRows.results.map((row) => ({
     id: String(row.scene_id), chapterOrdinal: Number(row.chapter_number), sceneOrder: row.scene_order == null ? null : Number(row.scene_order), cycleId: String(row.cycle_id ?? ""),
     locationIds: safeJsonStrings(String(row.location_ids_json ?? "[]")), timeMarker: String(row.time_marker ?? ""), povEntityId: String(row.pov_entity_id ?? ""),
     participantIds: safeJsonStrings(String(row.participant_ids_json ?? "[]")), eventIds: safeJsonStrings(String(row.event_ids_json ?? "[]")), summary: String(row.summary ?? ""),
-    source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
+    evidence: String(row.evidence ?? ""), source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
   }));
   const arcs: AtlasArc[] = arcRows.results.map((row) => ({
     id: String(row.arc_id), title: String(row.title), parentArcId: String(row.parent_arc_id ?? ""), startChapter: Number(row.start_chapter ?? 0), endChapter: row.end_chapter == null ? null : Number(row.end_chapter),
     visibleFrom: visible(row), cycleIds: safeJsonStrings(String(row.cycle_ids_json ?? "[]")), status: String(row.status ?? ""), summary: String(row.summary ?? ""),
-    keyEntityIds: safeJsonStrings(String(row.key_entity_ids_json ?? "[]")), keyEventIds: safeJsonStrings(String(row.key_event_ids_json ?? "[]")), source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
+    keyEntityIds: safeJsonStrings(String(row.key_entity_ids_json ?? "[]")), keyEventIds: safeJsonStrings(String(row.key_event_ids_json ?? "[]")), evidence: String(row.evidence ?? ""), source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
   }));
   const cycles: AtlasCycle[] = cycleRows.results.map((row) => ({
     id: String(row.cycle_id), number: row.cycle_number == null ? null : Number(row.cycle_number), startChapter: Number(row.start_chapter ?? 0), endChapter: row.end_chapter == null ? null : Number(row.end_chapter),
     visibleFrom: visible(row), worldStartMarker: String(row.world_start_marker ?? ""), worldEndMarker: String(row.world_end_marker ?? ""), resetTrigger: String(row.reset_trigger ?? ""),
-    status: String(row.status ?? ""), source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
+    status: String(row.status ?? ""), evidence: String(row.evidence ?? ""), source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
   }));
 
   const from: AtlasChapterBoundary = { chapterId: firstRow.chapter_id, ordinal: fromOrdinal, title: firstRow.title, reviewed: Number(firstRow.reviewed ?? 0) === 1 };
@@ -304,7 +310,7 @@ async function loadLegacyAtlasData(db: D1DatabaseLike, novelId: string, normaliz
   }));
   const events: AtlasEvent[] = eventRows.results.map((row) => ({
     id: String(row.event_id), chapterOrdinal: Number(row.chapter_ordinal), chapterId: String(row.chapter_id), kind: String(row.kind), label: String(row.label), summary: String(row.summary),
-    entityIds: safeJsonStrings(String(row.entity_ids_json ?? "[]")), source: sourceRef(novelId, String(row.chapter_id), String(row.source_label ?? "")), reviewed: Number(row.reviewed) === 1,
+    timelineOrder: "", locationIds: [], entityIds: safeJsonStrings(String(row.entity_ids_json ?? "[]")), causeEventIds: [], effectEventIds: [], certainty: "", evidence: "", source: sourceRef(novelId, String(row.chapter_id), String(row.source_label ?? "")), reviewed: Number(row.reviewed) === 1,
   }));
   return {
     novelId, version: Number(version.version), coverageNote: version.coverage_note, scope: normalized.scope ?? "through",

@@ -161,3 +161,60 @@ canon and continuity but should not share the reader-facing visual hierarchy.
    `story_time_from/to`? Reader knowledge and story chronology are not the same thing.
 4. Would a matrix be more useful than Cytoscape for dense faction-heavy novels?
 5. What citation granularity is needed next: chapter, paragraph/block anchor, or quoted excerpt?
+
+## Implemented metadata-v2 visualization pass — 2026-09-29
+
+The canonical metadata is now large and temporal enough to move beyond the original pilot views, but
+it is still too sparse in some dimensions to justify a generic graph-editor dependency in the reader
+bundle. The implementation therefore stays native React/SVG and maps each visualization to metadata
+that already exists in D1.
+
+### Reader-facing views now implemented
+
+1. **Focused network** remains the local relationship browser. It uses explicit stored edges only.
+   A chapter-range view may retain a relationship revealed before the range when its
+   `valid_from_chapter` / `valid_to_chapter` interval still overlaps the selected window.
+2. **Temporal storyline** now ranks characters by explicit relationship/event/scene/arc activity,
+   overlays regression-cycle bands, and distinguishes a relationship newly revealed in the selected
+   range from already-known relationship context entering at the left boundary.
+3. **Relationship matrix** renders explicit character-to-character relationships as a directed
+   row/column matrix. It is intentionally capped to the most-connected 16 visible characters so the
+   table remains inspectable. It does not infer relations from co-occurrence.
+4. **Entity chronology** combines temporal states, event participation, atomic facts, and explicit
+   relationships for one entity. States that were revealed before a selected range remain available
+   when their validity interval overlaps the range. Realm states also produce a dedicated
+   cultivation-progression strip.
+5. **Arc & regression-cycle navigator** renders publication-chapter spans for cycles and story arcs,
+   plus stored event markers. Publication chapter order and fictional world time remain separate;
+   the UI never invents an in-world date from chapter order.
+6. **Evidence provenance inspector** groups fact/event/state/scene/relationship evidence by source
+   chapter, exposes review status and source links, and surfaces the active snapshot's integrity
+   warning count. For range mode, provenance uses reveal/source chapters inside the range rather than
+   treating prior context as newly discovered evidence.
+
+### Metadata intentionally not promoted into a dedicated visualization yet
+
+- **Contradiction/history graph** remains deferred because the schema supports `supersedes` and
+  `contradicts`, but the current corpus does not yet have enough populated links to make a useful
+  reader graph.
+- **Item ownership timeline** remains deferred until ownership states/relationships have enough
+  temporal coverage.
+- **Faction metro map** remains deferred. Current explicit organization membership/hostility rows can
+  already be explored in the focused network, but the corpus is not yet dense enough to justify a
+  dedicated lane view without inferring membership.
+- **React Flow** remains an editorial-tool candidate, not a reader dependency. The review/provenance
+  workflow should first demonstrate a real need for direct node/edge authoring.
+- **Cytoscape.js** remains a reader-network candidate only if visible node/edge counts grow beyond the
+  native focused graph's readable range.
+
+### Temporal semantics used by the UI
+
+`reveal_chapter` and relationship/state validity are deliberately separate:
+
+- `reveal_chapter` controls whether a row may be serialized at all;
+- `valid_from_chapter` / `valid_to_chapter` determine whether an already-revealed relationship or
+  state is active in the selected chapter range;
+- Evidence/provenance views use the reveal/source point, while contextual timeline/network views may
+  carry an already-known active row into the selected range.
+
+This keeps range visualizations narratively useful without weakening spoiler enforcement.

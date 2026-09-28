@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import fs from "node:fs";
 import { DatabaseSync } from "node:sqlite";
-import { atlasFactsInWindow, atlasNeighborhood } from "../app/lib/atlas.ts";
+import { atlasActiveEdgesInWindow, atlasEdgesInWindow, atlasFactsInWindow, atlasNeighborhood } from "../app/lib/atlas.ts";
 import { listAtlasChapters, loadAtlasData, loadInlineLookup } from "../app/lib/atlas.server.ts";
 import { listChapters } from "../app/lib/repository.ts";
 
@@ -136,4 +136,21 @@ test("D1 FTS search returns stored excerpts and follows chapter revisions", asyn
   const revised = await listChapters(db, NOVEL, { q: "silverphoenix", pageSize: 20 });
   assert.equal(revised.total, 1);
   assert.equal(revised.items[0].id, 5);
+});
+
+
+test("range context keeps previously revealed relationships that remain valid", () => {
+  const atlas = {
+    scope: "range",
+    from: { ordinal: 10 },
+    through: { ordinal: 20 },
+    edges: [
+      { id: "rel:prior-active", visibleFrom: 4, validFrom: 5, validTo: 30 },
+      { id: "rel:revealed-inside", visibleFrom: 12, validFrom: 12, validTo: null },
+      { id: "rel:expired", visibleFrom: 2, validFrom: 2, validTo: 8 },
+      { id: "rel:future", visibleFrom: 24, validFrom: 24, validTo: null },
+    ],
+  };
+  assert.deepEqual(atlasEdgesInWindow(atlas).map((edge) => edge.id), ["rel:revealed-inside"]);
+  assert.deepEqual(atlasActiveEdgesInWindow(atlas).map((edge) => edge.id), ["rel:prior-active", "rel:revealed-inside"]);
 });

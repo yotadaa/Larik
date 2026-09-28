@@ -82,7 +82,7 @@ export default function Atlas({ loaderData }: Route.ComponentProps) {
     {!coverage ? <section className="atlas-gate"><ShareIcon className="atlas-gate-icon" aria-hidden="true" /><p className="eyebrow">Curated knowledge required</p><h2>No Story Atlas dataset has been published for this novel yet.</h2><p>The app deliberately fails closed instead of deriving relationships during a request.</p></section> : <>
       <section className="atlas-boundary-card">
         <ShieldCheckIcon aria-hidden="true" />
-        <div><p className="eyebrow">Visualization scope</p><h2>Choose how much of the story to reveal.</h2><p><strong>Through chapter</strong> is cumulative, <strong>Chapter range</strong> focuses on discoveries and events inside a window, and <strong>Entire story</strong> opens all imported metadata.</p><p className="field-help">Manually reviewed boundaries: {reviewedCount}. Imported chapter boundaries: {totalCount}. {coverage.coverageNote}</p></div>
+        <div><p className="eyebrow">Visualization scope</p><h2>Choose how much of the story to reveal.</h2><p><strong>Through chapter</strong> is cumulative, <strong>Chapter range</strong> centers discoveries/events on a window while retaining already-revealed relationships or states that are still valid there, and <strong>Entire story</strong> opens all imported metadata.</p><p className="field-help">Manually reviewed boundaries: {reviewedCount}. Imported chapter boundaries: {totalCount}. {coverage.coverageNote}</p></div>
         <AtlasBoundaryPicker novelId={novel.novelId} chapters={coverage.chapters} mode={selection?.mode ?? "through"} selectedFrom={selection?.from ?? ""} selectedThrough={selection?.through ?? ""} />
       </section>
 

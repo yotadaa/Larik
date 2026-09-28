@@ -42,3 +42,19 @@
 - Added reveal-safe alias handling plus atomic Facts, States, Scenes, Arcs and Cycles visualization.
 - Added metadata-v2 regression/contract tests and current-corpus validation.
 - Added research for the next feature: Metadata Review Queue / Provenance Editor.
+
+## Research-aligned Story Atlas visualization pass — 2026-09-29
+
+- Reworked the reader Atlas into six primary views: Network, Storyline, Matrix, Character, Arcs &
+  cycles, and Evidence.
+- Added `AtlasRelationshipMatrix`, `AtlasEntityChronology`, `AtlasArcNavigator`, and
+  `AtlasEvidenceView`.
+- Upgraded `AtlasStoryline` to use explicit relationship/event/scene/arc activity plus regression
+  cycle bands.
+- Added validity-aware range context for explicit relationships and entity states while preserving
+  `reveal_chapter` as the spoiler boundary.
+- Extended canonical D1 Atlas projection with cycle IDs, fact history references, event
+  timeline/causality/location/certainty/evidence, plus scene/arc/cycle evidence.
+- Kept React Flow and Cytoscape out of the reader bundle; they remain future editor/scale options as
+  documented in visualization research.
+- Expanded Atlas regression coverage for the richer metadata payload and temporal range semantics.

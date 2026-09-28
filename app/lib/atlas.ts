@@ -31,6 +31,7 @@ export interface AtlasEdge {
   visibleFrom: number;
   validFrom?: number | null;
   validTo?: number | null;
+  cycleId?: string;
   status?: string;
   certainty?: string;
   sourceRef: AtlasSource;
@@ -48,6 +49,9 @@ export interface AtlasFact {
   epistemicStatus: string;
   sourceType: string;
   sourceEntityId: string;
+  cycleId: string;
+  supersedes: string;
+  contradicts: string;
   evidence: string;
   source: AtlasSource;
   reviewed: boolean;
@@ -77,7 +81,13 @@ export interface AtlasEvent {
   kind: string;
   label: string;
   summary: string;
+  timelineOrder: string;
+  locationIds: string[];
   entityIds: string[];
+  causeEventIds: string[];
+  effectEventIds: string[];
+  certainty: string;
+  evidence: string;
   source: AtlasSource;
   reviewed: boolean;
 }
@@ -92,6 +102,7 @@ export interface AtlasScene {
   participantIds: string[];
   eventIds: string[];
   summary: string;
+  evidence: string;
   source: AtlasSource;
   reviewed: boolean;
 }
@@ -107,6 +118,7 @@ export interface AtlasArc {
   summary: string;
   keyEntityIds: string[];
   keyEventIds: string[];
+  evidence: string;
   source: AtlasSource;
   reviewed: boolean;
 }
@@ -120,6 +132,7 @@ export interface AtlasCycle {
   worldEndMarker: string;
   resetTrigger: string;
   status: string;
+  evidence: string;
   source: AtlasSource;
   reviewed: boolean;
 }
@@ -201,6 +214,24 @@ export function atlasFactRecordsInWindow(atlas: AtlasData) {
   return atlas.facts.filter((fact) => fact.visibleFrom >= atlas.from.ordinal && fact.visibleFrom <= atlas.through.ordinal);
 }
 
+export function atlasWindowBounds(atlas: AtlasData) {
+  return {
+    start: atlas.scope === "through" ? 1 : atlas.from.ordinal,
+    end: atlas.through.ordinal,
+  };
+}
+
+/** Relationships that are known by the selected boundary and whose validity overlaps the window. */
+export function atlasActiveEdgesInWindow(atlas: AtlasData) {
+  const { start, end } = atlasWindowBounds(atlas);
+  return atlas.edges.filter((edge) => {
+    if (edge.visibleFrom > end) return false;
+    const validFrom = edge.validFrom ?? edge.visibleFrom;
+    const validTo = edge.validTo ?? Number.POSITIVE_INFINITY;
+    return validFrom <= end && validTo >= start;
+  });
+}
+
 export function atlasEdgesInWindow(atlas: AtlasData) {
   if (atlas.scope === "through") return atlas.edges;
   return atlas.edges.filter((edge) => edge.visibleFrom >= atlas.from.ordinal && edge.visibleFrom <= atlas.through.ordinal);
@@ -209,7 +240,7 @@ export function atlasEdgesInWindow(atlas: AtlasData) {
 export function atlasNeighborhood(atlas: AtlasData, id: string, maxNodes = 25) {
   const selected = atlas.nodes.find((node) => node.id === id);
   if (!selected) return { nodes: [] as AtlasNode[], edges: [] as AtlasEdge[], omitted: 0, contextual: false };
-  const windowEdges = atlasEdgesInWindow(atlas);
+  const windowEdges = atlasActiveEdgesInWindow(atlas);
   const connected = new Set<string>();
   for (const edge of windowEdges) {
     if (edge.source === id) connected.add(edge.target);

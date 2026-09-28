@@ -33,40 +33,41 @@ function setup() {
       ('${NOVEL}', '${SNAPSHOT}', 'alias:hero-secret', 'Secret Hero Name', 'char:hero', 'identity', 1, 2, 'active', '002-two.md', 0);
 
     INSERT INTO metadata_relationships
-      (novel_id, snapshot_id, relationship_id, source_entity_id, relation_type, target_entity_id, valid_from_chapter, reveal_chapter, status, certainty, evidence, source_chapter_id, reviewed)
+      (novel_id, snapshot_id, relationship_id, source_entity_id, relation_type, target_entity_id, valid_from_chapter, reveal_chapter, cycle_id, status, certainty, evidence, source_chapter_id, reviewed)
     VALUES
-      ('${NOVEL}', '${SNAPSHOT}', 'rel:hero-order', 'char:hero', 'member_of', 'org:hidden-order', 2, 2, 'confirmed', 'high', 'Chapter two evidence', '002-two.md', 0);
+      ('${NOVEL}', '${SNAPSHOT}', 'rel:hero-order', 'char:hero', 'member_of', 'org:hidden-order', 2, 2, 'cycle:1', 'confirmed', 'high', 'Chapter two evidence', '002-two.md', 0);
 
     INSERT INTO metadata_facts
-      (novel_id, snapshot_id, fact_id, subject_id, predicate, object_value, value_type, reveal_chapter, epistemic_status, source_type, evidence, source_chapter_id, reviewed)
+      (novel_id, snapshot_id, fact_id, subject_id, predicate, object_value, value_type, reveal_chapter, cycle_id, epistemic_status, source_type, supersedes, contradicts, evidence, source_chapter_id, reviewed)
     VALUES
-      ('${NOVEL}', '${SNAPSHOT}', 'fact:hero-awake', 'char:hero', 'is_awake', 'true', 'boolean', 1, 'confirmed', 'narrator', 'Chapter one evidence', '001-one.md', 1),
-      ('${NOVEL}', '${SNAPSHOT}', 'fact:hero-member', 'char:hero', 'member_of', 'org:hidden-order', 'entity', 2, 'confirmed', 'narrator', 'Chapter two evidence', '002-two.md', 0);
+      ('${NOVEL}', '${SNAPSHOT}', 'fact:hero-awake', 'char:hero', 'is_awake', 'true', 'boolean', 1, 'cycle:1', 'confirmed', 'narrator', '', '', 'Chapter one evidence', '001-one.md', 1),
+      ('${NOVEL}', '${SNAPSHOT}', 'fact:hero-member', 'char:hero', 'member_of', 'org:hidden-order', 'entity', 2, 'cycle:1', 'confirmed', 'narrator', 'fact:hero-awake', 'fact:old-belief', 'Chapter two evidence', '002-two.md', 0);
 
     INSERT INTO metadata_states
-      (novel_id, snapshot_id, state_id, entity_id, property, value, value_type, valid_from_chapter, reveal_chapter, certainty, evidence, source_chapter_id, reviewed)
+      (novel_id, snapshot_id, state_id, entity_id, property, value, value_type, valid_from_chapter, valid_to_chapter, reveal_chapter, certainty, evidence, source_chapter_id, reviewed)
     VALUES
-      ('${NOVEL}', '${SNAPSHOT}', 'state:hero-place', 'char:hero', 'location', 'loc:hidden', 'entity', 2, 2, 'confirmed', 'Chapter two state', '002-two.md', 0);
+      ('${NOVEL}', '${SNAPSHOT}', 'state:hero-prior', 'char:hero', 'realm', 'Early Realm', 'text', 1, 2, 1, 'confirmed', 'Prior state still active in chapter two', '001-one.md', 0),
+      ('${NOVEL}', '${SNAPSHOT}', 'state:hero-place', 'char:hero', 'location', 'loc:hidden', 'entity', 2, NULL, 2, 'confirmed', 'Chapter two state', '002-two.md', 0);
 
     INSERT INTO metadata_events
-      (novel_id, snapshot_id, event_id, chapter_number, scene_id, scene_order, event_type, summary, participant_ids_json, source_chapter_id, reviewed)
+      (novel_id, snapshot_id, event_id, chapter_number, scene_id, scene_order, cycle_id, timeline_order, event_type, summary, location_ids_json, participant_ids_json, cause_event_ids_json, effect_event_ids_json, certainty, evidence, source_chapter_id, reviewed)
     VALUES
-      ('${NOVEL}', '${SNAPSHOT}', 'event:ch2-1', 2, 'scene:ch2-1', 1, 'discovery', 'The hidden order is revealed.', '["char:hero","org:hidden-order"]', '002-two.md', 0);
+      ('${NOVEL}', '${SNAPSHOT}', 'event:ch2-1', 2, 'scene:ch2-1', 1, 'cycle:1', 'cycle:1:002:01', 'discovery', 'The hidden order is revealed.', '["loc:hidden"]', '["char:hero","org:hidden-order"]', '["event:ch1-setup"]', '["event:ch2-followup"]', 'high', 'Event evidence', '002-two.md', 0);
 
     INSERT INTO metadata_scenes
-      (novel_id, snapshot_id, scene_id, chapter_number, scene_order, location_ids_json, pov_entity_id, participant_ids_json, event_ids_json, summary, source_chapter_id, reviewed)
+      (novel_id, snapshot_id, scene_id, chapter_number, scene_order, location_ids_json, pov_entity_id, participant_ids_json, event_ids_json, summary, evidence, source_chapter_id, reviewed)
     VALUES
-      ('${NOVEL}', '${SNAPSHOT}', 'scene:ch2-1', 2, 1, '["loc:hidden"]', 'char:hero', '["char:hero","org:hidden-order"]', '["event:ch2-1"]', 'A reveal scene.', '002-two.md', 0);
+      ('${NOVEL}', '${SNAPSHOT}', 'scene:ch2-1', 2, 1, '["loc:hidden"]', 'char:hero', '["char:hero","org:hidden-order"]', '["event:ch2-1"]', 'A reveal scene.', 'Scene evidence', '002-two.md', 0);
 
     INSERT INTO metadata_arcs
-      (novel_id, snapshot_id, arc_id, title, start_chapter, end_chapter, reveal_chapter, status, summary, key_entity_ids_json, key_event_ids_json, source_chapter_id, reviewed)
+      (novel_id, snapshot_id, arc_id, title, start_chapter, end_chapter, reveal_chapter, cycle_ids_json, status, summary, key_entity_ids_json, key_event_ids_json, evidence, source_chapter_id, reviewed)
     VALUES
-      ('${NOVEL}', '${SNAPSHOT}', 'arc:intro', 'Intro Arc', 1, 2, 1, 'active', 'Intro arc summary.', '["char:hero"]', '["event:ch2-1"]', '001-one.md', 1);
+      ('${NOVEL}', '${SNAPSHOT}', 'arc:intro', 'Intro Arc', 1, 2, 1, '["cycle:1"]', 'active', 'Intro arc summary.', '["char:hero"]', '["event:ch2-1"]', 'Arc evidence', '001-one.md', 1);
 
     INSERT INTO metadata_cycles
-      (novel_id, snapshot_id, cycle_id, cycle_number, start_chapter, end_chapter, reveal_chapter, status, source_chapter_id, reviewed)
+      (novel_id, snapshot_id, cycle_id, cycle_number, start_chapter, end_chapter, reveal_chapter, status, evidence, source_chapter_id, reviewed)
     VALUES
-      ('${NOVEL}', '${SNAPSHOT}', 'cycle:1', 1, 1, 2, 1, 'known', '001-one.md', 1);
+      ('${NOVEL}', '${SNAPSHOT}', 'cycle:1', 1, 1, 2, 1, 'known', 'Cycle evidence', '001-one.md', 1);
 
     INSERT INTO metadata_integrity_issues
       (novel_id, snapshot_id, issue_id, severity, code, source_file, record_id, detail)
@@ -125,6 +126,29 @@ test("metadata v2 explicit unlock exposes only rows at or before the selected re
   assert.ok(atlas.states.some((state) => state.id === "state:hero-place"));
   assert.ok(atlas.events.some((event) => event.id === "event:ch2-1"));
   assert.ok(atlas.scenes.some((scene) => scene.id === "scene:ch2-1"));
+  assert.equal(atlas.edges.find((edge) => edge.id === "rel:hero-order")?.cycleId, "cycle:1");
+  const fact = atlas.facts.find((row) => row.id === "fact:hero-member");
+  assert.equal(fact?.cycleId, "cycle:1");
+  assert.equal(fact?.supersedes, "fact:hero-awake");
+  assert.equal(fact?.contradicts, "fact:old-belief");
+  const event = atlas.events.find((row) => row.id === "event:ch2-1");
+  assert.equal(event?.timelineOrder, "cycle:1:002:01");
+  assert.deepEqual(event?.locationIds, ["loc:hidden"]);
+  assert.deepEqual(event?.causeEventIds, ["event:ch1-setup"]);
+  assert.deepEqual(event?.effectEventIds, ["event:ch2-followup"]);
+  assert.equal(event?.certainty, "high");
+  assert.equal(event?.evidence, "Event evidence");
+  assert.equal(atlas.scenes.find((scene) => scene.id === "scene:ch2-1")?.evidence, "Scene evidence");
+  assert.equal(atlas.arcs.find((arc) => arc.id === "arc:intro")?.evidence, "Arc evidence");
+  assert.equal(atlas.cycles.find((cycle) => cycle.id === "cycle:1")?.evidence, "Cycle evidence");
+});
+
+test("metadata v2 range includes a previously revealed state while its validity overlaps the selected window", async () => {
+  const { db } = setup();
+  const atlas = await loadAtlasData(db, NOVEL, { fromChapterId: "002-two.md", throughChapterId: "002-two.md", scope: "range", includeUnreviewed: true });
+  assert.ok(atlas.states.some((state) => state.id === "state:hero-prior"));
+  assert.ok(atlas.states.some((state) => state.id === "state:hero-place"));
+  assert.ok(atlas.states.every((state) => state.visibleFrom <= 2));
 });
 
 test("inline lookup remains reviewed-only on metadata v2 snapshots", async () => {

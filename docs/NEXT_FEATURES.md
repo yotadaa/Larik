@@ -16,7 +16,7 @@ is in `research/VISUALIZATION_RESEARCH_2026.md`.
 - [x] D1-enforced chapter visibility for entities, relationships and events.
 - [x] Inline chapter-safe lookup and source links.
 - [x] D1 FTS5 chapter search with a trigger that follows appended chapter revisions.
-- [x] Reader visualizations: focused network, storyline, fact ledger and event timeline.
+- [x] Reader visualizations: focused network, temporal storyline, relationship matrix, entity chronology/cultivation progression, arc/cycle navigator, and evidence provenance.
 - [x] All dropdowns in the application use the custom listbox component; no raw `<select>` remains.
 
 ## Important identity boundary still open

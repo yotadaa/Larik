@@ -26,10 +26,10 @@ inconsistencies.
 - `npm run db:metadata:validate` — PASS; parsed all current metadata and produced the canonical/legacy row counts without D1 writes.
 - `npm run test:metadata` — **2/2 passed**; verifies current corpus counts/validation and inserts every canonical parsed row into a SQLite database containing the content schema plus migrations `0001`–`0004`.
 - Content schema + migrations `0001`, `0002`, `0003`, `0004` — PASS in SQLite.
-- `npm run test:atlas` — **12/12 passed**, including 4 metadata-v2 snapshot/spoiler tests.
-- `npm run test:reader-features` — **42/42 passed**.
+- `npm run test:atlas` — **14/14 passed**, including metadata-v2 snapshot/spoiler tests plus temporal relationship/state range-context checks.
+- `npm run test:reader-features` — **44/44 passed**.
 - Metadata-v2 tests prove that future aliases/hidden identities, unreviewed facts, states, events, scenes and relationships do not serialize in safe mode; explicit unlock exposes only data at/before the selected boundary.
-- `npm run test:syntax` — PASS across 44 TypeScript/TSX modules.
+- `npm run test:syntax` — PASS across 48 TypeScript/TSX modules.
 - `npm run test:core-types` — PASS.
 - The D1 migration runner continues to pass its existing remote-migration regression tests and now prefers `database/migrations/` with a root-folder compatibility fallback.
 
@@ -73,3 +73,46 @@ The implementation keeps the established no-runtime-inference rule:
 - D1 applies spoiler/review filters before JSON serialization;
 - browser code handles visualization/layout;
 - the Worker does not scan the whole Markdown corpus or infer relationships from prose per request.
+
+## Research-aligned visualization pass — 2026-09-29
+
+Implemented against the canonical metadata-v2 tables without adding request-time story inference or
+new graph-library dependencies:
+
+- relationship matrix over explicit character relationships;
+- enhanced temporal storyline with regression-cycle bands and prior-known relationship context;
+- entity chronology with temporal states, events, facts and relationships;
+- cultivation-progression strip driven only by `property = realm` state rows;
+- arc/regression-cycle navigator;
+- chapter-grouped evidence provenance inspector;
+- richer canonical Atlas payload fields for cycle IDs, fact history links, event chronology/causality,
+  locations, certainty and evidence;
+- validity-aware relationship/state range semantics while keeping reveal filtering server-side.
+
+Validation after the visualization implementation:
+
+- `npm run test:atlas` — **14/14 passed**. Tests now include canonical metadata field projection,
+  relationship range context, state validity overlap, and spoiler-safe alias/fact/state/event/scene
+  filtering.
+- No React Flow/Cytoscape dependency was added to the reader bundle; the implementation follows the
+  research decision to prefer native UI at the current metadata scale.
+
+### Remaining release-gate notes
+
+- `npm run test:reader-features` — **44/44 passed** after the final temporal-range fixes.
+- `npm run test:metadata` — **2/2 passed**.
+- `npm run test:syntax` — **PASS (48 TypeScript/TSX modules)**.
+- `npm run test:core-types` — **PASS**.
+- Native browser `<select>` count remains **0**.
+- The aggregate `npm test` still stops in `tests/schema_consistency.py`. This is a pre-existing
+  baseline failure in the uploaded `app-4.zip`: the old test asserts that complete legacy SQL file
+  contents are embedded verbatim inside `docs/DATABASE.md`, while the project had already moved the
+  canonical database workspace/documentation to `database/`. The same test fails unchanged against
+  the untouched uploaded archive, so this visualization patch does not modify that unrelated test.
+- `npm run build` still cannot execute in the extracted archive because the local `react-router`
+  executable/dependencies are not installed (`react-router: not found`). Run `npm ci` on Node 22.22+
+  and repeat the build before deployment.
+- `npm run test:security` also has a pre-existing baseline failure in `app/routes/novel.tsx`: the uploaded
+  archive already contains the decorative Unicode arrow `↗`, which violates the repository's own
+  Heroicons-only static check. The new/changed Atlas source files pass that same glyph/unsafe-rendering
+  subset check and introduce no decorative arrow/star glyphs.
