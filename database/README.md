@@ -10,7 +10,8 @@ database/
 │   ├── 0001_reader_accounts.sql
 │   ├── 0002_verified_identity_progress_knowledge.sql
 │   ├── 0003_atlas_full_story_ranges.sql
-│   └── 0004_markdown_metadata_v2.sql
+│   ├── 0004_markdown_metadata_v2.sql
+│   └── 0005_characteristic_profile_boundaries.sql
 ├── schema/
 │   ├── content-schema.sql
 │   └── schema-contract.json
@@ -60,9 +61,15 @@ Each canonical row is attached to a `snapshot_id` derived from the source corpus
 
 Large chapter bodies are uploaded to `metadata_novel_content_stage` first. Only after staging succeeds does one D1 batch replace the reader-facing `novel-content` rows and clear the staging rows.
 
+## Characteristic profile boundaries
+
+`0005_characteristic_profile_boundaries.sql` adds `profile_through_chapter` to `metadata_characteristics`. Detailed profile prose is cumulative and is therefore released only at its complete `characteristic_as_of_chN` boundary; registry-only rows can become visible at first-seen. This prevents a later biography snapshot from leaking through an entity that was introduced much earlier.
+
 ## Source of truth
 
-For `id/a-regressors-tale-of-cultivation`:
+The seeder is **multi-series by default**. With no positional series arguments it scans every direct child of `id/` that contains `NOVEL.md`, `chapter-index.md`, and `chapters/`, validates all discovered series first, then synchronizes them one by one. Optional metadata Markdown files may be added progressively; a missing optional table file contributes zero rows rather than forcing a hard-coded novel path.
+
+For the currently attached `id/a-regressors-tale-of-cultivation` example:
 
 - actual files under `chapters/` are the reader-content truth;
 - `chapter-index.md` supplies translation/review/planning status;

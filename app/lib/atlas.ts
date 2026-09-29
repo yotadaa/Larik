@@ -136,6 +136,24 @@ export interface AtlasCycle {
   source: AtlasSource;
   reviewed: boolean;
 }
+export interface AtlasCharacteristic {
+  entityId: string;
+  profileKind: "detailed" | "registry" | string;
+  entityType: string;
+  canonicalName: string;
+  firstSeen: number | null;
+  /** Cumulative profile prose is safe only at/after this chapter boundary. */
+  profileThrough: number | null;
+  physicalForm: string;
+  temperamentOrProperties: string;
+  abilitiesOrRole: string;
+  relationshipsStatus: string;
+  characteristicAsOf: string;
+  scope: string;
+  evidence: string;
+  reviewed: boolean;
+}
+
 export interface AtlasChapterBoundary {
   chapterId: string;
   ordinal: number;
@@ -160,6 +178,7 @@ export interface AtlasData {
   scenes: AtlasScene[];
   arcs: AtlasArc[];
   cycles: AtlasCycle[];
+  characteristics: AtlasCharacteristic[];
   integrityIssueCount: number;
 }
 
@@ -263,6 +282,16 @@ export function atlasNeighborhood(atlas: AtlasData, id: string, maxNodes = 25) {
     omitted: Math.max(0, neighbors.length - nodes.length + 1),
     contextual,
   };
+}
+
+export interface ChapterContextData {
+  chapter: AtlasChapterBoundary;
+  entities: AtlasNode[];
+  relationships: AtlasEdge[];
+  facts: AtlasFact[];
+  states: AtlasState[];
+  events: AtlasEvent[];
+  scenes: AtlasScene[];
 }
 
 export interface InlineLookupData {

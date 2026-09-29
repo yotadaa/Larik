@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { atlasActiveEdgesInWindow, atlasWindowBounds, type AtlasData, type AtlasNode } from "~/lib/atlas";
+import { MetadataMarkdown } from "./MetadataMarkdown";
 
 function rankedCharacters(atlas: AtlasData, max: number) {
   const { start, end } = atlasWindowBounds(atlas);
@@ -68,6 +69,6 @@ export function AtlasStoryline({ atlas }: { atlas: AtlasData }) {
       </svg>
     </div>
     <div className="atlas-storyline__legend"><span><i className="is-reviewed" />Reviewed knowledge</span><span><i className="is-metadata" />Unreviewed metadata</span><span><i className="is-context" />Relationship known before range</span></div>
-    <div className="atlas-storyline__sources">{atlas.events.slice(0, 24).map((event) => <Link key={event.id} to={event.source.href}><strong>Ch. {event.chapterOrdinal} · {event.reviewed ? "reviewed" : "unreviewed"}</strong><span>{event.summary || event.label}</span></Link>)}{atlas.events.length > 24 ? <div className="atlas-storyline__more">+ {atlas.events.length - 24} more event sources are available in Evidence.</div> : null}</div>
+    <div className="atlas-storyline__sources">{atlas.events.slice(0, 24).map((event) => <Link key={event.id} to={event.source.href}><strong>Ch. {event.chapterOrdinal} · {event.reviewed ? "reviewed" : "unreviewed"}</strong><MetadataMarkdown source={event.summary || event.label} novelId={atlas.novelId} variant="inline" /></Link>)}{atlas.events.length > 24 ? <div className="atlas-storyline__more">+ {atlas.events.length - 24} more event sources are available in Evidence.</div> : null}</div>
   </section>;
 }

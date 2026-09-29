@@ -4,6 +4,7 @@ import {
   atlasKindFromMetadata,
   type AtlasArc,
   type AtlasChapterBoundary,
+  type AtlasCharacteristic,
   type AtlasCycle,
   type AtlasData,
   type AtlasEdge,
@@ -136,7 +137,7 @@ async function loadCanonicalAtlasData(db: D1DatabaseLike, novelId: string, norma
   const windowStart = normalized.scope === "through" ? 1 : fromOrdinal;
   const reviewClause = includeUnreviewed ? "" : " AND reviewed = 1";
 
-  const [nodeRows, aliasRows, edgeRows, factRows, stateRows, eventRows, sceneRows, arcRows, cycleRows, issueRows] = await Promise.all([
+  const [nodeRows, aliasRows, edgeRows, factRows, stateRows, eventRows, sceneRows, arcRows, cycleRows, characteristicRows, issueRows] = await Promise.all([
     db.prepare(`SELECT entity_id, entity_type, canonical_name, description, reveal_chapter, status, source_chapter_id, reviewed
       FROM metadata_entities WHERE novel_id = ? AND snapshot_id = ? AND COALESCE(reveal_chapter, first_seen_chapter, 0) <= ?${reviewClause}
       ORDER BY COALESCE(reveal_chapter, first_seen_chapter, 0), entity_type, canonical_name COLLATE NOCASE`)
@@ -186,6 +187,15 @@ async function loadCanonicalAtlasData(db: D1DatabaseLike, novelId: string, norma
         reset_trigger, status, evidence, source_chapter_id, reviewed FROM metadata_cycles
       WHERE novel_id = ? AND snapshot_id = ? AND start_chapter <= ? AND COALESCE(end_chapter, ?) >= ? AND COALESCE(reveal_chapter, start_chapter, 0) <= ?${reviewClause}
       ORDER BY COALESCE(cycle_number, 9999), start_chapter`).bind(novelId, sync.source_hash, dataEnd, dataEnd, windowStart, dataEnd).all<Record<string, unknown>>(),
+    db.prepare(`SELECT entity_id, profile_kind, entity_type, canonical_name, first_seen_chapter, profile_through_chapter,
+        physical_form, temperament_or_properties, abilities_or_role, relationships_status, characteristic_as_of, scope, evidence
+      FROM metadata_characteristics
+      WHERE novel_id = ? AND snapshot_id = ? AND (
+        (profile_kind = 'detailed' AND COALESCE(profile_through_chapter, 2147483647) <= ?) OR
+        (profile_kind <> 'detailed' AND COALESCE(first_seen_chapter, 0) <= ?)
+      )
+      ORDER BY CASE WHEN profile_kind = 'detailed' THEN 0 ELSE 1 END, canonical_name COLLATE NOCASE`)
+      .bind(novelId, sync.source_hash, dataEnd, dataEnd).all<Record<string, unknown>>(),
     db.prepare(`SELECT COUNT(*) AS count FROM metadata_integrity_issues WHERE novel_id = ? AND snapshot_id = ?`).bind(novelId, sync.source_hash).all<Record<string, unknown>>(),
   ]);
 
@@ -250,6 +260,17 @@ async function loadCanonicalAtlasData(db: D1DatabaseLike, novelId: string, norma
     visibleFrom: visible(row), worldStartMarker: String(row.world_start_marker ?? ""), worldEndMarker: String(row.world_end_marker ?? ""), resetTrigger: String(row.reset_trigger ?? ""),
     status: String(row.status ?? ""), evidence: String(row.evidence ?? ""), source: sourceRef(novelId, String(row.source_chapter_id ?? "")), reviewed: Number(row.reviewed) === 1,
   }));
+  const characteristics: AtlasCharacteristic[] = characteristicRows.results.map((row) => {
+    const firstSeen = row.first_seen_chapter == null ? null : Number(row.first_seen_chapter);
+    const profileThrough = row.profile_through_chapter == null ? firstSeen : Number(row.profile_through_chapter);
+    return {
+      entityId: String(row.entity_id), profileKind: String(row.profile_kind ?? "registry"), entityType: String(row.entity_type ?? ""),
+      canonicalName: String(row.canonical_name ?? ""), firstSeen, profileThrough, physicalForm: String(row.physical_form ?? ""),
+      temperamentOrProperties: String(row.temperament_or_properties ?? ""), abilitiesOrRole: String(row.abilities_or_role ?? ""),
+      relationshipsStatus: String(row.relationships_status ?? ""), characteristicAsOf: String(row.characteristic_as_of ?? ""),
+      scope: String(row.scope ?? ""), evidence: String(row.evidence ?? ""), reviewed: (profileThrough ?? firstSeen ?? 0) <= reviewedOrdinal,
+    };
+  });
 
   const from: AtlasChapterBoundary = { chapterId: firstRow.chapter_id, ordinal: fromOrdinal, title: firstRow.title, reviewed: Number(firstRow.reviewed ?? 0) === 1 };
   const through: AtlasChapterBoundary = { chapterId: throughRow.chapter_id, ordinal: requestedOrdinal, title: throughRow.title, reviewed: Number(throughRow.reviewed ?? 0) === 1 };
@@ -257,7 +278,7 @@ async function loadCanonicalAtlasData(db: D1DatabaseLike, novelId: string, norma
   return {
     novelId, version: Number(sync.version), coverageNote: sync.coverage_note, scope: normalized.scope ?? "through", from, through, reviewedThrough,
     coverageLimited: requestedOrdinal > reviewedOrdinal, unreviewedUnlocked: includeUnreviewed && requestedOrdinal > reviewedOrdinal,
-    nodes, edges, facts, states, events, scenes, arcs, cycles,
+    nodes, edges, facts, states, events, scenes, arcs, cycles, characteristics,
     integrityIssueCount: Number(issueRows.results[0]?.count ?? sync.issue_count ?? 0),
   };
 }
@@ -318,7 +339,7 @@ async function loadLegacyAtlasData(db: D1DatabaseLike, novelId: string, normaliz
     through: { chapterId: throughRow.chapter_id, ordinal: requestedOrdinal, title: throughRow.title, reviewed: Number(throughRow.reviewed ?? 0) === 1 },
     reviewedThrough: { chapterId: reviewedThroughRow.chapter_id, ordinal: reviewedOrdinal, title: reviewedThroughRow.title, reviewed: true },
     coverageLimited: requestedOrdinal > reviewedOrdinal, unreviewedUnlocked: includeUnreviewed && requestedOrdinal > reviewedOrdinal,
-    nodes, edges, events, facts: [], states: [], scenes: [], arcs: [], cycles: [], integrityIssueCount: 0,
+    nodes, edges, events, facts: [], states: [], scenes: [], arcs: [], cycles: [], characteristics: [], integrityIssueCount: 0,
   };
 }
 
@@ -335,12 +356,64 @@ export async function loadAtlasData(db: D1DatabaseLike, novelId: string, options
 export async function loadInlineLookup(db: D1DatabaseLike, novelId: string, chapterId: string) {
   const atlas = await loadAtlasData(db, novelId, { throughChapterId: chapterId, scope: "through", includeUnreviewed: false });
   if (!atlas) return null;
+  const detailedProfiles = new Map(
+    atlas.characteristics
+      .filter((profile) => profile.profileKind === "detailed")
+      .map((profile) => [profile.entityId, profile]),
+  );
+  const entries = atlas.nodes.map((node) => {
+    const profile = detailedProfiles.get(node.id);
+    if (!profile) return node;
+    const safeSummary = profile.abilitiesOrRole || profile.temperamentOrProperties || profile.characteristicAsOf;
+    return safeSummary ? { ...node, description: safeSummary } : node;
+  });
   return {
     version: atlas.version,
     through: atlas.through,
     reviewedThrough: atlas.reviewedThrough,
     coverageLimited: atlas.coverageLimited,
     coverageNote: atlas.coverageNote,
-    entries: atlas.nodes,
+    entries,
+  };
+}
+
+/**
+ * Optional post-reading context for one reviewed chapter. This intentionally returns
+ * only records revealed in that chapter; prior knowledge remains in Inline Lookup/Atlas.
+ * The UI keeps this collapsed because summaries, scene participants and state changes
+ * can spoil the chapter the reader is currently reading.
+ */
+export async function loadChapterContext(db: D1DatabaseLike, novelId: string, chapterId: string) {
+  const atlas = await loadAtlasData(db, novelId, {
+    fromChapterId: chapterId,
+    throughChapterId: chapterId,
+    scope: "range",
+    includeUnreviewed: false,
+  });
+  if (!atlas || atlas.reviewedThrough.ordinal < atlas.through.ordinal) return null;
+  const ordinal = atlas.through.ordinal;
+  const relationships = atlas.edges.filter((edge) => edge.visibleFrom === ordinal);
+  const facts = atlas.facts.filter((fact) => fact.visibleFrom === ordinal);
+  const states = atlas.states.filter((state) => state.visibleFrom === ordinal);
+  const events = atlas.events.filter((event) => event.chapterOrdinal === ordinal);
+  const scenes = atlas.scenes.filter((scene) => scene.chapterOrdinal === ordinal);
+  const entityIds = new Set<string>();
+  for (const edge of relationships) { entityIds.add(edge.source); entityIds.add(edge.target); }
+  for (const fact of facts) entityIds.add(fact.subjectId);
+  for (const state of states) entityIds.add(state.entityId);
+  for (const event of events) for (const id of event.entityIds) entityIds.add(id);
+  for (const scene of scenes) {
+    if (scene.povEntityId) entityIds.add(scene.povEntityId);
+    for (const id of scene.participantIds) entityIds.add(id);
+    for (const id of scene.locationIds) entityIds.add(id);
+  }
+  return {
+    chapter: atlas.through,
+    entities: atlas.nodes.filter((node) => entityIds.has(node.id)),
+    relationships,
+    facts,
+    states,
+    events,
+    scenes,
   };
 }

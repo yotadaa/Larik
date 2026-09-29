@@ -4,6 +4,7 @@ import {
   ShareIcon,
   BookOpenIcon,
   MapPinIcon,
+  IdentificationIcon,
   ShieldCheckIcon,
   TagIcon,
   UsersIcon,
@@ -24,10 +25,11 @@ export function ReferenceNav({ novelId, active, counts }: { novelId: string; act
   return (
     <nav className="reference-nav" aria-label="Story reference">
       <Link className={active === "atlas" ? "is-active" : ""} to={`/novels/${encodeURIComponent(novelId)}/atlas`} aria-current={active === "atlas" ? "page" : undefined}><ShareIcon className="reference-nav__icon" aria-hidden="true" /><span>Visual atlas</span></Link>
+      <Link className={active === "profiles" ? "is-active" : ""} to={`/novels/${encodeURIComponent(novelId)}/atlas?view=profiles`} aria-current={active === "profiles" ? "page" : undefined}><IdentificationIcon className="reference-nav__icon" aria-hidden="true" /><span>Entity profiles</span></Link>
       {items.map(([slug, label, Icon]) => (
         <Link key={slug} className={active === slug ? "is-active" : ""} to={hrefReference(novelId, slug)}>
           <Icon className="reference-nav__icon" aria-hidden="true" />
-          <span>{label}</span>
+          <span>{slug === "qa" ? "Editorial QA" : label}</span>
           {counts ? <small>{counts[slug]}</small> : null}
         </Link>
       ))}

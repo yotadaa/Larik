@@ -15,12 +15,14 @@ export function AtlasBoundaryPicker({
   mode,
   selectedFrom,
   selectedThrough,
+  view,
 }: {
   novelId: string;
   chapters: AtlasChapterBoundary[];
   mode: AtlasScope;
   selectedFrom: string;
   selectedThrough: string;
+  view?: string;
 }) {
   const navigate = useNavigate();
   const first = chapters[0]?.chapterId ?? "";
@@ -32,10 +34,13 @@ export function AtlasBoundaryPicker({
 
   const go = (nextMode: AtlasScope, from = currentFrom, through = currentThrough) => {
     if (nextMode === "all") {
-      navigate(`${base}?mode=all`);
+      const params = new URLSearchParams({ mode: "all" });
+      if (view) params.set("view", view);
+      navigate(`${base}?${params.toString()}`);
       return;
     }
     const params = new URLSearchParams({ mode: nextMode, through });
+    if (view) params.set("view", view);
     if (nextMode === "range") params.set("from", from);
     navigate(`${base}?${params.toString()}`);
   };

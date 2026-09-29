@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 import { atlasActiveEdgesInWindow, type AtlasData, type AtlasEdge, type AtlasNode } from "~/lib/atlas";
+import { MetadataMarkdown } from "./MetadataMarkdown";
 
 function pairKey(source: string, target: string) {
   return `${source}\u0000${target}`;
@@ -70,7 +71,7 @@ export function AtlasRelationshipMatrix({ atlas }: { atlas: AtlasData }) {
         <strong>{edge.label || edge.relation}</strong>
         <span>Reveal Ch. {edge.visibleFrom}{edge.validFrom != null ? ` · valid from Ch. ${edge.validFrom}` : ""}{edge.validTo != null ? `–${edge.validTo}` : ""}{edge.cycleId ? ` · ${edge.cycleId}` : ""}</span>
         <span>{edge.certainty || edge.status || (edge.reviewed ? "reviewed" : "metadata")}</span>
-        {edge.evidence ? <blockquote>{edge.evidence}</blockquote> : null}
+        {edge.evidence ? <MetadataMarkdown source={edge.evidence} novelId={atlas.novelId} variant="compact" className="metadata-markdown--evidence" /> : null}
         {edge.sourceRef.href ? <Link to={edge.sourceRef.href}>Review source</Link> : null}
       </article>)}</div>
     </div> : null}

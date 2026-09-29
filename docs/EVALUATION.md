@@ -12,24 +12,24 @@ pass requested for the D1 synchronizer.
 Current corpus findings:
 
 - 1,442 Markdown files in the extracted application were readable;
-- 23 root novel Markdown documents participate in the metadata/reference snapshot;
-- 182 actual chapter files;
-- 181 recap files;
+- 24 root novel Markdown documents participate in the metadata/reference snapshot;
+- 200 actual chapter files;
+- 200 recap files;
 - 200 chapter-index rows;
 - reviewed metadata through chapter 163.
 
-The current parser reports 74 warnings and zero errors. It does not guess corrections for source
+The current parser reports 60 warnings and zero errors. It does not guess corrections for source
 inconsistencies.
 
 ## Executed successfully
 
 - `npm run db:metadata:validate` — PASS; parsed all current metadata and produced the canonical/legacy row counts without D1 writes.
-- `npm run test:metadata` — **2/2 passed**; verifies current corpus counts/validation and inserts every canonical parsed row into a SQLite database containing the content schema plus migrations `0001`–`0004`.
-- Content schema + migrations `0001`, `0002`, `0003`, `0004` — PASS in SQLite.
+- `npm run test:metadata` — **2/2 passed**; verifies current corpus counts/validation and inserts every canonical parsed row into a SQLite database containing the content schema plus migrations `0001`–`0005`.
+- Content schema + migrations `0001`, `0002`, `0003`, `0004`, `0005` — PASS in SQLite.
 - `npm run test:atlas` — **14/14 passed**, including metadata-v2 snapshot/spoiler tests plus temporal relationship/state range-context checks.
-- `npm run test:reader-features` — **44/44 passed**.
+- `npm run test:reader-features` — **48/48 passed**.
 - Metadata-v2 tests prove that future aliases/hidden identities, unreviewed facts, states, events, scenes and relationships do not serialize in safe mode; explicit unlock exposes only data at/before the selected boundary.
-- `npm run test:syntax` — PASS across 48 TypeScript/TSX modules.
+- `npm run test:syntax` — PASS across 53 TypeScript/TSX modules.
 - `npm run test:core-types` — PASS.
 - The D1 migration runner continues to pass its existing remote-migration regression tests and now prefers `database/migrations/` with a root-folder compatibility fallback.
 
@@ -39,7 +39,7 @@ Canonical row counts for the current corpus:
 
 | Table | Rows |
 | --- | ---: |
-| `metadata_documents` | 23 |
+| `metadata_documents` | 24 |
 | `metadata_chapters` | 200 |
 | `metadata_entity_history` | 141 |
 | `metadata_entities` | 132 |
@@ -49,16 +49,16 @@ Canonical row counts for the current corpus:
 | `metadata_events` | 50 |
 | `metadata_states` | 28 |
 | `metadata_scenes` | 22 |
-| `metadata_arcs` | 15 |
+| `metadata_arcs` | 16 |
 | `metadata_cycles` | 15 |
 | `metadata_characteristics` | 64 |
-| `metadata_glossary` | 411 |
-| `metadata_memory_entries` | 444 |
-| `metadata_integrity_issues` | 74 |
+| `metadata_glossary` | 424 |
+| `metadata_memory_entries` | 535 |
+| `metadata_integrity_issues` | 60 |
 
-Legacy compatibility snapshots are also regenerated from current Markdown: 182 chapter rows, 411
-glossary rows, 44 character-memory rows, 76 location rows, 124 continuity rows, 181 terminology rows
-and 19 QA rows.
+Legacy compatibility snapshots are also regenerated from current Markdown: 200 chapter rows, 424
+glossary rows, 80 character-memory rows, 76 location rows, 124 continuity rows, 235 terminology rows
+and 20 QA rows.
 
 ## Build gate
 
@@ -99,23 +99,14 @@ Validation after the visualization implementation:
 
 ### Remaining release-gate notes
 
-- `npm run test:reader-features` — **44/44 passed** after the final temporal-range fixes.
+- `npm run test:reader-features` — **48/48 passed**.
 - `npm run test:metadata` — **2/2 passed**.
-- `npm run test:syntax` — **PASS (48 TypeScript/TSX modules)**.
+- `npm run test:syntax` — **PASS (53 TypeScript/TSX modules)**.
 - `npm run test:core-types` — **PASS**.
 - Native browser `<select>` count remains **0**.
-- The aggregate `npm test` still stops in `tests/schema_consistency.py`. This is a pre-existing
-  baseline failure in the uploaded `app-4.zip`: the old test asserts that complete legacy SQL file
-  contents are embedded verbatim inside `docs/DATABASE.md`, while the project had already moved the
-  canonical database workspace/documentation to `database/`. The same test fails unchanged against
-  the untouched uploaded archive, so this visualization patch does not modify that unrelated test.
-- `npm run build` still cannot execute in the extracted archive because the local `react-router`
-  executable/dependencies are not installed (`react-router: not found`). Run `npm ci` on Node 22.22+
-  and repeat the build before deployment.
-- `npm run test:security` also has a pre-existing baseline failure in `app/routes/novel.tsx`: the uploaded
-  archive already contains the decorative Unicode arrow `↗`, which violates the repository's own
-  Heroicons-only static check. The new/changed Atlas source files pass that same glyph/unsafe-rendering
-  subset check and introduce no decorative arrow/star glyphs.
+- Aggregate `npm test` — **PASS** after updating the schema-consistency gate to apply the canonical base schema plus migrations `0001`–`0005`.
+- `npm run test:security` — **PASS** after replacing the remaining decorative arrow glyph with Heroicons and updating the stale Atlas assertion to the current server-side reveal gate.
+- `npm run build` cannot execute in this extracted archive because the local `react-router` executable/dependencies are not installed (`react-router: not found`). Run `npm ci` on Node 22.22+ and repeat the build before deployment.
 
 ## Production login / Cloudflare Worker fix — 2026-09-29
 
@@ -159,3 +150,70 @@ access stalled, so the full React Router dependency-aware production build must 
 `npm run test:security` continues to fail on the same pre-existing decorative Unicode glyph in
 `app/routes/novel.tsx`; the untouched uploaded archive fails identically, so it is unrelated to the
 authentication patch.
+
+## Metadata-aware reader experience / characteristics — 2026-09-29
+
+Source audit from the attached workspace:
+
+- 24 root metadata/reference Markdown files;
+- 200 actual chapters;
+- 200 actual recaps;
+- 64 characteristic/profile rows;
+- 132 canonical entities;
+- 28 explicit relationships;
+- 37 facts;
+- 50 events;
+- 28 states;
+- 22 scenes;
+- 16 arcs;
+- 15 regression cycles;
+- 60 source-integrity warnings and no parser errors.
+
+Validation after implementation:
+
+- `npm test` — PASS (schema, repository, routes, features, Atlas, security/icon checks);
+- `npm run test:reader-features` — 48/48 PASS;
+- `npm run test:atlas` — 14/14 PASS;
+- `npm run test:metadata` — 2/2 PASS;
+- `npm run test:d1-migrations` — 23/23 PASS;
+- `npm run test:syntax` — PASS (53 TypeScript/TSX modules);
+- `npm run test:core-types` — PASS;
+- native `<select>` elements — 0.
+
+`npm run build` could not execute in this sandbox because the uploaded archive does not contain installed project dependencies and the `react-router` executable is unavailable (`react-router: not found`). Run `npm ci` with the project-required Node version and then `npm run build` before deployment.
+
+The 60 metadata warnings are source-quality findings, not silently repaired application data. They include duplicate registry history, unresolved wiki links, missing scene/event references, and currently unknown canonical IDs. The reader continues to fail closed around spoiler/review boundaries rather than guessing replacements.
+
+## Multi-series seed + metadata Markdown renderer — 2026-09-29
+
+The project-facing seeder no longer assumes `id/a-regressors-tale-of-cultivation`. With no positional
+series arguments it scans every compatible direct child of `id/`, validates all snapshots before the
+first remote write, and then applies each series independently. Unit coverage creates two synthetic
+series and confirms one invocation processes both. The current attached workspace contains one actual
+series, so `npm run db:seed:preview` reports one discovered series and completes with 200 chapters,
+1,794 canonical metadata rows, 60 warnings, and zero validation errors.
+
+Metadata text is now rendered through a dedicated safe Markdown component everywhere reader-facing
+metadata prose is displayed. GFM emphasis/lists/code/tables render normally; known Obsidian wikilinks
+route to internal chapter/reference/Atlas destinations; unknown wikilinks degrade to readable text.
+Raw HTML support is intentionally not enabled.
+
+Validation after the combined patch:
+
+- `npm test` — PASS;
+- `npm run test:reader-features` — **52/52 passed** (includes metadata-Markdown tests);
+- `npm run test:d1-migrations` — **23/23 passed**;
+- `npm run test:metadata` — **4/4 passed**, including two-series validation;
+- `npm run test:metadata-markdown` — **4/4 passed**;
+- `npm run db:seed:preview` — PASS, read-only, auto-discovery confirmed;
+- `npm run test:syntax` / core type gate remain required after final packaging.
+
+Final gate after packaging changes:
+
+- `npm run test:syntax` — **PASS (55 modules)**;
+- `npm run test:core-types` — **PASS**, including the metadata wikilink normalizer;
+- `npm run test:metadata` — **4/4 passed**;
+- aggregate `npm test` — **PASS**;
+- `npm run build` — cannot run in this extracted archive because `node_modules` is absent and the
+  `react-router` executable is therefore unavailable. Run `npm ci` on Node 22.22+ before production
+  build/deploy.

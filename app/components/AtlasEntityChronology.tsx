@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 import { CustomSelect } from "./CustomSelect";
+import { MetadataMarkdown } from "./MetadataMarkdown";
 import { atlasActiveEdgesInWindow, atlasWindowBounds, type AtlasData, type AtlasNode } from "~/lib/atlas";
 
 type Activity = {
@@ -101,6 +102,6 @@ export function AtlasEntityChronology({ atlas }: { atlas: AtlasData }) {
       </svg>
     </div>
     {states.some((state) => state.property === "realm") ? <div className="atlas-progression-strip"><span className="eyebrow">Cultivation progression</span>{states.filter((state) => state.property === "realm").sort((a, b) => a.visibleFrom - b.visibleFrom).map((state) => <div key={state.id}><strong>Ch. {state.visibleFrom}</strong><span>{state.value}</span></div>)}</div> : null}
-    <div className="atlas-chronology__feed">{activities.map((item) => <article key={item.id} className={item.reviewed ? "is-reviewed" : "is-metadata"}><span className="atlas-chronology__chapter">Ch. {item.chapter}</span><div><small>{item.kind}</small><strong>{item.title}</strong>{item.detail ? <p>{item.detail}</p> : null}{item.href ? <Link to={item.href}>Review source</Link> : null}</div></article>)}</div>
+    <div className="atlas-chronology__feed">{activities.map((item) => <article key={item.id} className={item.reviewed ? "is-reviewed" : "is-metadata"}><span className="atlas-chronology__chapter">Ch. {item.chapter}</span><div><small>{item.kind}</small><MetadataMarkdown source={item.title} novelId={atlas.novelId} variant="compact" className="metadata-markdown--title" />{item.detail ? <MetadataMarkdown source={item.detail} novelId={atlas.novelId} variant="compact" /> : null}{item.href ? <Link to={item.href}>Review source</Link> : null}</div></article>)}</div>
   </section>;
 }

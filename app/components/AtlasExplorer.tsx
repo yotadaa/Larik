@@ -6,6 +6,7 @@ import {
   DocumentMagnifyingGlassIcon,
   MapIcon,
   MagnifyingGlassIcon,
+  IdentificationIcon,
   ShareIcon,
   Squares2X2Icon,
   UserCircleIcon,
@@ -14,20 +15,21 @@ import { AtlasArcNavigator } from "./AtlasArcNavigator";
 import { AtlasEntityChronology } from "./AtlasEntityChronology";
 import { AtlasEvidenceView } from "./AtlasEvidenceView";
 import { AtlasGraph } from "./AtlasGraph";
+import { AtlasProfiles } from "./AtlasProfiles";
 import { AtlasRelationshipMatrix } from "./AtlasRelationshipMatrix";
 import { AtlasStoryline } from "./AtlasStoryline";
 import { CustomSelect } from "./CustomSelect";
-import { Markdown } from "./Markdown";
+import { MetadataMarkdown } from "./MetadataMarkdown";
 import { atlasActiveEdgesInWindow, KIND_LABELS, type AtlasData, type AtlasKind } from "~/lib/atlas";
 
-type AtlasViewName = "graph" | "storyline" | "matrix" | "chronology" | "arcs" | "evidence";
+export type AtlasViewName = "graph" | "profiles" | "storyline" | "matrix" | "chronology" | "arcs" | "evidence";
 
 function SourceLink({ href, label = "Review source" }: { href: string; label?: string }) {
   return href ? <Link to={href}>{label}</Link> : <span className="muted">Source retained in metadata</span>;
 }
 
-export function AtlasExplorer({ atlas }: { atlas: AtlasData }) {
-  const [view, setView] = useState<AtlasViewName>("graph");
+export function AtlasExplorer({ atlas, initialView = "graph" }: { atlas: AtlasData; initialView?: AtlasViewName }) {
+  const [view, setView] = useState<AtlasViewName>(initialView);
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState<AtlasKind | "all">("all");
   const [evidenceLimit, setEvidenceLimit] = useState(8);
@@ -47,6 +49,7 @@ export function AtlasExplorer({ atlas }: { atlas: AtlasData }) {
   }), [entities, kind, q]);
   const selected = filtered.find((node) => node.id === selectedId) ?? filtered[0];
   useEffect(() => { if (initial && !entities.some((node) => node.id === selectedId)) setSelectedId(initial); }, [entities, initial, selectedId]);
+  useEffect(() => { setView(initialView); }, [initialView]);
   useEffect(() => { setEvidenceLimit(8); }, [selected?.id]);
   const connections = selected ? activeEdges.filter((edge) => edge.source === selected.id || edge.target === selected.id) : [];
   const select = (id: string) => {
@@ -65,6 +68,7 @@ export function AtlasExplorer({ atlas }: { atlas: AtlasData }) {
         : `chapters ${atlas.from.ordinal}–${atlas.through.ordinal}`;
   const views: [AtlasViewName, string, typeof ShareIcon][] = [
     ["graph", "Network", ShareIcon],
+    ["profiles", "Profiles", IdentificationIcon],
     ["storyline", "Storyline", ClockIcon],
     ["matrix", "Matrix", Squares2X2Icon],
     ["chronology", "Character", UserCircleIcon],
@@ -87,6 +91,7 @@ export function AtlasExplorer({ atlas }: { atlas: AtlasData }) {
       <div><strong>{atlas.events.length}</strong><span>events</span></div>
       <div><strong>{atlas.arcs.length}</strong><span>arcs</span></div>
       <div><strong>{atlas.cycles.length}</strong><span>cycles</span></div>
+      <div><strong>{atlas.characteristics.length}</strong><span>profiles</span></div>
     </div>
 
     <div className="atlas-view-switch atlas-view-switch--research" role="group" aria-label="Story Atlas visualization">
@@ -103,20 +108,21 @@ export function AtlasExplorer({ atlas }: { atlas: AtlasData }) {
           <p className="eyebrow">{KIND_LABELS[selected.kind]} · visible from Ch. {selected.visibleFrom}</p><h2>{selected.label}</h2>
           <span className={`atlas-data-badge${selected.reviewed ? " is-reviewed" : ""}`}>{selected.reviewed ? "Reviewed boundary" : "Unreviewed metadata"}</span>
           {selected.aliases.length ? <p className="atlas-aliases">Aliases revealed by this boundary: {selected.aliases.join(", ")}</p> : null}
-          <Markdown source={selected.description || "No additional description is stored."} />
+          <MetadataMarkdown source={selected.description || "No additional description is stored."} novelId={atlas.novelId} variant="compact" />
           {selected.source.href ? <div className="atlas-sources"><Link to={selected.source.href}><ArrowTopRightOnSquareIcon aria-hidden="true" /><span>Review {selected.source.label}</span></Link></div> : null}
           <h3>Stored relationship evidence <span>({connections.length})</span></h3>
           <p className="field-help">Only explicit structured edges are shown. For a chapter range, relationships already known before the range can remain visible when their validity overlaps it.</p>
           {connections.length ? <ol className="atlas-evidence">{connections.slice(0, evidenceLimit).map((edge) => {
             const otherId = edge.source === selected.id ? edge.target : edge.source;
             const other = byId.get(otherId);
-            return <li key={edge.id}><button type="button" className="text-button" onClick={() => select(otherId)}>{other?.label ?? otherId}</button><small>{edge.label} · reveal Ch. {edge.visibleFrom}{edge.cycleId ? ` · ${edge.cycleId}` : ""} · {edge.certainty || (edge.reviewed ? "reviewed" : "metadata")}</small>{edge.evidence ? <blockquote>{edge.evidence}</blockquote> : null}<SourceLink href={edge.sourceRef.href} /></li>;
+            return <li key={edge.id}><button type="button" className="text-button" onClick={() => select(otherId)}>{other?.label ?? otherId}</button><small>{edge.label} · reveal Ch. {edge.visibleFrom}{edge.cycleId ? ` · ${edge.cycleId}` : ""} · {edge.certainty || (edge.reviewed ? "reviewed" : "metadata")}</small>{edge.evidence ? <MetadataMarkdown source={edge.evidence} novelId={atlas.novelId} variant="compact" className="metadata-markdown--evidence" /> : null}<SourceLink href={edge.sourceRef.href} /></li>;
           })}</ol> : <p className="muted">No explicit relationship edge is active for this entity inside the selected window. Nearby context may still appear without a fabricated edge.</p>}
           {connections.length > evidenceLimit ? <button className="button button--ghost atlas-more-evidence" type="button" onClick={() => setEvidenceLimit((value) => value + 8)}>Show more evidence ({connections.length - evidenceLimit} remaining)</button> : null}
         </aside>
       </div>}
     </> : null}
 
+    {view === "profiles" ? <AtlasProfiles atlas={atlas} /> : null}
     {view === "storyline" ? <AtlasStoryline atlas={atlas} /> : null}
     {view === "matrix" ? <AtlasRelationshipMatrix atlas={atlas} /> : null}
     {view === "chronology" ? <AtlasEntityChronology atlas={atlas} /> : null}

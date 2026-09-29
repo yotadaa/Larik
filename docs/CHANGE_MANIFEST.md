@@ -73,3 +73,31 @@
 - Kept public reading available if optional session lookup temporarily fails; protected data remains
   session-gated.
 - Added Durable Object KDF compatibility/configuration tests.
+
+
+## 2026-09-29 — metadata-aware reader experience
+
+- Added spoiler-safe `characteristics.md` ingestion with explicit cumulative profile boundaries.
+- Stopped copying cumulative characteristic prose into early canonical entity descriptions.
+- Added Story Atlas **Profiles** view with evidence, search, type filtering, and structured record counts.
+- Added collapsed post-reading Chapter Context for reviewed scenes/events/facts/states/relationships.
+- Added direct Atlas `view` URLs and Story Reference link for Entity profiles.
+- Relabeled QA navigation as Editorial QA to distinguish project-quality notes from story canon.
+- Added `docs/research/METADATA_READER_EXPERIENCE_2026-09-29.md` mapping every root Markdown to its appropriate reader/editor surface.
+
+## Multi-series seeding + metadata Markdown rendering — 2026-09-29
+
+- Removed the current metadata seeder's default ARTCoC slug; `scripts/sqilte-migration/migrator.py`
+  now discovers every compatible direct child of `id/` when no paths are supplied.
+- Validates every discovered series before the first D1 write, then syncs snapshots independently by
+  `novel_id`; legacy replacement queries remain scoped to that `novel_id`.
+- Made optional metadata table files non-fatal so a compatible series can introduce metadata files
+  progressively while keeping the canonical parser shared across every series.
+- Added `db:seed` / `db:seed:preview` aliases; `db:sync` continues to run schema migrations followed
+  by the same multi-series metadata sync.
+- Added reusable `MetadataMarkdown` rendering across reader metadata surfaces: Profiles, Network,
+  Matrix, Character chronology, Arcs/Cycles, Evidence, Inline Lookup, chapter context, and Reference.
+- Added Obsidian wikilink routing for chapter evidence and known metadata documents. Unknown targets
+  remain readable text rather than becoming dead links.
+- Kept raw HTML disabled; metadata rendering uses the existing React Markdown + GFM pipeline.
+- Added multi-series discovery/validation tests and metadata-Markdown routing tests.

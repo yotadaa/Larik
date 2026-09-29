@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { ArrowLeftIcon, ArrowRightIcon, BookOpenIcon, ClockIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon, BookOpenIcon, ClockIcon } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/novel";
 import { BookmarkButton } from "~/components/BookmarkButton";
 import { EmptyState } from "~/components/EmptyState";
@@ -83,7 +83,7 @@ export default function Novel({ loaderData }: Route.ComponentProps) {
         {chapters.items.length ? <>
           <ol className="chapter-list">
             {chapters.items.map((chapter, index) => <li className="chapter-item" key={chapter.chapterId}>
-              <span className="chapter-item__number">{q ? "↗" : String((chapters.page - 1) * chapters.pageSize + index + 1).padStart(3, "0")}</span>
+              <span className="chapter-item__number">{q ? <ArrowUpRightIcon aria-label="Search result" /> : String((chapters.page - 1) * chapters.pageSize + index + 1).padStart(3, "0")}</span>
               <div className="chapter-item__copy">
                 <Link to={hrefChapter(novel.novelId, chapter.chapterId)}><span>{chapter.title || chapter.chapterId}</span><ArrowRightIcon aria-hidden="true" /></Link>
                 <span className="chapter-item__id">{chapter.chapterId}</span>

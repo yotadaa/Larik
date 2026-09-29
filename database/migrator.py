@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_NOVEL_DIR = ROOT / "id" / "a-regressors-tale-of-cultivation"
+DEFAULT_SERIES_ROOT = ROOT / "id"
 
 CANONICAL_TABLES = [
     "metadata_documents",
@@ -44,6 +44,54 @@ MEMORY_FILES = {
     "terminology.md": "terminologies",
     "qa-log.md": "qa-log",
 }
+
+
+def is_series_dir(path: Path) -> bool:
+    """Return True when a direct child of id/ has the reader-series layout."""
+    return (
+        path.is_dir()
+        and not path.name.startswith(".")
+        and (path / "NOVEL.md").is_file()
+        and (path / "chapter-index.md").is_file()
+        and (path / "chapters").is_dir()
+    )
+
+
+def discover_series_dirs(series_root: Path = DEFAULT_SERIES_ROOT) -> list[Path]:
+    """Discover every series under id/ that follows the canonical folder layout."""
+    if not series_root.is_dir():
+        return []
+    return sorted(
+        (path.resolve() for path in series_root.iterdir() if is_series_dir(path)),
+        key=lambda path: path.name.casefold(),
+    )
+
+
+def resolve_series_dirs(requested: list[str], root: Path = ROOT) -> list[Path]:
+    """Resolve explicit series paths, or all valid direct children of root/id when omitted."""
+    if requested:
+        result: list[Path] = []
+        for raw in requested:
+            path = Path(raw)
+            path = path.resolve() if path.is_absolute() else (root / path).resolve()
+            if not is_series_dir(path):
+                raise ValueError(f"not a series directory with NOVEL.md, chapter-index.md, and chapters/: {path}")
+            result.append(path)
+    else:
+        result = discover_series_dirs(root / "id")
+        if not result:
+            raise ValueError(f"no valid series directories found under {root / 'id'}")
+
+    seen: set[str] = set()
+    duplicate_ids: set[str] = set()
+    for path in result:
+        novel_id = path.name
+        if novel_id in seen:
+            duplicate_ids.add(novel_id)
+        seen.add(novel_id)
+    if duplicate_ids:
+        raise ValueError(f"duplicate novel id(s) resolved: {', '.join(sorted(duplicate_ids))}")
+    return result
 
 
 def clean_header(value: str) -> str:
@@ -79,7 +127,13 @@ class TableRow:
 
 
 def markdown_table_rows(path: Path) -> list[TableRow]:
-    """Parse every pipe table and retain the latest header for headerless continuation rows."""
+    """Parse every pipe table and retain the latest header for headerless continuation rows.
+
+    Optional metadata documents may be introduced progressively per series. Missing optional
+    tables therefore produce no rows instead of preventing every other series under id/ from syncing.
+    """
+    if not path.is_file():
+        return []
     lines = path.read_text(encoding="utf-8").splitlines()
     result: list[TableRow] = []
     header: tuple[str, ...] | None = None
@@ -167,10 +221,15 @@ def content_hash(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
-def source_hash(files: Iterable[Path]) -> str:
+def source_hash(files: Iterable[Path], fallback_base: Path | None = None) -> str:
     digest = hashlib.sha256()
     for path in sorted(files, key=lambda item: item.as_posix()):
-        digest.update(path.relative_to(ROOT).as_posix().encode())
+        try:
+            logical_path = path.resolve().relative_to(ROOT).as_posix()
+        except ValueError:
+            base = fallback_base.resolve() if fallback_base is not None else path.parent.resolve()
+            logical_path = path.resolve().relative_to(base).as_posix()
+        digest.update(logical_path.encode())
         digest.update(b"\0")
         digest.update(path.read_bytes())
         digest.update(b"\0")
@@ -350,17 +409,32 @@ class SnapshotBuilder:
             detailed = "physical_form" in v
             profile_kind = "detailed" if detailed else "registry"
             first_seen = int_value(v.get("first_seen"))
+            snapshot_key = next((key for key in v if key.startswith("characteristic_as_of_ch")), "")
+            snapshot_chapter = int_value(snapshot_key.removeprefix("characteristic_as_of_ch")) if snapshot_key else None
+            # A detailed profile is cumulative through its as-of chapter, so exposing it at first_seen
+            # would leak later knowledge. Registry-only rows contain no later biography and become
+            # available at first_seen. Store the boundary explicitly for D1/query-side filtering.
+            profile_through = snapshot_chapter if detailed else first_seen
             item = {
                 "novel_id": self.novel_id, "source_row": source_row, "entity_id": v["entity_id"], "profile_kind": profile_kind,
                 "entity_type": v["type"], "canonical_name": v["canonical_name"], "first_seen_chapter": first_seen,
+                "profile_through_chapter": profile_through,
                 "physical_form": v.get("physical_form", ""), "temperament_or_properties": v.get("temperament_or_properties", ""),
                 "abilities_or_role": v.get("abilities_or_role", ""), "relationships_status": v.get("relationships_status", ""),
-                "characteristic_as_of": v.get("characteristic_as_of_ch151", ""), "scope": v.get("cakupan", ""), "evidence": v.get("evidence", ""),
+                "characteristic_as_of": v.get(snapshot_key, "") if snapshot_key else "", "scope": v.get("cakupan", ""), "evidence": v.get("evidence", ""),
             }
             self.tables["metadata_characteristics"].append(item)
             if detailed:
                 parts = []
-                for label, key in (("Form", "physical_form"), ("Properties", "temperament_or_properties"), ("Abilities / role", "abilities_or_role"), ("Relationships / status", "relationships_status"), ("Snapshot", "characteristic_as_of_ch151")):
+                profile_fields = [
+                    ("Form", "physical_form"),
+                    ("Properties", "temperament_or_properties"),
+                    ("Abilities / role", "abilities_or_role"),
+                    ("Relationships / status", "relationships_status"),
+                ]
+                if snapshot_key:
+                    profile_fields.append((f"Snapshot through Ch. {snapshot_chapter or '?'}", snapshot_key))
+                for label, key in profile_fields:
                     value = v.get(key, "").strip()
                     if value and value.lower() not in {"tidak berlaku", "tidak disebutkan"}:
                         parts.append(f"**{label}:** {value}")
@@ -392,7 +466,10 @@ class SnapshotBuilder:
             self.tables["metadata_entities"].append({
                 "novel_id": self.novel_id, "entity_id": entity_id, "entity_type": latest["entity_type"], "canonical_name": latest["canonical_name"],
                 "first_seen_chapter": first_seen, "reveal_chapter": reveal, "status": latest["status"], "evidence": "; ".join(evidence_values),
-                "notes": "\n\n".join(notes_values), "description": descriptions.get(entity_id, latest["notes"]),
+                "notes": "\n\n".join(notes_values),
+                # Keep the entity registry spoiler-safe. Cumulative profile prose from characteristics.md
+                # lives in metadata_characteristics and is boundary-gated separately.
+                "description": latest["notes"],
                 "aliases_json": json.dumps(list(dict.fromkeys(aliases_by_entity.get(entity_id, []))), ensure_ascii=False),
                 "source_chapter_id": self.source_chapter("; ".join(evidence_values), reveal), "reviewed": self.reviewed(reveal),
             })
@@ -544,8 +621,14 @@ class SnapshotBuilder:
             content = path.read_text(encoding="utf-8")
             front = parse_frontmatter(content)
             recap = self.recaps.get(path.name)
+            try:
+                stored_path = path.resolve().relative_to(ROOT).as_posix()
+            except ValueError:
+                # Explicit series paths outside the checkout are supported for validation/import;
+                # keep their stored path deterministic instead of requiring a hard-coded project root.
+                stored_path = (Path(self.lang) / self.novel_id / path.relative_to(self.novel_dir)).as_posix()
             self.legacy["novel-content"].append({
-                "path": path.resolve().relative_to(ROOT).as_posix(), "name": path.name, "type": "md", "lang": self.lang, "novel-id": self.novel_id,
+                "path": stored_path, "name": path.name, "type": "md", "lang": self.lang, "novel-id": self.novel_id,
                 "novel-title": self.title, "content": content, "chapter-id": path.name,
                 "chapter-title": front.get("translated_title") or first_heading(content), "recap": recap.read_text(encoding="utf-8") if recap else "",
             })
@@ -605,7 +688,10 @@ class SnapshotBuilder:
         # Validate evidence links without inventing targets. Global metadata links are allowed.
         known_metadata = {path.stem for path in self.documents}
         for filename in ("aliases.md", "entities.md", "relationships.md", "facts.md", "events.md", "states.md", "scenes.md", "arcs.md", "cycles.md", "characteristics.md"):
-            for target in wiki_targets((self.novel_dir / filename).read_text(encoding="utf-8")):
+            path = self.novel_dir / filename
+            if not path.is_file():
+                continue
+            for target in wiki_targets(path.read_text(encoding="utf-8")):
                 stem = Path(target).stem
                 if stem not in self.chapter_by_stem and stem not in known_metadata and not (self.novel_dir / target).exists():
                     self.issue("warning", "unresolved_wikilink", filename, target, f"No chapter or root metadata file resolves [[{target}]].")
@@ -643,7 +729,7 @@ class SnapshotBuilder:
 
     @property
     def metadata_source_hash(self) -> str:
-        return source_hash(self.documents + self.chapters + list(self.recaps.values()))
+        return source_hash(self.documents + self.chapters + list(self.recaps.values()), self.novel_dir)
 
 
 class D1Client:
@@ -825,30 +911,62 @@ def snapshot_summary(snapshot: SnapshotBuilder) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Validate and synchronize Markdown novel data into Cloudflare D1.")
-    parser.add_argument("novel_dir", nargs="?", default=str(DEFAULT_NOVEL_DIR.relative_to(ROOT)))
+    parser = argparse.ArgumentParser(
+        description="Validate and synchronize Markdown series under id/ into Cloudflare D1."
+    )
+    parser.add_argument(
+        "series_dirs",
+        nargs="*",
+        help=(
+            "Optional series directories. When omitted, every direct child of id/ containing "
+            "NOVEL.md, chapter-index.md, and chapters/ is discovered and processed."
+        ),
+    )
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--validate", action="store_true", help="Parse all metadata and report integrity findings without connecting to D1.")
+    mode.add_argument("--validate", action="store_true", help="Parse selected/all series and report integrity findings without connecting to D1.")
     mode.add_argument("--dry-run", action="store_true", help="Alias of --validate with row counts intended for migration preview.")
-    mode.add_argument("--apply", action="store_true", help="Replace the remote D1 snapshot with the current Markdown state.")
+    mode.add_argument("--apply", action="store_true", help="Synchronize selected/all series to remote D1 after every series validates.")
     parser.add_argument("--issues", action="store_true", help="Print individual validation issues.")
     args = parser.parse_args(argv)
 
-    novel_dir = (ROOT / args.novel_dir).resolve() if not Path(args.novel_dir).is_absolute() else Path(args.novel_dir).resolve()
-    if not novel_dir.is_dir() or not (novel_dir / "NOVEL.md").exists():
-        parser.error(f"not a novel directory containing NOVEL.md: {novel_dir}")
+    try:
+        series_dirs = resolve_series_dirs(args.series_dirs, ROOT)
+    except ValueError as error:
+        parser.error(str(error))
 
-    snapshot = SnapshotBuilder(novel_dir).build()
-    print(json.dumps(snapshot_summary(snapshot), ensure_ascii=False, indent=2))
-    if args.issues:
-        for issue in snapshot.issues:
-            print(f"{issue.severity.upper():7} {issue.code:30} {issue.source_file}:{issue.record_id} - {issue.detail}")
-    errors = [issue for issue in snapshot.issues if issue.severity == "error"]
-    if errors:
-        print(f"Validation failed with {len(errors)} error(s); no D1 writes were attempted.", file=sys.stderr)
+    print(f"Discovered {len(series_dirs)} series: {', '.join(path.name for path in series_dirs)}")
+    snapshots: list[SnapshotBuilder] = []
+    validation_errors = 0
+    for novel_dir in series_dirs:
+        snapshot = SnapshotBuilder(novel_dir).build()
+        snapshots.append(snapshot)
+        print(f"\n=== {snapshot.novel_id} ===")
+        print(json.dumps(snapshot_summary(snapshot), ensure_ascii=False, indent=2))
+        if args.issues:
+            for issue in snapshot.issues:
+                print(
+                    f"{snapshot.novel_id} {issue.severity.upper():7} {issue.code:30} "
+                    f"{issue.source_file}:{issue.record_id} - {issue.detail}"
+                )
+        validation_errors += sum(issue.severity == "error" for issue in snapshot.issues)
+
+    if validation_errors:
+        print(
+            f"Validation failed with {validation_errors} error(s) across {len(snapshots)} series; "
+            "no D1 writes were attempted.",
+            file=sys.stderr,
+        )
         return 2
+
+    total_chapters = sum(snapshot.actual_chapter_count for snapshot in snapshots)
+    total_rows = sum(sum(len(rows) for rows in snapshot.tables.values()) for snapshot in snapshots)
+    total_issues = sum(len(snapshot.issues) for snapshot in snapshots)
     if not args.apply:
-        print("Validation complete; no D1 writes were attempted.")
+        print(
+            f"Validation complete for {len(snapshots)} series: {total_chapters} chapters, "
+            f"{total_rows} canonical metadata rows, {total_issues} integrity issue(s). "
+            "No D1 writes were attempted."
+        )
         return 0
 
     load_env(ROOT / ".env")
@@ -865,8 +983,29 @@ def main(argv: list[str] | None = None) -> int:
     if str(info.get("uuid", "")).lower() != database_id.lower() or info.get("name") != database_name:
         raise SystemExit(f"Database mismatch: expected {database_name} ({database_id}), got {info.get('name')} ({info.get('uuid')}).")
     print(f"REMOTE D1: {info.get('name')} ({info.get('uuid')})")
-    apply_snapshot(client, snapshot)
-    print(f"Sync complete: {snapshot.actual_chapter_count} chapters, {sum(len(v) for v in snapshot.tables.values())} canonical metadata rows, {len(snapshot.issues)} integrity issue(s) recorded.")
+
+    completed: list[str] = []
+    for snapshot in snapshots:
+        print(f"\nSYNC SERIES {snapshot.novel_id} ...", flush=True)
+        try:
+            apply_snapshot(client, snapshot)
+        except Exception as error:
+            done = ", ".join(completed) if completed else "none"
+            raise RuntimeError(
+                f"Series sync stopped at {snapshot.novel_id}. Already completed: {done}. "
+                f"The sync is idempotent; fix the error and rerun. {error}"
+            ) from error
+        completed.append(snapshot.novel_id)
+        print(
+            f"SYNCED {snapshot.novel_id}: {snapshot.actual_chapter_count} chapters, "
+            f"{sum(len(v) for v in snapshot.tables.values())} canonical metadata rows, "
+            f"{len(snapshot.issues)} integrity issue(s)."
+        )
+
+    print(
+        f"Sync complete for {len(completed)} series: {total_chapters} chapters, "
+        f"{total_rows} canonical metadata rows, {total_issues} integrity issue(s) recorded."
+    )
     return 0
 
 

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { CustomSelect } from "./CustomSelect";
+import { MetadataMarkdown } from "./MetadataMarkdown";
 import { atlasWindowBounds, type AtlasData } from "~/lib/atlas";
 
 function clamp(value: number, min: number, max: number) {
@@ -61,12 +62,12 @@ export function AtlasArcNavigator({ atlas }: { atlas: AtlasData }) {
     {arcs.length ? <div className="atlas-arc-map__inspector">
       <CustomSelect ariaLabel="Story arc" value={selectedArc?.id ?? ""} onChange={setSelectedArcId} options={arcs.map((arc) => ({ value: arc.id, label: `${arc.title} · Ch. ${arc.startChapter}–${arc.endChapter ?? "…"}` }))} />
       {selectedArc ? <article>
-        <div><p className="eyebrow">{selectedArc.status || "Story arc"}</p><h3>{selectedArc.title}</h3><p>{selectedArc.summary}</p></div>
+        <div><p className="eyebrow">{selectedArc.status || "Story arc"}</p><h3>{selectedArc.title}</h3><MetadataMarkdown source={selectedArc.summary} novelId={atlas.novelId} variant="compact" /></div>
         <dl><div><dt>Range</dt><dd>Ch. {selectedArc.startChapter}–{selectedArc.endChapter ?? "ongoing"}</dd></div><div><dt>Cycles</dt><dd>{selectedArc.cycleIds.join(", ") || "Not specified"}</dd></div><div><dt>Key entities</dt><dd>{selectedArc.keyEntityIds.map((id) => byId.get(id)?.label ?? id).join(", ") || "Not listed"}</dd></div></dl>
-        {selectedArc.evidence ? <blockquote>{selectedArc.evidence}</blockquote> : null}
+        {selectedArc.evidence ? <MetadataMarkdown source={selectedArc.evidence} novelId={atlas.novelId} variant="compact" className="metadata-markdown--evidence" /> : null}
         {selectedArc.source.href ? <Link to={selectedArc.source.href}>Review arc source</Link> : null}
       </article> : null}
     </div> : null}
-    {cycles.length ? <div className="atlas-cycle-cards">{cycles.map((cycle) => <article key={cycle.id} className={cycle.reviewed ? "is-reviewed" : "is-metadata"}><strong>{cycle.number != null ? `Cycle ${cycle.number}` : cycle.id}</strong><span>Ch. {cycle.startChapter}–{cycle.endChapter ?? "ongoing"}</span><small>{cycle.resetTrigger ? `Reset: ${cycle.resetTrigger}` : cycle.status}</small>{cycle.worldEndMarker ? <p>{cycle.worldEndMarker}</p> : null}{cycle.source.href ? <Link to={cycle.source.href}>Source</Link> : null}</article>)}</div> : null}
+    {cycles.length ? <div className="atlas-cycle-cards">{cycles.map((cycle) => <article key={cycle.id} className={cycle.reviewed ? "is-reviewed" : "is-metadata"}><strong>{cycle.number != null ? `Cycle ${cycle.number}` : cycle.id}</strong><span>Ch. {cycle.startChapter}–{cycle.endChapter ?? "ongoing"}</span><small>{cycle.resetTrigger ? `Reset: ${cycle.resetTrigger}` : cycle.status}</small>{cycle.worldEndMarker ? <MetadataMarkdown source={cycle.worldEndMarker} novelId={atlas.novelId} variant="compact" /> : null}{cycle.source.href ? <Link to={cycle.source.href}>Source</Link> : null}</article>)}</div> : null}
   </section>;
 }

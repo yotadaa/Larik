@@ -42,7 +42,7 @@ be obtained merely by entering an address.
 
 ### 3. Expand curated knowledge incrementally
 
-The current uploaded corpus has 182 actual chapter files and metadata marked reviewed through chapter 163. Expand curated coverage beyond 163 through the metadata-v2 source files and review workflow; keep every reveal boundary tested and continue to fail closed for unknown/unreviewed knowledge.
+The current uploaded corpus has 200 actual chapter files and metadata marked reviewed through chapter 163. Expand curated coverage beyond 163 through the metadata-v2 source files and review workflow; keep every reveal boundary tested and continue to fail closed for unknown/unreviewed knowledge.
 
 ### 4. Editorial evidence workflow
 
@@ -75,3 +75,8 @@ boundary while keeping Markdown as the source of truth.
 
 See `docs/research/NEXT_FEATURE_RESEARCH_2026-09-28.md` for the current D1 constraints, proposed review
 data model, editor workflow, and follow-on reader visualizations.
+
+
+## Metadata UX follow-up after characteristics integration
+
+The next priority is an editor-only metadata review queue, not another reader graph. The current source still reports integrity warnings, so improving evidence/review coverage will make later contradiction, ownership, faction, and location timelines more trustworthy. See `docs/research/METADATA_READER_EXPERIENCE_2026-09-29.md`.

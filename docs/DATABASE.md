@@ -8,7 +8,8 @@ database/
 │   ├── 0001_reader_accounts.sql
 │   ├── 0002_verified_identity_progress_knowledge.sql
 │   ├── 0003_atlas_full_story_ranges.sql
-│   └── 0004_markdown_metadata_v2.sql
+│   ├── 0004_markdown_metadata_v2.sql
+│   └── 0005_characteristic_profile_boundaries.sql
 ├── schema/
 │   ├── content-schema.sql
 │   └── schema-contract.json
@@ -63,6 +64,27 @@ through, its rows are not made reader-visible because no completed sync row exis
 `metadata_novel_content_stage` is a persistent staging table for chapter bodies. The migrator uploads
 large content in bounded batches, then replaces `novel-content` only after staging has completed.
 
+## Characteristic profile boundaries
+
+`0005_characteristic_profile_boundaries.sql` adds `profile_through_chapter` to `metadata_characteristics`. Detailed profile prose is cumulative and is therefore released only at its complete `characteristic_as_of_chN` boundary; registry-only rows can become visible at first-seen. This prevents a later biography snapshot from leaking through an entity that was introduced much earlier.
+
+## Multi-series discovery and seeding
+
+`scripts/sqilte-migration/migrator.py` no longer defaults to one novel slug. With no positional paths it discovers every compatible direct child under `id/` and builds an independent snapshot keyed by that directory name as `novel_id`. All discovered series are validated before the first remote write. During apply, legacy reader rows are replaced only for the current `novel_id`, while canonical metadata remains versioned by `(novel_id, snapshot_id)`.
+
+```bash
+# validate every compatible id/* series
+npm run db:seed:preview
+
+# seed/sync every compatible id/* series
+npm run db:seed
+
+# schema migrations first, then the same multi-series sync
+npm run db:sync
+```
+
+The older `0002`/`0003` migrations contain a historical ARTCoC pilot dataset for backward compatibility. They are not the current corpus seeder; current content and metadata come from the multi-series Markdown sync after schema migration.
+
 ## Latest-data semantics
 
 The old migrator appended rows when a fingerprint changed. That could leave stale reader/reference
@@ -82,17 +104,17 @@ Running the same unchanged corpus again is idempotent at the canonical row level
 
 For `id/a-regressors-tale-of-cultivation` the current uploaded workspace contains:
 
-- 23 root Markdown metadata/reference documents;
-- 182 actual chapter files;
-- 181 actual recap files;
-- 200 rows in `chapter-index.md` (future rows 183–200 are planning/index rows, not fabricated content);
+- 24 root Markdown metadata/reference documents;
+- 200 actual chapter files;
+- 200 actual recap files;
+- 200 rows in `chapter-index.md`, matching the 200 current chapter files;
 - reviewed metadata through chapter 163.
 
 The current normalized snapshot produces 132 canonical entities, 18 aliases, 28 relationships,
-37 facts, 50 events, 28 states, 22 scenes, 15 arcs, 15 cycles, 64 characteristic rows, 411 glossary
-rows and 444 memory rows. The validator currently records 74 warnings and zero errors. Warnings include
-source/index filename mismatches, the missing chapter-182 recap, duplicate entity IDs, unresolved
-entity/event/scene references and unresolved wikilinks.
+37 facts, 50 events, 28 states, 22 scenes, 16 arcs, 15 cycles, 64 characteristic rows, 424 glossary
+rows and 535 memory rows. The validator currently records 60 warnings and zero errors. Warnings include
+source/index filename mismatches, duplicate entity IDs, unresolved entity/event/scene references,
+unknown canonical references and unresolved wikilinks.
 
 These warnings are deliberately retained instead of silently rewriting story knowledge.
 

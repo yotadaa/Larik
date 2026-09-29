@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Link } from "react-router";
 import { CustomSelect } from "./CustomSelect";
+import { MetadataMarkdown } from "./MetadataMarkdown";
 import { atlasEdgesInWindow, atlasWindowBounds, type AtlasData } from "~/lib/atlas";
 
 type EvidenceKind = "fact" | "event" | "state" | "scene" | "relation";
@@ -69,7 +70,7 @@ export function AtlasEvidenceView({ atlas }: { atlas: AtlasData }) {
     <div className="atlas-provenance__inspector">
       <div className="atlas-provenance__select"><CustomSelect ariaLabel="Provenance chapter" value={String(selectedNumber)} onChange={setSelectedChapter} options={chapters.map(([chapter, rows]) => ({ value: String(chapter), label: `Chapter ${chapter} · ${rows.length} records` }))} /></div>
       <div className="atlas-provenance__records">{selectedItems.map((item) => <article key={`${item.kind}:${item.id}`} className={item.reviewed ? "is-reviewed" : "is-metadata"}>
-        <span className={`atlas-provenance__kind is-${item.kind}`}>{KIND_LABEL[item.kind]}</span><div><strong>{item.title}</strong><small>{item.status || (item.reviewed ? "reviewed" : "unreviewed")}</small>{item.evidence ? <blockquote>{item.evidence}</blockquote> : null}{item.href ? <Link to={item.href}>Open source chapter</Link> : null}</div>
+        <span className={`atlas-provenance__kind is-${item.kind}`}>{KIND_LABEL[item.kind]}</span><div><MetadataMarkdown source={item.title} novelId={atlas.novelId} variant="compact" className="metadata-markdown--title" /><small>{item.status || (item.reviewed ? "reviewed" : "unreviewed")}</small>{item.evidence ? <MetadataMarkdown source={item.evidence} novelId={atlas.novelId} variant="compact" className="metadata-markdown--evidence" /> : null}{item.href ? <Link to={item.href}>Open source chapter</Link> : null}</div>
       </article>)}</div>
     </div>
     {atlas.integrityIssueCount ? <p className="atlas-provenance__warning">The active metadata snapshot still reports {atlas.integrityIssueCount} integrity warning(s). This view preserves those source boundaries rather than silently repairing them.</p> : null}

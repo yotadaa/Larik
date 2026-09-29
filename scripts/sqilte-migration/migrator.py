@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Compatibility entry point. Canonical database tooling lives in database/migrator.py."""
+"""Project-facing multi-series Markdown seeder/sync entry point.
+
+With no series path arguments this discovers every compatible direct child of id/.
+The canonical parser/writer implementation lives in database/migrator.py so seed,
+sync and validation always use the same metadata contract.
+"""
 from __future__ import annotations
 
 import sys

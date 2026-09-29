@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/chapter";
 import { InlineLookup } from "~/components/InlineLookup";
+import { ChapterContext } from "~/components/ChapterContext";
 import { ReaderDock } from "~/components/ReaderDock";
 import { getUser } from "~/lib/auth.server";
 import { bookmarkAction, isBookmarked } from "~/lib/bookmarks.server";
@@ -16,7 +17,7 @@ import { Markdown } from "~/components/Markdown";
 import { ReaderControls } from "~/components/ReaderControls";
 import { ReadingProgress } from "~/components/ReadingProgress";
 import { getDb } from "~/lib/cloudflare-context";
-import { loadInlineLookup } from "~/lib/atlas.server";
+import { loadChapterContext, loadInlineLookup } from "~/lib/atlas.server";
 import { getReaderLibraryState } from "~/lib/reader-state.server";
 import { getChapter } from "~/lib/repository";
 import { hrefChapter, hrefNovel, validateRouteSegment } from "~/lib/params";
@@ -29,13 +30,14 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
   if (!navigation) throw new Response("Chapter not found.", { status: 404 });
   const user = await getUser(db, request);
   const resumeRequested = new URL(request.url).searchParams.get("resume") === "1";
-  const [bookmarked, readerState, lookup] = await Promise.all([
+  const [bookmarked, readerState, lookup, chapterContext] = await Promise.all([
     user ? isBookmarked(db, user.id, novelId, chapterId) : Promise.resolve(false),
     user ? getReaderLibraryState(db, user.id, novelId) : Promise.resolve(null),
     loadInlineLookup(db, novelId, chapterId),
+    loadChapterContext(db, novelId, chapterId),
   ]);
   const restoreStoredProgress = Boolean(user && resumeRequested && readerState?.lastChapterId === chapterId);
-  return { ...navigation, user, bookmarked, readerState, lookup, restoreStoredProgress };
+  return { ...navigation, user, bookmarked, readerState, lookup, chapterContext, restoreStoredProgress };
 }
 
 export async function action({ request, context }: Route.ActionArgs) { return bookmarkAction(getDb(context), request); }
@@ -46,7 +48,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export default function Chapter({ loaderData }: Route.ComponentProps) {
-  const { current, previous, next, user, bookmarked, readerState, lookup, restoreStoredProgress } = loaderData;
+  const { current, previous, next, user, bookmarked, readerState, lookup, chapterContext, restoreStoredProgress } = loaderData;
   const document = parseChapterDocument(current.content);
   const storedPercent = readerState?.lastChapterId === current.chapterId ? readerState.progressPercent : -1;
   return (
@@ -62,7 +64,7 @@ export default function Chapter({ loaderData }: Route.ComponentProps) {
             <ChevronRightIcon className="reader-toolbar__separator" aria-hidden="true" />
             <span className="reader-toolbar__current">{current.title || current.chapterId}</span>
           </div>
-          <div className="reader-toolbar__actions"><InlineLookup data={lookup} /><ReaderControls /></div>
+          <div className="reader-toolbar__actions"><InlineLookup data={lookup} novelId={current.novelId} /><ReaderControls /></div>
         </div>
       </div>
 
@@ -74,6 +76,8 @@ export default function Chapter({ loaderData }: Route.ComponentProps) {
         </header>
         <Markdown source={document.body} />
       </article>
+
+      <ChapterContext novelId={current.novelId} data={chapterContext} />
 
       {document.notes ? <aside className="reader-recap"><details><summary>Chapter notes</summary><Markdown source={document.notes} /></details></aside> : null}
       <ReaderDock key={`${current.novelId}:${current.chapterId}`} navigation={loaderData} user={user} bookmarked={bookmarked} />

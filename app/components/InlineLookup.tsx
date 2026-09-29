@@ -3,8 +3,9 @@ import { createPortal } from "react-dom";
 import { Link } from "react-router";
 import { ArrowTopRightOnSquareIcon, ExclamationTriangleIcon, MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { KIND_LABELS, type InlineLookupData } from "~/lib/atlas";
+import { MetadataMarkdown } from "./MetadataMarkdown";
 
-export function InlineLookup({ data }: { data: InlineLookupData | null }) {
+export function InlineLookup({ data, novelId }: { data: InlineLookupData | null; novelId: string }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -39,7 +40,7 @@ export function InlineLookup({ data }: { data: InlineLookupData | null }) {
           {data.coverageLimited ? <div className="inline-lookup__warning" role="status"><ExclamationTriangleIcon aria-hidden="true" /><p><strong>You are reading chapter {data.through.ordinal}; reviewed lookup coverage currently ends at chapter {data.reviewedThrough.ordinal}.</strong><span>No facts from chapters {data.reviewedThrough.ordinal + 1}–{data.through.ordinal} are guessed or sent to this panel.</span></p></div> : <p className="inline-lookup__safety">Reviewed facts only · safe through chapter {data.through.ordinal}. Later knowledge is not sent to this page.</p>}
           <label className="inline-lookup__search"><MagnifyingGlassIcon aria-hidden="true" /><span className="sr-only">Search safe story facts</span><input type="search" maxLength={120} value={query} placeholder="Character, place, term, item..." onChange={(event) => setQuery(event.target.value)} /></label>
           <div className="inline-lookup__results" role="list">
-            {results.map((entry) => <article key={entry.id} role="listitem"><div><span>{KIND_LABELS[entry.kind]} · Ch. {entry.visibleFrom}</span><h3>{entry.label}</h3></div><p>{entry.description}</p>{entry.aliases.length ? <small>Also: {entry.aliases.join(", ")}</small> : null}<Link to={entry.source.href}><ArrowTopRightOnSquareIcon aria-hidden="true" />Review source</Link></article>)}
+            {results.map((entry) => <article key={entry.id} role="listitem"><div><span>{KIND_LABELS[entry.kind]} · Ch. {entry.visibleFrom}</span><h3>{entry.label}</h3></div><MetadataMarkdown source={entry.description} novelId={novelId} variant="compact" />{entry.aliases.length ? <small>Also: {entry.aliases.join(", ")}</small> : null}<Link to={entry.source.href}><ArrowTopRightOnSquareIcon aria-hidden="true" />Review source</Link></article>)}
             {!results.length ? <div className="empty-inline">No reviewed fact matches this lookup.</div> : null}
           </div>
           <footer className="inline-lookup__footer">Knowledge v{data.version}. {data.coverageNote}</footer>

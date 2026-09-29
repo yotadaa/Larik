@@ -3,6 +3,7 @@ import { EmptyState } from "~/components/EmptyState";
 import { ReferenceNav } from "~/components/ReferenceNav";
 import { SearchForm } from "~/components/SearchForm";
 import { SpoilerGate } from "~/components/SpoilerGate";
+import { MetadataMarkdown } from "~/components/MetadataMarkdown";
 import { getDb } from "~/lib/cloudflare-context";
 import {
   getNovel,
@@ -85,8 +86,8 @@ export default function Reference({ loaderData }: Route.ComponentProps) {
       <div className="reference-grid">{rows.map((item) => (
         <article className="reference-card" key={item.id} id={`ref-${item.id}`}>
           <p className="reference-card__index">CHARACTER</p>
-          <h2>{item.name || "Unnamed character"}</h2>
-          <p>{item.description || "No description stored."}</p>
+          <h2><MetadataMarkdown source={item.name || "Unnamed character"} novelId={novel.novelId} variant="inline" /></h2>
+          <MetadataMarkdown source={item.description || "No description stored."} novelId={novel.novelId} variant="compact" />
         </article>
       ))}</div>
     ) : <EmptyState title="No characters found" detail={q ? "No character matched the search." : "No character rows are stored for this novel."} />;
@@ -96,9 +97,9 @@ export default function Reference({ loaderData }: Route.ComponentProps) {
       <div className="reference-grid">{rows.map((item) => (
         <article className="reference-card" key={item.id} id={`ref-${item.id}`}>
           <p className="reference-card__index">{item.type || "GLOSSARY"}</p>
-          <h2>{item.sourceTerm || "Unnamed term"}</h2>
-          <p className="reference-card__translation">{item.canonicalTranslation || "No canonical translation"}</p>
-          {item.notes ? <p>{item.notes}</p> : null}
+          <h2><MetadataMarkdown source={item.sourceTerm || "Unnamed term"} novelId={novel.novelId} variant="inline" /></h2>
+          <p className="reference-card__translation"><MetadataMarkdown source={item.canonicalTranslation || "No canonical translation"} novelId={novel.novelId} variant="inline" /></p>
+          {item.notes ? <MetadataMarkdown source={item.notes} novelId={novel.novelId} variant="compact" /> : null}
           {item.firstSeen ? <span className="badge">First seen: {item.firstSeen}</span> : null}
         </article>
       ))}</div>
@@ -111,8 +112,8 @@ export default function Reference({ loaderData }: Route.ComponentProps) {
         return (
           <article className="reference-card" key={item.id} id={`ref-${item.id}`}>
             <p className="reference-card__index">{reference.toUpperCase()}</p>
-            <h2>{name || title}</h2>
-            {detail ? <p>{detail}</p> : null}
+            <h2><MetadataMarkdown source={name || title} novelId={novel.novelId} variant="inline" /></h2>
+            {detail ? <MetadataMarkdown source={detail} novelId={novel.novelId} variant="compact" /> : null}
           </article>
         );
       })}</div>

@@ -10,6 +10,7 @@ const SNAPSHOT = "snapshot-v2-test";
 function setup() {
   const sqlite = new DatabaseSync(":memory:");
   sqlite.exec(fs.readFileSync(new URL("../database/migrations/0004_markdown_metadata_v2.sql", import.meta.url), "utf8"));
+  sqlite.exec(fs.readFileSync(new URL("../database/migrations/0005_characteristic_profile_boundaries.sql", import.meta.url), "utf8"));
   sqlite.exec(`
     INSERT INTO metadata_sync_runs
       (novel_id, source_hash, source_file_count, chapter_count, reviewed_through, issue_count, status, coverage_note)
@@ -69,6 +70,12 @@ function setup() {
     VALUES
       ('${NOVEL}', '${SNAPSHOT}', 'cycle:1', 1, 1, 2, 1, 'known', 'Cycle evidence', '001-one.md', 1);
 
+    INSERT INTO metadata_characteristics
+      (novel_id, snapshot_id, source_row, entity_id, profile_kind, entity_type, canonical_name, first_seen_chapter, profile_through_chapter, physical_form, temperament_or_properties, abilities_or_role, relationships_status, characteristic_as_of, scope, evidence)
+    VALUES
+      ('${NOVEL}', '${SNAPSHOT}', 1, 'char:hero', 'detailed', 'character', 'Hero', 1, 2, 'Ordinary appearance', 'Careful', 'Future profile detail', 'Member of a hidden order', 'Snapshot through chapter two', '', '[[002-two]]'),
+      ('${NOVEL}', '${SNAPSHOT}', 2, 'org:hidden-order', 'registry', 'organization', 'Hidden Order', 2, 2, '', '', '', '', '', 'Registry only', '');
+
     INSERT INTO metadata_integrity_issues
       (novel_id, snapshot_id, issue_id, severity, code, source_file, record_id, detail)
     VALUES ('${NOVEL}', '${SNAPSHOT}', 'issue:1', 'warning', 'test_warning', 'facts.md', 'fact:hero-member', 'Test warning');
@@ -110,9 +117,11 @@ test("metadata v2 safe mode filters future aliases, facts, states and relations 
   assert.equal(atlas.scenes.length, 0);
   assert.ok(atlas.arcs.some((arc) => arc.id === "arc:intro"));
   assert.ok(atlas.cycles.some((cycle) => cycle.id === "cycle:1"));
+  assert.equal(atlas.characteristics.length, 0);
   assert.equal(atlas.integrityIssueCount, 1);
   assert.ok(!JSON.stringify(atlas).includes("Secret Hero Name"));
   assert.ok(!JSON.stringify(atlas).includes("Hidden Order"));
+  assert.ok(!JSON.stringify(atlas).includes("Future profile detail"));
 });
 
 test("metadata v2 explicit unlock exposes only rows at or before the selected reveal boundary", async () => {
@@ -141,6 +150,9 @@ test("metadata v2 explicit unlock exposes only rows at or before the selected re
   assert.equal(atlas.scenes.find((scene) => scene.id === "scene:ch2-1")?.evidence, "Scene evidence");
   assert.equal(atlas.arcs.find((arc) => arc.id === "arc:intro")?.evidence, "Arc evidence");
   assert.equal(atlas.cycles.find((cycle) => cycle.id === "cycle:1")?.evidence, "Cycle evidence");
+  assert.ok(atlas.characteristics.some((profile) => profile.entityId === "char:hero" && profile.profileKind === "detailed"));
+  assert.equal(atlas.characteristics.find((profile) => profile.entityId === "char:hero")?.profileThrough, 2);
+  assert.ok(JSON.stringify(atlas).includes("Future profile detail"));
 });
 
 test("metadata v2 range includes a previously revealed state while its validity overlaps the selected window", async () => {
@@ -157,4 +169,6 @@ test("inline lookup remains reviewed-only on metadata v2 snapshots", async () =>
   assert.equal(lookup.reviewedThrough.ordinal, 1);
   assert.deepEqual(lookup.entries.map((entry) => entry.id), ["char:hero"]);
   assert.deepEqual(lookup.entries[0].aliases, []);
+  assert.equal(lookup.entries[0].description, "Reviewed hero");
+  assert.ok(!JSON.stringify(lookup).includes("Future profile detail"));
 });
