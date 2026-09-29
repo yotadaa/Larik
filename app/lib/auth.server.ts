@@ -10,6 +10,17 @@ export interface ReaderUser {
 
 export const SESSION_SECONDS = 60 * 60 * 24 * 30;
 export const PASSWORD_ITERATIONS = 600_000;
+
+export interface PasswordHashRecord {
+  hash: string;
+  salt: string;
+  iterations: number;
+}
+
+export interface PasswordKdfService {
+  hash(password: string, shardKey: string): Promise<PasswordHashRecord>;
+  verify(password: string, hash: string, salt: string, iterations: number, shardKey: string): Promise<boolean>;
+}
 const LOGIN_WINDOW_SECONDS = 15 * 60;
 const MAX_LOGIN_ATTEMPTS = 20;
 const PASSWORD_MIN_LENGTH = 12;
@@ -43,13 +54,14 @@ export async function sha256(value: string): Promise<string> {
   return toHex(new Uint8Array(bytes));
 }
 
-async function derivePassword(password: string, salt: Uint8Array, iterations: number): Promise<Uint8Array> {
+async function derivePassword(password: string, salt: Uint8Array<ArrayBufferLike>, iterations: number): Promise<Uint8Array<ArrayBuffer>> {
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
-  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt, iterations }, key, 256);
+  const saltBuffer = Uint8Array.from(salt).buffer;
+  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: saltBuffer, iterations }, key, 256);
   return new Uint8Array(bits);
 }
 
-export async function hashPassword(password: string, iterations = PASSWORD_ITERATIONS) {
+export async function hashPassword(password: string, iterations = PASSWORD_ITERATIONS): Promise<PasswordHashRecord> {
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const hash = await derivePassword(password, salt, iterations);
   return { hash: toHex(hash), salt: toHex(salt), iterations };
@@ -62,11 +74,20 @@ export async function verifyPassword(password: string, hash: string, salt: strin
   if (expected.length !== 32 || saltBytes.length < 16) return false;
   const actual = await derivePassword(password, saltBytes, iterations);
   const subtle = crypto.subtle as SubtleCrypto & { timingSafeEqual?: (a: BufferSource, b: BufferSource) => boolean };
-  if (typeof subtle.timingSafeEqual === "function") return subtle.timingSafeEqual(actual, expected);
+  if (typeof subtle.timingSafeEqual === "function") {
+    const actualBuffer = Uint8Array.from(actual).buffer;
+    const expectedBuffer = Uint8Array.from(expected).buffer;
+    return subtle.timingSafeEqual(actualBuffer, expectedBuffer);
+  }
   let difference = 0;
   for (let i = 0; i < expected.length; i++) difference |= actual[i] ^ expected[i];
   return difference === 0;
 }
+
+export const directPasswordKdf: PasswordKdfService = {
+  hash: (password) => hashPassword(password),
+  verify: (password, hash, salt, iterations) => verifyPassword(password, hash, salt, iterations),
+};
 
 function cookieName(request: Request) {
   return new URL(request.url).protocol === "https:" ? "__Host-reader_session" : "reader_session";
@@ -147,7 +168,7 @@ export async function consumeLoginAttempt(
   return { allowed: Boolean(row), retryAfter: Math.max(1, expiresAt - now) };
 }
 
-export async function registerAction(db: D1DatabaseLike, request: Request) {
+export async function registerAction(db: D1DatabaseLike, request: Request, kdf: PasswordKdfService) {
   assertSameOriginPost(request);
   const attempt = await consumeLoginAttempt(db, request, undefined, "register");
   if (!attempt.allowed) return privateJson({ error: "Too many registration attempts. Please try again later." }, 429, { "Retry-After": String(attempt.retryAfter) });
@@ -171,7 +192,7 @@ export async function registerAction(db: D1DatabaseLike, request: Request) {
       return privateJson({ error: "This email has legacy prototype data. For safety it cannot be claimed by email alone. Sign in from the browser that still holds the prototype session or use a different email." }, 409);
     }
   }
-  const passwordRecord = await hashPassword(password);
+  const passwordRecord = await kdf.hash(password, email);
 
   if (existing) {
     // Prototype data is preserved, but email knowledge alone is not enough to claim it. A still-valid
@@ -193,7 +214,7 @@ export async function registerAction(db: D1DatabaseLike, request: Request) {
   return redirectTo(safeReturnTo(form.get("returnTo")), { "Set-Cookie": cookie });
 }
 
-export async function loginAction(db: D1DatabaseLike, request: Request) {
+export async function loginAction(db: D1DatabaseLike, request: Request, kdf: PasswordKdfService) {
   assertSameOriginPost(request);
   const attempt = await consumeLoginAttempt(db, request);
   if (!attempt.allowed) return privateJson({ error: "Too many sign-in attempts. Please try again later." }, 429, { "Retry-After": String(attempt.retryAfter) });
@@ -206,7 +227,7 @@ export async function loginAction(db: D1DatabaseLike, request: Request) {
     FROM reader_users WHERE email = ? COLLATE NOCASE LIMIT 1
   `).bind(email).first<{ id: string; password_hash: string | null; password_salt: string | null; password_iterations: number | null; registered_at: number | null }>();
   if (!row?.password_hash || !row.password_salt || !row.password_iterations || !row.registered_at
-      || !(await verifyPassword(password, row.password_hash, row.password_salt, row.password_iterations))) {
+      || !(await kdf.verify(password, row.password_hash, row.password_salt, row.password_iterations, email))) {
     return privateJson({ error: "Email or password is incorrect." }, 401);
   }
   await revokeSession(db, request);

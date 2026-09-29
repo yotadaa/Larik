@@ -27,18 +27,19 @@
     "test:atlas": "node --experimental-strip-types --test tests/atlas.test.mjs tests/atlas-metadata-v2.test.mjs",
     "test:syntax": "node scripts/syntax-check.mjs",
     "test:e2e": "playwright test",
-    "test:core-types": "tsc --noEmit --strict --skipLibCheck --target ES2023 --module ESNext --moduleResolution Bundler --lib ES2023,DOM,DOM.Iterable --allowImportingTsExtensions app/lib/auth.server.ts app/lib/http.server.ts app/lib/bookmarks.server.ts app/lib/chapter-markdown.ts app/lib/atlas.ts app/lib/atlas.server.ts app/lib/reader-state.server.ts app/lib/repository.ts",
+    "test:core-types": "tsc --noEmit --strict --skipLibCheck --target ES2023 --module ESNext --moduleResolution Bundler --lib ES2023,DOM,DOM.Iterable --allowImportingTsExtensions app/lib/auth.server.ts app/lib/auth-kdf.server.ts app/lib/password-kdf-core.ts app/lib/http.server.ts app/lib/bookmarks.server.ts app/lib/chapter-markdown.ts app/lib/atlas.ts app/lib/atlas.server.ts app/lib/reader-state.server.ts app/lib/repository.ts",
     "db:migrate:remote": "node scripts/migrate-d1.mjs --apply",
     "db:migrate:status": "node scripts/migrate-d1.mjs --status",
     "db:verify:readers": "node scripts/migrate-d1.mjs --verify",
     "build": "react-router build",
     "test:d1-migrations": "node --test tests/d1-migrations.test.mjs",
-    "test:reader-features": "node --experimental-strip-types --test tests/atlas.test.mjs tests/atlas-metadata-v2.test.mjs tests/features.test.mjs tests/d1-migrations.test.mjs",
+    "test:reader-features": "node --experimental-strip-types --test tests/auth-kdf.test.mjs tests/atlas.test.mjs tests/atlas-metadata-v2.test.mjs tests/features.test.mjs tests/d1-migrations.test.mjs",
     "db:metadata:validate": "python3 scripts/sqilte-migration/migrator.py --validate --issues",
     "db:metadata:sync": "python3 scripts/sqilte-migration/migrator.py --apply --issues",
     "db:sync": "npm run db:migrate:remote && npm run db:metadata:sync",
     "db:sync:preview": "npm run db:migrate:status && npm run db:metadata:validate",
-    "test:metadata": "python3 -m unittest tests.metadata_migrator_test"
+    "test:metadata": "python3 -m unittest tests.metadata_migrator_test",
+    "test:auth-kdf": "node --experimental-strip-types --test tests/auth-kdf.test.mjs"
   },
   "dependencies": {
     "react": "19.2.7",

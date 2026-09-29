@@ -1,3 +1,4 @@
+export { PasswordKdf } from "./password-kdf";
 import {
   createRequestHandler,
   RouterContextProvider,

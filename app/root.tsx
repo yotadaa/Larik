@@ -25,7 +25,16 @@ import { getUser } from "~/lib/auth.server";
 import "./styles.css";
 
 export async function loader({ request, context }: Route.LoaderArgs) {
-  return { user: await getUser(getDb(context), request) };
+  try {
+    return { user: await getUser(getDb(context), request) };
+  } catch (error) {
+    const requestId = request.headers.get("CF-Ray") ?? crypto.randomUUID();
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(JSON.stringify({ event: "auth.session.lookup.failure", requestId, message }));
+    // Public reading must remain available even if the auth/session schema is temporarily unavailable.
+    // Protected actions still call requireUser and therefore fail closed.
+    return { user: null };
+  }
 }
 
 export const meta: Route.MetaFunction = () => [

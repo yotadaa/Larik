@@ -1,6 +1,6 @@
 # Authentication, sessions and reader ownership
 
-Updated 2026-09-28.
+Updated 2026-09-29.
 
 ## Current account model
 
@@ -10,9 +10,38 @@ identifier; this release does not send mail and therefore does not prove mailbox
 
 Passwords are normalized with Unicode NFC, limited to 12–128 characters, salted independently and
 stored as PBKDF2-HMAC-SHA256 derived hashes (600,000 iterations). Plaintext passwords are never stored.
-Cloudflare Workers Web Crypto performs the password derivation. Sessions use 256-bit opaque random
-tokens; only SHA-256 token hashes are stored in D1. Cookies are HttpOnly, SameSite=Lax, Path=/ and
-Secure on HTTPS.
+Cloudflare Web Crypto performs the password derivation inside the `PasswordKdf` SQLite-backed Durable
+Object. The front Worker never performs the expensive PBKDF2 loop, which keeps password verification
+compatible with the Workers Free CPU budget while preserving the existing 600,000-iteration hashes.
+Sessions use 256-bit opaque random tokens; only SHA-256 token hashes are stored in D1. Cookies are
+HttpOnly, SameSite=Lax, Path=/ and Secure on HTTPS.
+
+## Production Cloudflare authentication path
+
+The production login/register route requires the `AUTH_KDF` Durable Object binding declared in
+`wrangler.jsonc`. Calls are sharded by normalized account email and sent only through the internal
+Durable Object binding; plaintext passwords are neither stored nor written to application logs.
+Existing PBKDF2 records remain compatible because the hash format and iteration count did not change.
+
+`wrangler.jsonc` also enables Workers Observability. Authentication infrastructure failures emit a
+structured `console.error` event with a `CF-Ray`/request reference while the browser receives only a
+generic 503 message. This avoids leaking D1 or KDF internals to the reader while making production
+failures searchable in Workers Logs.
+
+Production deployment now runs the remote D1 schema verifier after the build and before `wrangler
+deploy`. If password columns/auth-method schema are missing, deployment stops and instructs the
+operator to run `npm run db:migrate:remote`; it does not silently deploy code against an older D1.
+
+Recommended deployment order:
+
+```bash
+npm run db:migrate:status
+npm run db:migrate:remote   # only when pending
+npm run deploy
+```
+
+The Durable Object namespace is provisioned by Wrangler from the `exports.PasswordKdf` SQLite
+storage declaration during deployment; it is separate from D1 migrations.
 
 ## Prototype migration boundary
 

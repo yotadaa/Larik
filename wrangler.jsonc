@@ -26,5 +26,23 @@
     "crons": [
       "17 3 * * *"
     ]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "AUTH_KDF",
+        "class_name": "PasswordKdf"
+      }
+    ]
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "exports": {
+    "PasswordKdf": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    }
   }
 }

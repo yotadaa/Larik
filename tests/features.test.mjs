@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import fs from "node:fs";
 import { DatabaseSync } from "node:sqlite";
-import { getUser, loginAction, logoutAction, normalizeEmail, registerAction, sha256, validatePassword } from "../app/lib/auth.server.ts";
+import { directPasswordKdf, getUser, loginAction, logoutAction, normalizeEmail, registerAction, sha256, validatePassword } from "../app/lib/auth.server.ts";
 import { bookmarkAction, listBookmarks } from "../app/lib/bookmarks.server.ts";
 import { getReaderLibraryState, readerStateAction } from "../app/lib/reader-state.server.ts";
 import { safeReturnTo } from "../app/lib/http.server.ts";
@@ -33,7 +33,7 @@ const cookieFrom = (response) => response.headers.get("Set-Cookie")?.split(";")[
 const PASSWORD = "correct horse battery staple";
 
 async function register(db, email = "reader@example.com") {
-  const response = await registerAction(db, post("/register", { email, password: PASSWORD, confirmPassword: PASSWORD, returnTo: "/bookmarks" }));
+  const response = await registerAction(db, post("/register", { email, password: PASSWORD, confirmPassword: PASSWORD, returnTo: "/bookmarks" }), directPasswordKdf);
   assert.equal(response.status, 303);
   return cookieFrom(response);
 }
@@ -43,8 +43,8 @@ test("registration requires a real password policy and confirmation", async () =
   assert.equal(validatePassword("short"), null);
   assert.equal(validatePassword(PASSWORD), PASSWORD);
   const { db } = setup();
-  assert.equal((await registerAction(db, post("/register", { email: "reader@example.com", password: "short", confirmPassword: "short" }))).status, 400);
-  assert.equal((await registerAction(db, post("/register", { email: "reader@example.com", password: PASSWORD, confirmPassword: `${PASSWORD}!` }))).status, 400);
+  assert.equal((await registerAction(db, post("/register", { email: "reader@example.com", password: "short", confirmPassword: "short" }), directPasswordKdf)).status, 400);
+  assert.equal((await registerAction(db, post("/register", { email: "reader@example.com", password: PASSWORD, confirmPassword: `${PASSWORD}!` }), directPasswordKdf)).status, 400);
 });
 
 test("registered account signs in with password; wrong password and blind email fail", async () => {
@@ -58,9 +58,9 @@ test("registered account signs in with password; wrong password and blind email 
   assert.ok(stored.password_iterations >= 600000);
   assert.ok(stored.registered_at > 0);
   assert.equal(stored.email_verified_at, null);
-  assert.equal((await loginAction(db, post("/login", { email: "reader@example.com", password: "a wrong password that is long" }))).status, 401);
-  assert.equal((await loginAction(db, post("/login", { email: "reader@example.com" }))).status, 400);
-  const loggedIn = await loginAction(db, post("/login", { email: "reader@example.com", password: PASSWORD }));
+  assert.equal((await loginAction(db, post("/login", { email: "reader@example.com", password: "a wrong password that is long" }), directPasswordKdf)).status, 401);
+  assert.equal((await loginAction(db, post("/login", { email: "reader@example.com" }), directPasswordKdf)).status, 400);
+  const loggedIn = await loginAction(db, post("/login", { email: "reader@example.com", password: PASSWORD }), directPasswordKdf);
   assert.equal(loggedIn.status, 303);
   assert.ok(cookieFrom(loggedIn));
 });
@@ -74,9 +74,9 @@ test("prototype sessions are disabled for normal access but can safely upgrade t
   sqlite.prepare("INSERT INTO reader_bookmarks(user_id,novel_id,chapter_id,created_at) VALUES(?,?,?,?)").run("legacy", NOVEL, CHAPTER, 1);
   const prototypeCookie = `__Host-reader_session=${token}`;
   assert.equal(await getUser(db, read("/bookmarks", prototypeCookie)), null);
-  const rejected = await registerAction(db, post("/register", { email: "legacy@example.com", password: PASSWORD, confirmPassword: PASSWORD }));
+  const rejected = await registerAction(db, post("/register", { email: "legacy@example.com", password: PASSWORD, confirmPassword: PASSWORD }), directPasswordKdf);
   assert.equal(rejected.status, 409);
-  const upgraded = await registerAction(db, post("/register", { email: "legacy@example.com", password: PASSWORD, confirmPassword: PASSWORD }, prototypeCookie));
+  const upgraded = await registerAction(db, post("/register", { email: "legacy@example.com", password: PASSWORD, confirmPassword: PASSWORD }, prototypeCookie), directPasswordKdf);
   assert.equal(upgraded.status, 303);
   assert.equal(sqlite.prepare("SELECT COUNT(*) AS n FROM reader_bookmarks WHERE user_id='legacy'").get().n, 1);
   assert.equal(sqlite.prepare("SELECT COUNT(*) AS n FROM reader_sessions WHERE user_id='legacy' AND auth_method='prototype'").get().n, 0);

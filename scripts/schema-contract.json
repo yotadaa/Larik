@@ -57,13 +57,18 @@
     "id",
     "email",
     "email_verified_at",
-    "created_at"
+    "created_at",
+    "password_hash",
+    "password_salt",
+    "password_iterations",
+    "registered_at"
   ],
   "reader_sessions": [
     "token_hash",
     "user_id",
     "created_at",
-    "expires_at"
+    "expires_at",
+    "auth_method"
   ],
   "reader_bookmarks": [
     "user_id",
@@ -75,5 +80,16 @@
     "bucket_key",
     "attempts",
     "expires_at"
+  ],
+  "reader_library_state": [
+    "user_id",
+    "novel_id",
+    "status",
+    "last_chapter_id",
+    "progress_percent",
+    "progress_sync_count",
+    "resume_open_count",
+    "last_resumed_at",
+    "updated_at"
   ]
 }

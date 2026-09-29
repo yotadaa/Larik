@@ -1,18 +1,36 @@
 import { Form, Link, useNavigation } from "react-router";
 import { ArrowRightIcon, EnvelopeIcon, KeyIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/login";
-import { getDb } from "~/lib/cloudflare-context";
+import { getDb, getPasswordKdf } from "~/lib/cloudflare-context";
 import { getUser, loginAction } from "~/lib/auth.server";
 import { redirectTo, safeReturnTo } from "~/lib/http.server";
 
 export async function loader({ request, context }: Route.LoaderArgs) {
   const returnTo = safeReturnTo(new URL(request.url).searchParams.get("returnTo"));
-  const user = await getUser(getDb(context), request);
-  if (user) throw redirectTo(returnTo);
+  try {
+    const user = await getUser(getDb(context), request);
+    if (user) throw redirectTo(returnTo);
+  } catch (error) {
+    if (error instanceof Response) throw error;
+    const requestId = request.headers.get("CF-Ray") ?? crypto.randomUUID();
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(JSON.stringify({ event: "auth.login.loader.failure", requestId, message }));
+  }
   return { returnTo };
 }
 export async function action({ request, context }: Route.ActionArgs) {
-  return loginAction(getDb(context), request);
+  const requestId = request.headers.get("CF-Ray") ?? crypto.randomUUID();
+  try {
+    return await loginAction(getDb(context), request, getPasswordKdf(context));
+  } catch (error) {
+    if (error instanceof Response) throw error;
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(JSON.stringify({ event: "auth.login.failure", requestId, message }));
+    return Response.json(
+      { error: "Sign-in service is temporarily unavailable. Please try again. Reference: " + requestId },
+      { status: 503, headers: { "Cache-Control": "private, no-store", "X-Auth-Error-Id": requestId } },
+    );
+  }
 }
 export const meta = () => [{ title: "Sign in — The Reading Room" }, { name: "robots", content: "noindex" }];
 

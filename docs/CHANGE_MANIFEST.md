@@ -58,3 +58,18 @@
 - Kept React Flow and Cytoscape out of the reader bundle; they remain future editor/scale options as
   documented in visualization research.
 - Expanded Atlas regression coverage for the richer metadata payload and temporal range semantics.
+
+## Cloudflare production authentication fix — 2026-09-29
+
+- Moved 600,000-iteration PBKDF2 hash/verify work out of the front Worker and into the
+  SQLite-backed `PasswordKdf` Durable Object, preserving existing password hashes.
+- Added `AUTH_KDF` Durable Object binding and current `exports`-based SQLite namespace declaration.
+- Removed production fallback to direct/front-Worker password KDF; login/register must receive the
+  bound KDF service.
+- Added structured auth failure logs and reader-visible 503 request references.
+- Enabled Workers Observability so route/Worker errors are retained in Cloudflare Logs.
+- Added a remote D1 schema verification gate before deployment and expanded the schema contract with
+  current password/session/library-state columns.
+- Kept public reading available if optional session lookup temporarily fails; protected data remains
+  session-gated.
+- Added Durable Object KDF compatibility/configuration tests.

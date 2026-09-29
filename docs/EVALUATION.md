@@ -116,3 +116,46 @@ Validation after the visualization implementation:
   archive already contains the decorative Unicode arrow `↗`, which violates the repository's own
   Heroicons-only static check. The new/changed Atlas source files pass that same glyph/unsafe-rendering
   subset check and introduce no decorative arrow/star glyphs.
+
+## Production login / Cloudflare Worker fix — 2026-09-29
+
+The deployed-login failure had two deployment-only risks that local development did not reproduce:
+
+1. password verification performed PBKDF2-HMAC-SHA256 at 600,000 iterations in the front Worker;
+   the password format is intentionally expensive and is not appropriate for the very small Workers
+   Free HTTP CPU budget;
+2. `npm run deploy` previously published the Worker without first verifying that the remote D1 had
+   the password/auth columns from the reader migrations.
+
+Changes made:
+
+- preserved the existing 600,000-iteration PBKDF2 hash format and all existing password records;
+- moved hash/verify work to a SQLite-backed `PasswordKdf` Durable Object via internal binding
+  `AUTH_KDF`, sharded by normalized account identifier;
+- made `loginAction` / `registerAction` require an injected KDF service, so production cannot
+  accidentally fall back to front-Worker PBKDF2;
+- added generic 503 responses with request references plus structured `console.error` diagnostics;
+- made root/session lookup fail open only to the anonymous/public reader state while protected
+  actions remain fail-closed;
+- enabled Workers Observability at 100% sampling for this debugging stage;
+- added a read-only remote schema gate before `wrangler deploy`;
+- updated schema contracts to include password columns, `auth_method`, and reader library state.
+
+Validation:
+
+- `npm run test:auth-kdf` — **4/4 passed**;
+- `npm run test:features` — **7/7 passed**;
+- `npm run test:d1-migrations` — **23/23 passed**;
+- `npm run test:reader-features` — **48/48 passed** before the final no-fallback tightening;
+- `npm run test:core-types` — **PASS** for the dependency-free core/KDF modules;
+- `npm run test:syntax` — **PASS (51 TypeScript/TSX modules)**.
+
+The environment used for this patch cannot reach the user's Cloudflare API, so the live D1 schema
+could not be inspected from here. The new deploy preflight is therefore intentionally fail-closed on
+the user's machine/CI. `npm ci` also could not complete in this environment because package network
+access stalled, so the full React Router dependency-aware production build must still be run on Node
+22.22+ before deployment.
+
+`npm run test:security` continues to fail on the same pre-existing decorative Unicode glyph in
+`app/routes/novel.tsx`; the untouched uploaded archive fails identically, so it is unrelated to the
+authentication patch.
