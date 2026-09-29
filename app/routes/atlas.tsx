@@ -10,6 +10,7 @@ import { getNovel } from "~/lib/repository";
 import { listAtlasChapters, loadAtlasData } from "~/lib/atlas.server";
 import type { AtlasScope } from "~/lib/atlas";
 import { hrefNovel, validateRouteSegment } from "~/lib/params";
+import { BRAND_NAME } from "~/lib/brand";
 
 function atlasScope(value: string | null): AtlasScope {
   return value === "range" || value === "all" ? value : "through";
@@ -79,7 +80,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   };
 }
 export function meta({ loaderData }: Route.MetaArgs) {
-  return [{ title: `Story Atlas — ${loaderData?.novel.title ?? "The Reading Room"}` }, { name: "robots", content: "noindex" }];
+  return [{ title: `Story Atlas — ${loaderData?.novel.title ?? "Novel"} — ${BRAND_NAME}` }, { name: "robots", content: "noindex" }];
 }
 export default function Atlas({ loaderData }: Route.ComponentProps) {
   const { novel, coverage, selection, atlas, unlockHref, view } = loaderData;

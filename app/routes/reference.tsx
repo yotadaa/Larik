@@ -19,6 +19,7 @@ import {
   type TextRecord,
 } from "~/lib/repository";
 import { readSearchParam, validateRouteSegment } from "~/lib/params";
+import { BRAND_NAME, brandedTitle } from "~/lib/brand";
 
 const allowed = new Set(["characters", "locations", "terminology", "glossary", "continuity", "qa"]);
 
@@ -73,7 +74,7 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
-  return [{ title: loaderData ? `${loaderData.title} — ${loaderData.novel.title || loaderData.novel.novelId}` : "Reference — The Reading Room" }];
+  return [{ title: loaderData ? `${loaderData.title} — ${loaderData.novel.title || loaderData.novel.novelId} — ${BRAND_NAME}` : brandedTitle("Reference") }];
 }
 
 export default function Reference({ loaderData }: Route.ComponentProps) {

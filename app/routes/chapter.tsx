@@ -21,6 +21,7 @@ import { loadChapterContext, loadInlineLookup } from "~/lib/atlas.server";
 import { getReaderLibraryState } from "~/lib/reader-state.server";
 import { getChapter } from "~/lib/repository";
 import { hrefChapter, hrefNovel, validateRouteSegment } from "~/lib/params";
+import { BRAND_NAME, brandedTitle } from "~/lib/brand";
 
 export async function loader({ params, request, context }: Route.LoaderArgs) {
   const novelId = validateRouteSegment(params.novelId, "novel id");
@@ -44,7 +45,7 @@ export async function action({ request, context }: Route.ActionArgs) { return bo
 
 export function meta({ loaderData }: Route.MetaArgs) {
   const chapter = loaderData?.current;
-  return [{ title: chapter ? `${chapter.title || chapter.chapterId} — ${chapter.novelTitle || "The Reading Room"}` : "Chapter — The Reading Room" }];
+  return [{ title: chapter ? `${chapter.title || chapter.chapterId} — ${chapter.novelTitle || "Novel"} — ${BRAND_NAME}` : brandedTitle("Chapter") }];
 }
 
 export default function Chapter({ loaderData }: Route.ComponentProps) {

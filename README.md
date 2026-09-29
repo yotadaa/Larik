@@ -1,4 +1,4 @@
-# Larik / The Reading Room
+# Larik by Mukhtada
 
 A React Router 8 novel reader for Cloudflare Workers + D1. This feature release replaces the
 blind-email prototype with password registration/login, adds D1-backed reading state and discovery,

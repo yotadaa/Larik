@@ -13,6 +13,7 @@ import { getDb } from "~/lib/cloudflare-context";
 import { getReaderLibraryState } from "~/lib/reader-state.server";
 import { getNovel, getReferenceCounts, listChapters } from "~/lib/repository";
 import { hrefChapter, readPositiveInt, readSearchParam, validateRouteSegment } from "~/lib/params";
+import { brandedTitle } from "~/lib/brand";
 
 export async function loader({ params, request, context }: Route.LoaderArgs) {
   const novelId = validateRouteSegment(params.novelId, "novel id");
@@ -37,7 +38,7 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
 export async function action({ request, context }: Route.ActionArgs) { return bookmarkAction(getDb(context), request); }
 
 export function meta({ loaderData }: Route.MetaArgs) {
-  return [{ title: loaderData ? `${loaderData.novel.title || loaderData.novel.novelId} — The Reading Room` : "Novel — The Reading Room" }];
+  return [{ title: brandedTitle(loaderData ? (loaderData.novel.title || loaderData.novel.novelId) : "Novel") }];
 }
 
 export default function Novel({ loaderData }: Route.ComponentProps) {

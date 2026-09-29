@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Form, Link } from "react-router";
 import { FunnelIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/library";
+import { brandedTitle } from "~/lib/brand";
 import { CustomSelect } from "~/components/CustomSelect";
 import { EmptyState } from "~/components/EmptyState";
 import { NovelCard } from "~/components/NovelCard";
@@ -11,7 +12,7 @@ import { getDb } from "~/lib/cloudflare-context";
 import { listLanguages, listNovels } from "~/lib/repository";
 import { readPositiveInt, readSearchParam } from "~/lib/params";
 
-export const meta: Route.MetaFunction = () => [{ title: "Library — The Reading Room" }];
+export const meta: Route.MetaFunction = () => [{ title: brandedTitle("Library") }];
 
 export async function loader({ request, context }: Route.LoaderArgs) {
   const url = new URL(request.url);

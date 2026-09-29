@@ -10,9 +10,10 @@ import type { Route } from "./+types/home";
 import { NovelCard } from "~/components/NovelCard";
 import { getDb } from "~/lib/cloudflare-context";
 import { getCatalogStats, listLanguages, listNovels } from "~/lib/repository";
+import { BRAND_NAME } from "~/lib/brand";
 
 export const meta: Route.MetaFunction = () => [
-  { title: "The Reading Room — Read quietly, anywhere" },
+  { title: `${BRAND_NAME} — Read quietly, anywhere` },
   { name: "description", content: "A calm novel reader powered directly by Cloudflare Workers and D1." },
 ];
 

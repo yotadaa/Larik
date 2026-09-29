@@ -1,6 +1,7 @@
 import { Form, Link } from "react-router";
 import { ArrowRightIcon, BookOpenIcon, BookmarkIcon } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/bookmarks";
+import { brandedTitle } from "~/lib/brand";
 import { BookmarkButton } from "~/components/BookmarkButton";
 import { CustomSelect } from "~/components/CustomSelect";
 import { EmptyState } from "~/components/EmptyState";
@@ -18,7 +19,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
   return { user, bookmarks };
 }
 export async function action({ request, context }: Route.ActionArgs) { return bookmarkAction(getDb(context), request); }
-export const meta = () => [{ title: "Bookmarks — The Reading Room" }, { name: "robots", content: "noindex" }];
+export const meta = () => [{ title: brandedTitle("Bookmarks") }, { name: "robots", content: "noindex" }];
 
 export default function Bookmarks({ loaderData }: Route.ComponentProps) {
   const { user, bookmarks } = loaderData;

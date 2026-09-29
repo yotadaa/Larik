@@ -1,6 +1,7 @@
 import { Form, Link, useNavigation } from "react-router";
 import { ArrowRightIcon, EnvelopeIcon, KeyIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/register";
+import { brandedTitle } from "~/lib/brand";
 import { getDb, getPasswordKdf } from "~/lib/cloudflare-context";
 import { getUser, registerAction } from "~/lib/auth.server";
 import { redirectTo, safeReturnTo } from "~/lib/http.server";
@@ -32,7 +33,7 @@ export async function action({ request, context }: Route.ActionArgs) {
     );
   }
 }
-export const meta = () => [{ title: "Register — The Reading Room" }, { name: "robots", content: "noindex" }];
+export const meta = () => [{ title: brandedTitle("Register") }, { name: "robots", content: "noindex" }];
 
 export default function Register({ loaderData, actionData }: Route.ComponentProps) {
   const navigation = useNavigation();

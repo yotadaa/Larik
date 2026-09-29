@@ -22,6 +22,7 @@ import type { Route } from "./+types/root";
 import { NavigationStatus } from "~/components/NavigationStatus";
 import { getDb } from "~/lib/cloudflare-context";
 import { getUser } from "~/lib/auth.server";
+import { BRAND_BYLINE, BRAND_DESCRIPTION, BRAND_NAME, BRAND_SHORT_NAME, brandedTitle } from "~/lib/brand";
 import "./styles.css";
 
 export async function loader({ request, context }: Route.LoaderArgs) {
@@ -38,10 +39,10 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 }
 
 export const meta: Route.MetaFunction = () => [
-  { title: "The Reading Room — D1 Novel Library" },
+  { title: brandedTitle("Digital Novel Library") },
   {
     name: "description",
-    content: "A quiet, database-backed reading room for translated novels on Cloudflare Workers.",
+    content: BRAND_DESCRIPTION,
   },
 ];
 
@@ -72,11 +73,11 @@ export default function App({ loaderData }: Route.ComponentProps) {
       <NavigationStatus />
       <header className="site-header">
         <div className="site-header__inner">
-          <Link className="brand" to="/" aria-label="The Reading Room home">
+          <Link className="brand" to="/" aria-label={`${BRAND_NAME} home`}>
             <img className="brand__logo" src="/brand-mark.svg" alt="" width="42" height="42" />
             <span>
-              <strong>The Reading Room</strong>
-              <small>Cloudflare D1 library</small>
+              <strong>{BRAND_SHORT_NAME}</strong>
+              <small>{BRAND_BYLINE}</small>
             </span>
           </Link>
           <nav className="site-nav" aria-label="Primary navigation">
@@ -95,7 +96,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
           <div className="footer-brand">
             <img src="/brand-mark.svg" alt="" width="40" height="40" />
             <div>
-              <p className="eyebrow">The Reading Room</p>
+              <p className="eyebrow">{BRAND_NAME}</p>
               <p>A focused interface for long-form reading. Data comes from Cloudflare D1 at request time.</p>
             </div>
           </div>
