@@ -23,10 +23,15 @@ from src.infrastructures.repositories.raw_story_repository import FileSystemRawS
 class FakeLLM:
     model_name = "fake-model"
 
+    def __init__(self):
+        self.calls: list[tuple[str, int]] = []
+
     async def translate(self, chapter, context, *, target_language):
+        self.calls.append(("translate", chapter.chapter_number))
         return chapter.source_text.replace("Chapter", "Bab").replace("Hello", "Halo")
 
     async def extract_metadata(self, chapter, translated_text, context, *, target_language):
+        self.calls.append(("metadata", chapter.chapter_number))
         n = chapter.chapter_number
         entities = (
             EntitySnapshot(
@@ -112,15 +117,17 @@ class PipelineTests(unittest.IsolatedAsyncioTestCase):
                 prompt_reserve_tokens=500,
             ),
         )
+        llm = FakeLLM()
         use_case = TranslateSeries(
             source=self.source,
             repository=self.repo,
-            llm=FakeLLM(),
+            llm=llm,
             context_builder=builder,
             settings=TranslationWorkflowSettings(review_mode="off", strict_sequential=True),
         )
         summary = await use_case.execute("demo", "id", start=1, end=2)
         self.assertEqual(summary.processed, (1, 2))
+        self.assertEqual(llm.calls, [("translate", 1), ("metadata", 1), ("translate", 2), ("metadata", 2)])
         self.assertEqual(self.repo.chapter_count("demo", "id"), 2)
 
         relationship_rows = self.repo.conn.execute(
@@ -186,6 +193,23 @@ class PipelineTests(unittest.IsolatedAsyncioTestCase):
 
 
 class RawSourceTests(unittest.TestCase):
+
+    def test_chapter_path_index_is_cached_but_text_is_read_fresh(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "story" / "raw" / "shadow" / "chapters"
+            root.mkdir(parents=True)
+            chapter_path = root / "chapters-66.md"
+            chapter_path.write_text("# Chapter 66\nFirst", encoding="utf-8")
+            source = FileSystemRawStorySource(Path(td) / "story" / "raw")
+
+            self.assertEqual(source.list_chapter_numbers("shadow"), [66])
+            first_map = source._chapter_map("shadow")
+            second_map = source._chapter_map("shadow")
+            self.assertIs(first_map, second_map)
+
+            chapter_path.write_text("# Chapter 66\nChanged", encoding="utf-8")
+            self.assertIn("Changed", source.read_chapter("shadow", 66).source_text)
+
     def test_plural_chapters_filename_is_supported(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td) / "story" / "raw" / "shadow" / "chapters"

@@ -3,7 +3,8 @@ import { Link } from "react-router";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { CustomSelect } from "./CustomSelect";
 import { MetadataMarkdown } from "./MetadataMarkdown";
-import { atlasActiveEdgesInWindow, KIND_LABELS, atlasKindFromMetadata, type AtlasCharacteristic, type AtlasData, type AtlasKind } from "~/lib/atlas";
+import { AtlasRelationshipEvolution } from "./AtlasRelationshipEvolution";
+import { KIND_LABELS, atlasKindFromMetadata, type AtlasCharacteristic, type AtlasData, type AtlasKind } from "~/lib/atlas";
 import { hrefChapter } from "~/lib/params";
 
 function evidenceChapterIds(value: string) {
@@ -50,7 +51,6 @@ export function AtlasProfiles({ atlas }: { atlas: AtlasData }) {
   const [selectedId, setSelectedId] = useState(() => detailed[0]?.entityId ?? atlas.characteristics[0]?.entityId ?? "");
   const selected = filtered.find((profile) => profile.entityId === selectedId) ?? filtered[0];
   const nodes = useMemo(() => new Map(atlas.nodes.map((node) => [node.id, node])), [atlas.nodes]);
-  const activeEdges = useMemo(() => atlasActiveEdgesInWindow(atlas), [atlas]);
 
   if (!atlas.characteristics.length) {
     return <section className="atlas-visual-card empty-state"><h2>No characteristic profiles are safe at this boundary</h2><p>Detailed profiles are cumulative snapshots. They are withheld until the chapter boundary used to compile them is reached, rather than leaking later biography at an entity&apos;s first appearance.</p></section>;
@@ -58,13 +58,14 @@ export function AtlasProfiles({ atlas }: { atlas: AtlasData }) {
 
   const facts = selected ? atlas.facts.filter((fact) => fact.subjectId === selected.entityId) : [];
   const states = selected ? atlas.states.filter((state) => state.entityId === selected.entityId) : [];
-  const relations = selected ? activeEdges.filter((edge) => edge.source === selected.entityId || edge.target === selected.entityId) : [];
+  const relations = selected ? atlas.edges.filter((edge) => edge.source === selected.entityId || edge.target === selected.entityId) : [];
+  const relationshipLineages = selected ? new Set(relations.map((edge) => edge.relationshipId || `${edge.source}:${edge.target}:${edge.direction || "directed"}`)).size : 0;
   const evidenceIds = selected ? evidenceChapterIds(selected.evidence) : [];
   const node = selected ? nodes.get(selected.entityId) : undefined;
 
   return <section className="atlas-visual-card atlas-profiles" aria-labelledby="atlas-profiles-title">
     <div className="atlas-visual-heading">
-      <div><p className="eyebrow">Entity profiles · characteristics.md</p><h2 id="atlas-profiles-title">Readable profiles without flattening story history</h2></div>
+      <div><p className="eyebrow">Entity profiles · local SQLite</p><h2 id="atlas-profiles-title">Readable profiles without flattening story history</h2></div>
       <p>Characteristics are cumulative editorial snapshots, so they are displayed separately from time-varying states. A detailed profile appears only when its complete source boundary is safe.</p>
     </div>
 
@@ -102,8 +103,10 @@ export function AtlasProfiles({ atlas }: { atlas: AtlasData }) {
         </> : <div className="atlas-profile__registry"><strong>Profile not yet curated inside this snapshot.</strong><MetadataMarkdown source={selected.scope || "The registry records this entity, but no cumulative characteristic profile is available at this boundary."} novelId={atlas.novelId} variant="compact" /></div>}
 
         <div className="atlas-profile__structured-summary" aria-label="Related structured records in selected Atlas window">
-          <div><strong>{relations.length}</strong><span>relationships</span></div><div><strong>{states.length}</strong><span>states</span></div><div><strong>{facts.length}</strong><span>facts</span></div>
+          <div><strong>{relationshipLineages}</strong><span>relationships</span></div><div><strong>{relations.length}</strong><span>chapter snapshots</span></div><div><strong>{states.length + facts.length}</strong><span>other records</span></div>
         </div>
+
+        <AtlasRelationshipEvolution atlas={atlas} entityId={selected.entityId} />
 
         {evidenceIds.length ? <section className="atlas-profile__evidence"><h3>Profile evidence</h3><div>{evidenceIds.map((chapterId) => <Link key={chapterId} to={hrefChapter(atlas.novelId, chapterId)}>Ch. {Number.parseInt(chapterId, 10)}</Link>)}</div></section> : selected.evidence ? <section className="atlas-profile__evidence"><h3>Profile evidence</h3><MetadataMarkdown source={selected.evidence} novelId={atlas.novelId} variant="compact" /></section> : null}
       </article>

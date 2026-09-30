@@ -8,7 +8,9 @@
     "build": "react-router build",
     "typegen": "react-router typegen",
     "typecheck": "npm run typegen && tsc -b --noEmit",
-    "check": "npm run typecheck && npm run build"
+    "check": "npm run typecheck && npm run build",
+    "dev:translator": "LARIK_APP_MODE=translator react-router dev --host 0.0.0.0",
+    "build:translator": "LARIK_APP_MODE=translator react-router build"
   },
   "dependencies": {
     "@heroicons/react": "2.2.0",

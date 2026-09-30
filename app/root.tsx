@@ -17,6 +17,7 @@ import {
   BookmarkIcon,
   UserCircleIcon,
   ArrowRightOnRectangleIcon,
+  CommandLineIcon,
 } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/root";
 import { NavigationStatus } from "~/components/NavigationStatus";
@@ -26,17 +27,18 @@ import { BRAND_BYLINE, BRAND_DESCRIPTION, BRAND_NAME, BRAND_SHORT_NAME, brandedT
 import "./styles.css";
 
 export async function loader({ request, context }: Route.LoaderArgs) {
+  const appMode = process.env.LARIK_APP_MODE === "translator" ? "translator" : "reader";
+  if (appMode === "translator") return { user: null, appMode };
   try {
-    return { user: await getUser(getDb(context), request) };
+    return { user: await getUser(getDb(context), request), appMode };
   } catch (error) {
     const requestId = request.headers.get("CF-Ray") ?? crypto.randomUUID();
     const message = error instanceof Error ? error.message : String(error);
     console.error(JSON.stringify({ event: "auth.session.lookup.failure", requestId, message }));
-    // Public reading must remain available even if the auth/session schema is temporarily unavailable.
-    // Protected actions still call requireUser and therefore fail closed.
-    return { user: null };
+    return { user: null, appMode };
   }
 }
+
 
 export const meta: Route.MetaFunction = () => [
   { title: brandedTitle("Digital Novel Library") },
@@ -67,7 +69,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App({ loaderData }: Route.ComponentProps) {
-  const { user } = loaderData;
+  const { user, appMode } = loaderData;
   return (
     <>
       <NavigationStatus />
@@ -81,10 +83,15 @@ export default function App({ loaderData }: Route.ComponentProps) {
             </span>
           </Link>
           <nav className="site-nav" aria-label="Primary navigation">
-            <Link to="/library"><BookOpenIcon aria-hidden="true" /><span>Library</span></Link>
-            <Link to="/bookmarks"><BookmarkIcon aria-hidden="true" /><span>Bookmarks</span></Link>
-            <a className="nav-about" href="#about"><InformationCircleIcon aria-hidden="true" /><span>About</span></a>
-            {user ? <details className="account-menu"><summary><UserCircleIcon aria-hidden="true" /><span>Account</span></summary><div className="account-menu__panel"><strong>{user.email}</strong><small>Password protected · email delivery not yet verified</small><Form method="post" action="/logout"><button type="submit"><ArrowRightOnRectangleIcon aria-hidden="true" /><span>Sign out</span></button></Form></div></details> : <Link to="/login"><UserCircleIcon aria-hidden="true" /><span>Sign in</span></Link>}
+            {appMode === "translator" ? <>
+              <Link to="/translate"><CommandLineIcon aria-hidden="true" /><span>Translation</span></Link>
+              <Link to="/library"><BookOpenIcon aria-hidden="true" /><span>Reader preview</span></Link>
+            </> : <>
+              <Link to="/library"><BookOpenIcon aria-hidden="true" /><span>Library</span></Link>
+              <Link to="/bookmarks"><BookmarkIcon aria-hidden="true" /><span>Bookmarks</span></Link>
+              <a className="nav-about" href="#about"><InformationCircleIcon aria-hidden="true" /><span>About</span></a>
+              {user ? <details className="account-menu"><summary><UserCircleIcon aria-hidden="true" /><span>Account</span></summary><div className="account-menu__panel"><strong>{user.email}</strong><small>Password protected · email delivery not yet verified</small><Form method="post" action="/logout"><button type="submit"><ArrowRightOnRectangleIcon aria-hidden="true" /><span>Sign out</span></button></Form></div></details> : <Link to="/login"><UserCircleIcon aria-hidden="true" /><span>Sign in</span></Link>}
+            </>}
           </nav>
         </div>
       </header>
@@ -97,12 +104,12 @@ export default function App({ loaderData }: Route.ComponentProps) {
             <img src="/brand-mark.svg" alt="" width="40" height="40" />
             <div>
               <p className="eyebrow">{BRAND_NAME}</p>
-              <p>A focused interface for long-form reading. Data comes directly from the local Larik SQLite database.</p>
+              <p>{appMode === "translator" ? "Persistent translation control using the same local Larik SQLite database." : "A focused interface for long-form reading. Data comes directly from the local Larik SQLite database."}</p>
             </div>
           </div>
           <div className="footer-note">
             <span>React Router</span>
-            <span>Node.js</span>
+            <span>{appMode === "translator" ? "Detached Python workers" : "Node.js"}</span>
             <span>Local SQLite</span>
           </div>
         </div>

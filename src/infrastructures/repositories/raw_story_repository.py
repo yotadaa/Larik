@@ -24,6 +24,11 @@ TRACE = 5
 class FileSystemRawStorySource(RawStorySource):
     def __init__(self, raw_root: str | Path):
         self.raw_root = Path(raw_root).resolve()
+        # A translation run may touch hundreds of chapters. Rewalking the entire
+        # series directory for every chapter is O(chapters x files) and becomes
+        # surprisingly expensive on large novels. Cache only the immutable path
+        # index; chapter text is still read fresh so source edits are picked up.
+        self._chapter_maps: dict[str, dict[int, Path]] = {}
 
     def discover_series(self) -> list[str]:
         logger.log(TRACE, "Scanning raw story root: %s", self.raw_root)
@@ -70,6 +75,11 @@ class FileSystemRawStorySource(RawStorySource):
         )
 
     def _chapter_map(self, novel_id: str) -> dict[int, Path]:
+        cached = self._chapter_maps.get(novel_id)
+        if cached is not None:
+            logger.log(TRACE, "Raw chapter index cache hit novel=%s files=%d", novel_id, len(cached))
+            return cached
+
         series_dir = (self.raw_root / novel_id).resolve()
         if self.raw_root not in series_dir.parents:
             raise SourceChapterError("Invalid novel_id path traversal")
@@ -96,6 +106,8 @@ class FileSystemRawStorySource(RawStorySource):
                 for number, paths in sorted(duplicates.items())
             )
             raise SourceChapterError(f"Duplicate raw chapter numbers detected ({details})")
+        self._chapter_maps[novel_id] = found
+        logger.debug("Cached raw chapter index novel=%s files=%d", novel_id, len(found))
         return found
 
     @staticmethod

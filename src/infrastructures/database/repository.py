@@ -83,9 +83,9 @@ class SQLiteStoryRepository(StoryRepository):
                 )
         schema_path = Path(__file__).with_name("schema.sql")
         self.conn.executescript(schema_path.read_text(encoding="utf-8"))
-        self.conn.execute("PRAGMA user_version=1")
+        self.conn.execute("PRAGMA user_version=2")
         self.conn.commit()
-        logger.debug("SQLite schema ready path=%s user_version=1 tables=%s", self.db_path, sorted(existing | {"chapters", "entities", "relationships", "terminology", "glossary", "arcs", "style_profiles", "translation_runs"}))
+        logger.debug("SQLite schema ready path=%s user_version=2 tables=%s", self.db_path, sorted(existing | {"chapters", "entities", "relationships", "terminology", "glossary", "arcs", "style_profiles", "translation_runs", "translation_jobs", "translation_job_events", "translation_settings"}))
 
     def is_chapter_current(
         self,

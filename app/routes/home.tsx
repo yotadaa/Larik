@@ -1,4 +1,4 @@
-import { Form, Link } from "react-router";
+import { Form, Link, redirect } from "react-router";
 import {
   ArrowRightIcon,
   BookOpenIcon,
@@ -18,6 +18,7 @@ export const meta: Route.MetaFunction = () => [
 ];
 
 export async function loader({ context }: Route.LoaderArgs) {
+  if (process.env.LARIK_APP_MODE === "translator") throw redirect("/translate");
   const db = getDb(context);
   const [stats, languages, featured] = await Promise.all([
     getCatalogStats(db),

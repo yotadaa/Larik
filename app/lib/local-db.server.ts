@@ -174,3 +174,9 @@ export function getLocalDatabase(): D1DatabaseLike {
 export function getLocalDatabasePath() {
   return configuredDatabasePath();
 }
+
+export function getLocalDatabaseRaw(): DatabaseSync {
+  getLocalDatabase();
+  if (!singleton) throw new Error("Local SQLite database was not initialized");
+  return singleton.raw;
+}

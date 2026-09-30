@@ -50,7 +50,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
 
 export default function Chapter({ loaderData }: Route.ComponentProps) {
   const { current, previous, next, user, bookmarked, readerState, lookup, chapterContext, restoreStoredProgress } = loaderData;
-  const document = parseChapterDocument(current.content);
+  const document = parseChapterDocument(current.content.split('\n').slice(13).join('\n'));
   const storedPercent = readerState?.lastChapterId === current.chapterId ? readerState.progressPercent : -1;
   return (
     <div className="reader-page">

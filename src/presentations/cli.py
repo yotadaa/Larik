@@ -4,14 +4,16 @@ import argparse
 import asyncio
 import json
 import logging
+import signal
 import sys
 from pathlib import Path
 
 from src.applications.services.context_builder import ContextBuilder
 from src.applications.services.quality import TranslationQualityChecker
 from src.applications.use_cases.translate_series import TranslateSeries, TranslationWorkflowSettings
-from src.domains.exceptions import TranslationError
+from src.domains.exceptions import TranslationError, TranslationStoppedError
 from src.infrastructures.config.settings import AppSettings
+from src.infrastructures.database.job_repository import SQLiteTranslationJobReporter
 from src.infrastructures.database.repository import SQLiteStoryRepository
 from src.infrastructures.llm.openai_service import OpenAITranslationService
 from src.infrastructures.repositories.raw_story_repository import FileSystemRawStorySource
@@ -52,6 +54,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Process log detail. Default: trace (very verbose)",
     )
     translate.add_argument("--log-file", help="Optional file that receives the same verbose logs")
+    translate.add_argument("--job-id", help="Persistent control-plane job id (normally supplied by the web translator UI)")
 
     preview = sub.add_parser("preview", help="Serve the SQLite preview API and built React preview")
     preview.add_argument("--host", default="127.0.0.1")
@@ -104,6 +107,24 @@ async def _run_translate(args: argparse.Namespace, settings: AppSettings) -> int
     source = FileSystemRawStorySource(settings.raw_story_root)
     repo = SQLiteStoryRepository(settings.database_path)
     repo.initialize()
+    reporter = SQLiteTranslationJobReporter(settings.database_path, args.job_id) if args.job_id else None
+
+    def emit(event: dict) -> None:
+        if not args.quiet:
+            _event_printer(event)
+        if reporter:
+            reporter.emit(event)
+
+    previous_sigterm = None
+    if reporter:
+        reporter.mark_running()
+        previous_sigterm = signal.getsignal(signal.SIGTERM)
+
+        def _stop_handler(_signum, _frame):
+            raise TranslationStoppedError("Translation stopped by operator")
+
+        signal.signal(signal.SIGTERM, _stop_handler)
+
     try:
         llm = OpenAITranslationService(settings)
         context_builder = ContextBuilder(repo, settings.context_settings())
@@ -118,7 +139,7 @@ async def _run_translate(args: argparse.Namespace, settings: AppSettings) -> int
             context_builder=context_builder,
             quality_checker=TranslationQualityChecker(),
             settings=workflow_settings,
-            emit=(lambda _event: None) if args.quiet else _event_printer,
+            emit=emit,
         )
         summary = await use_case.execute(
             args.novel_id,
@@ -127,7 +148,10 @@ async def _run_translate(args: argparse.Namespace, settings: AppSettings) -> int
             end=args.end,
             force=args.force,
             max_chapters=args.max_chapters,
+            run_id=args.job_id,
         )
+        if reporter:
+            reporter.finish("completed", f"Completed {len(summary.processed)} chapter(s); skipped {len(summary.skipped)}")
         print(json.dumps({
             "run_id": summary.run_id,
             "novel_id": summary.novel_id,
@@ -137,7 +161,20 @@ async def _run_translate(args: argparse.Namespace, settings: AppSettings) -> int
             "database": str(settings.database_path),
         }, ensure_ascii=False, indent=2))
         return 0
+    except TranslationStoppedError as exc:
+        logger.warning("Translation worker stopped: %s", exc)
+        if reporter:
+            reporter.finish("stopped", str(exc))
+        return 130
+    except Exception as exc:
+        if reporter:
+            reporter.finish("failed", str(exc))
+        raise
     finally:
+        if previous_sigterm is not None:
+            signal.signal(signal.SIGTERM, previous_sigterm)
+        if reporter:
+            reporter.close()
         repo.close()
 
 

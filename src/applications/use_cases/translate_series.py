@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 import time
 import uuid
@@ -12,8 +13,8 @@ from src.applications.ports.source import RawStorySource
 from src.applications.services.context_builder import ContextBuilder
 from src.applications.services.prompts import PROMPT_VERSION
 from src.applications.services.quality import TranslationQualityChecker
-from src.domains.exceptions import MetadataValidationError, SourceChapterError
-from src.domains.models import TranslationResult
+from src.domains.exceptions import MetadataValidationError, SourceChapterError, TranslationStoppedError
+from src.domains.models import RawChapter, TranslationResult
 
 logger = logging.getLogger(__name__)
 TRACE = 5
@@ -56,6 +57,8 @@ class TranslateSeries:
         self.quality_checker = quality_checker or TranslationQualityChecker()
         self.settings = settings or TranslationWorkflowSettings()
         self.emit = emit or (lambda _event: None)
+        self._progress_current = 0
+        self._progress_total = 0
 
     async def execute(
         self,
@@ -66,6 +69,7 @@ class TranslateSeries:
         end: int | None = None,
         force: bool = False,
         max_chapters: int | None = None,
+        run_id: str | None = None,
     ) -> RunSummary:
         run_started = time.perf_counter()
         logger.info(
@@ -99,23 +103,51 @@ class TranslateSeries:
                     f"{novel_id}/{lang_id}. Process earlier chapters first or disable strict mode explicitly."
                 )
 
-        run_id = uuid.uuid4().hex
+        run_id = run_id or uuid.uuid4().hex
         logger.info("Run created id=%s selected_count=%d selected_range=%d..%d", run_id, len(selected), selected[0], selected[-1])
         self.repository.start_run(run_id, novel_id, lang_id, selected[0], selected[-1])
         processed: list[int] = []
         skipped: list[int] = []
+        prefetched_number: int | None = None
+        prefetch_task: asyncio.Task[RawChapter] | None = None
 
         try:
             for index, chapter_number in enumerate(selected, 1):
+                self._progress_current = index
+                self._progress_total = len(selected)
                 chapter_started = time.perf_counter()
                 self._emit(run_id, chapter_number, "chapter", f"Start chapter {index}/{len(selected)}")
                 self._emit(run_id, chapter_number, "read", f"Reading raw chapter ({index}/{len(selected)})")
                 t0 = time.perf_counter()
-                chapter = self.source.read_chapter(novel_id, chapter_number)
+                if prefetch_task is not None and prefetched_number == chapter_number:
+                    chapter = await prefetch_task
+                    prefetch_task = None
+                    prefetched_number = None
+                    read_mode = "prefetched"
+                else:
+                    chapter = self.source.read_chapter(novel_id, chapter_number)
+                    read_mode = "direct"
                 self._emit(
                     run_id, chapter_number, "read",
-                    f"Loaded {chapter.path} chars={len(chapter.source_text):,} hash={chapter.source_hash[:16]} in {time.perf_counter()-t0:.3f}s",
+                    f"Loaded {chapter.path} chars={len(chapter.source_text):,} hash={chapter.source_hash[:16]} "
+                    f"mode={read_mode} in {time.perf_counter()-t0:.3f}s",
                 )
+
+                # Safe look-ahead: only raw file I/O/hash work is overlapped with the
+                # current chapter. We deliberately do NOT build next-chapter context
+                # or call the LLM early because both depend on metadata committed by
+                # the current chapter. This preserves strict continuity semantics.
+                if index < len(selected):
+                    next_chapter = selected[index]
+                    prefetched_number = next_chapter
+                    prefetch_task = asyncio.create_task(
+                        asyncio.to_thread(self.source.read_chapter, novel_id, next_chapter),
+                        name=f"raw-prefetch-{novel_id}-{next_chapter}",
+                    )
+                    logger.debug(
+                        "Scheduled safe raw prefetch novel=%s current=%d next=%d",
+                        novel_id, chapter_number, next_chapter,
+                    )
 
                 self._emit(run_id, chapter_number, "cache", "Checking source/model/prompt fingerprint against SQLite")
                 if not force and self.repository.is_chapter_current(
@@ -246,10 +278,23 @@ class TranslateSeries:
                 run_id, processed, skipped, time.perf_counter()-run_started,
             )
             return RunSummary(run_id, novel_id, lang_id, tuple(processed), tuple(skipped))
+        except TranslationStoppedError as exc:
+            logger.warning("Run stopped id=%s after %.3fs: %s", run_id, time.perf_counter()-run_started, exc)
+            self.repository.finish_run(run_id, "stopped", str(exc))
+            raise
         except Exception as exc:
             logger.exception("Run failed id=%s after %.3fs: %s", run_id, time.perf_counter()-run_started, exc)
             self.repository.finish_run(run_id, "failed", str(exc))
             raise
+        finally:
+            if prefetch_task is not None:
+                if not prefetch_task.done():
+                    prefetch_task.cancel()
+                    logger.log(TRACE, "Cancelled unused raw prefetch novel=%s chapter=%s", novel_id, prefetched_number)
+                # Consume cancellation/read errors so a failed run never leaves an
+                # orphaned task warning behind. asyncio.to_thread may finish its
+                # underlying file read, but its result is intentionally discarded.
+                await asyncio.gather(prefetch_task, return_exceptions=True)
 
     def _should_repair(self, issues: list[str]) -> bool:
         mode = self.settings.review_mode.strip().lower()
@@ -261,4 +306,11 @@ class TranslateSeries:
 
     def _emit(self, run_id: str, chapter: int, stage: str, message: str) -> None:
         logger.log(TRACE, "workflow event chapter=%d stage=%s message=%s", chapter, stage, message)
-        self.emit({"run_id": run_id, "chapter": chapter, "stage": stage, "message": message})
+        self.emit({
+            "run_id": run_id,
+            "chapter": chapter,
+            "stage": stage,
+            "message": message,
+            "progress_current": self._progress_current,
+            "progress_total": self._progress_total,
+        })

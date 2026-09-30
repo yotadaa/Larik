@@ -12,3 +12,7 @@ class SourceChapterError(TranslationError):
 
 class MetadataValidationError(TranslationError):
     """Raised when structured metadata cannot be normalized safely."""
+
+
+class TranslationStoppedError(TranslationError):
+    """Raised when an operator explicitly stops a translation job."""

@@ -23,10 +23,12 @@ export interface AtlasNode {
 }
 export interface AtlasEdge {
   id: string;
+  relationshipId?: string;
   source: string;
   target: string;
   relation: string;
   label: string;
+  direction?: string;
   evidence: string;
   visibleFrom: number;
   validFrom?: number | null;
@@ -243,13 +245,20 @@ export function atlasWindowBounds(atlas: AtlasData) {
 /** Relationships that are known by the selected boundary and whose validity overlaps the window. */
 export function atlasActiveEdgesInWindow(atlas: AtlasData) {
   const { start, end } = atlasWindowBounds(atlas);
-  return atlas.edges.filter((edge) => {
-    if (edge.visibleFrom > end) return false;
+  const latest = new Map<string, AtlasEdge>();
+  for (const edge of atlas.edges) {
+    if (edge.visibleFrom > end) continue;
     const validFrom = edge.validFrom ?? edge.visibleFrom;
     const validTo = edge.validTo ?? Number.POSITIVE_INFINITY;
-    return validFrom <= end && validTo >= start;
-  });
+    if (validFrom > end || validTo < start) continue;
+    const key = edge.relationshipId || `${edge.source}:${edge.target}:${edge.direction || "directed"}`;
+    const previous = latest.get(key);
+    const previousFrom = previous ? (previous.validFrom ?? previous.visibleFrom) : Number.NEGATIVE_INFINITY;
+    if (!previous || validFrom >= previousFrom) latest.set(key, edge);
+  }
+  return [...latest.values()].filter((edge) => (edge.status || "active").toLowerCase() !== "ended");
 }
+
 
 export function atlasEdgesInWindow(atlas: AtlasData) {
   if (atlas.scope === "through") return atlas.edges;

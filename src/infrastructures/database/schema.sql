@@ -143,3 +143,55 @@ CREATE TABLE IF NOT EXISTS translation_runs (
     finished_at TEXT,
     PRIMARY KEY (novel_id, lang_id, run_id)
 );
+
+-- Persistent translation control-plane queue. Browser refreshes do not own worker lifetime.
+CREATE TABLE IF NOT EXISTS translation_jobs (
+    job_id TEXT PRIMARY KEY,
+    novel_id TEXT NOT NULL,
+    lang_id TEXT NOT NULL,
+    start_chapter INTEGER NOT NULL,
+    end_chapter INTEGER NOT NULL,
+    force INTEGER NOT NULL DEFAULT 0,
+    allow_context_gap INTEGER NOT NULL DEFAULT 0,
+    status TEXT NOT NULL DEFAULT 'queued' CHECK (status IN ('queued','running','stopping','stopped','completed','failed')),
+    pid INTEGER,
+    current_chapter INTEGER,
+    current_stage TEXT NOT NULL DEFAULT 'queued',
+    progress_current INTEGER NOT NULL DEFAULT 0,
+    progress_total INTEGER NOT NULL DEFAULT 0,
+    processed_count INTEGER NOT NULL DEFAULT 0,
+    skipped_count INTEGER NOT NULL DEFAULT 0,
+    message TEXT NOT NULL DEFAULT '',
+    log_file TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    started_at TEXT,
+    finished_at TEXT,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_translation_jobs_status
+    ON translation_jobs(status, created_at);
+CREATE INDEX IF NOT EXISTS idx_translation_jobs_series
+    ON translation_jobs(novel_id, lang_id, status, created_at);
+
+CREATE TABLE IF NOT EXISTS translation_job_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    job_id TEXT NOT NULL,
+    chapter_number INTEGER,
+    stage TEXT NOT NULL,
+    message TEXT NOT NULL DEFAULT '',
+    progress_current INTEGER NOT NULL DEFAULT 0,
+    progress_total INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (job_id) REFERENCES translation_jobs(job_id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_translation_job_events_job
+    ON translation_job_events(job_id, id DESC);
+
+-- Runtime translation configuration used by the web control plane.
+-- Secret values (for example API_KEY) remain server-side and are never serialized to the browser.
+CREATE TABLE IF NOT EXISTS translation_settings (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL DEFAULT '',
+    is_secret INTEGER NOT NULL DEFAULT 0,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

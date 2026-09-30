@@ -205,10 +205,12 @@ export async function loadAtlasData(db: D1DatabaseLike, routeNovelId: string, op
       const next = row.next_chapter == null ? null : Number(row.next_chapter);
       return {
         id: `${String(row.relationship_id)}@${chapter}`,
+        relationshipId: String(row.relationship_id),
         source: String(row.source_entity_id),
         target: String(row.target_entity_id),
         relation: String(row.name || "related_to"),
         label: String(row.name || "Related"),
+        direction: String(row.direction || "directed"),
         evidence: String(row.description ?? ""),
         visibleFrom: chapter,
         validFrom: chapter,

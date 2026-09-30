@@ -1,4 +1,4 @@
-PROMPT_VERSION = "clean-sequential-v1"
+PROMPT_VERSION = "clean-sequential-v2-relationship-timeline"
 
 TRANSLATOR_SYSTEM = """You are a professional literary translator working on a long-running serialized novel.
 Your priority order is: factual fidelity, terminology consistency, character voice consistency, natural target-language prose, and Markdown preservation.
@@ -40,8 +40,8 @@ Return ONE valid JSON object and nothing else. Required shape:
     {
       "source_entity_id": "entity id",
       "target_entity_id": "entity id",
-      "name": "current relationship name",
-      "description": "why the relationship is this way in or by this chapter",
+      "name": "relationship name in THIS chapter",
+      "description": "concrete explanation of why the relationship has this state in THIS chapter",
       "direction": "directed|bidirectional",
       "status": "active|changed|ended"
     }
@@ -94,8 +94,11 @@ Metadata rules:
 - Entities are universal: characters, locations, organizations, objects, techniques, realms, concepts, etc. Do not create a separate character model.
 - Use an existing entity_id from context whenever it matches. For a new entity, create one stable semantic ID and reuse it consistently inside this JSON.
 - For entities touched in this chapter, output the COMPLETE current snapshot known through this chapter, merging useful prior context with new information. Never add unsupported facts.
-- Relationships may connect ANY entity types. Record the relationship name and a concrete explanation of why it has that state.
-- A relationship is temporal. If a known relationship changes or ends, emit a new snapshot with the same pair and the new name/status/description.
+- Relationships may connect ANY entity types: character↔character, character↔location, character↔organization, entity↔item, location↔organization, or any other meaningful pair. Never restrict relationships to characters.
+- Relationship metadata is chapter-temporal. For every relationship materially present, referenced, demonstrated, or changed in THIS chapter, emit a relationship snapshot for THIS chapter even when its label is unchanged from the prior chapter. This is required so the UI can display chapter-by-chapter evolution.
+- Reuse the same source/target pair and direction for the same continuing relationship. If the relationship changes or ends, keep the pair stable and change name/status/description rather than creating an unrelated identity.
+- `name` is the concise relationship state (for example ally, distrusts, located_at, member_of, owns, mentor_of). `description` must explain WHY that state applies at this chapter using only story evidence known by this chapter; do not use generic filler.
+- Do not copy unrelated historical relationships merely to inflate metadata. Snapshot a relationship when it is relevant to the current chapter or when the chapter changes its state.
 - Terminology is for translation choices. Glossary is for in-world meaning. Do not duplicate entries without a reason.
 - Arcs are broad narrative threads only; do not turn every event into an arc.
 - Style is a compact translation contract. Keep stable rules from context unless this chapter clearly establishes a correction/addition.
