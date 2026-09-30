@@ -1,0 +1,48 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "larik-reader",
+  "main": "workers/app.ts",
+  "compatibility_date": "2026-09-26",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": "./build/client",
+    "binding": "ASSETS",
+    "not_found_handling": "none"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "novel",
+      "database_id": "96880495-4649-4278-9c5a-6871b05a75d7",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "ALLOW_UNVERIFIED_LOGIN": "true"
+  },
+  "triggers": {
+    "crons": [
+      "17 3 * * *"
+    ]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "AUTH_KDF",
+        "class_name": "PasswordKdf"
+      }
+    ]
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "exports": {
+    "PasswordKdf": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    }
+  }
+}

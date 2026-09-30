@@ -1,0 +1,372 @@
+# A Regressor’s Tale of Cultivation - Chapter 205 - We Tried TLS
+Source: https://wetriedtls.com/series/a-regressors-tale-of-cultivation/chapter-205
+
+---
+
+Translator: TranslatingNovice
+
+Editor: Z0Rel 
+
+Discord: https://dsc.gg/wetried
+
+Link to donations in the discord!
+
+ 
+
+Chapter 205: Shattered Heart (4)
+
+ 
+
+What is Martial Arts to me?
+
+When I reached Entering Heavens, I thought that to me, martial arts meant freedom.
+
+My current Formless Sword is what I believed to be the manifestation of my heart's desire to escape the fate of regression, struggling against the shackles of fate.
+
+But do I live only to escape regression?
+
+'No.'
+
+My life itself is filled with countless graces and gratitude.
+
+Therefore, my life is not just about escaping regression, but also about living each moment fully.
+
+Every single moment.
+
+Every moment a person experiences is irreplaceable and will never return.
+
+This is a truth I realized because I can travel through time.
+
+Time never returns.
+
+Thus, let's live a faithful life.
+
+Then, what is a faithful life?
+
+What is faithful Martial Arts (武) to me?
+
+What is my faithful life, and what is true Martial Arts?
+
+I realize that with this meager brain of mine, it is impossible to come up with an answer right now.
+
+Pondering here won't help.
+
+'This is a question… I must continue to ponder in the future.'
+
+As I regenerate my body that had been sliced vertically, I gradually close my eyes.
+
+Perhaps because I haven't fully recovered to the Nascent Soul stage, just being cut in half makes me lose consciousness and faint.
+
+'I need to regain my cultivation as soon as possible.'
+
+With that, I fall into sleep.
+
+ 
+
+ 
+
+When I open my eyes, familiar faces are in sight.
+
+Yu Hwa, and Gyu Baek.
+
+"You're awake."
+
+"Where is this…"
+
+"It's the cave."
+
+She indifferently turns her head, but I can tell from my neatly arranged clothes and wiped sweat that Gyu Baek had taken care of me while I was unconscious.
+
+Even though she's a fragment of Gyu Ryeon, she inherited Gyu Ryeon's good nature.
+
+As I contemplate her character, she says,
+
+"He showed it openly. The Heaven-Collapsing Esteemed One."
+
+"...?"
+
+"I saw your duel as well. The enlightenment that the Heaven-Collapsing Esteemed One gave you, I could understand it from a distance as well. Even with a small force, one can overcome a great force. To learn to face the strong as the weak. Wasn't that the overall message?"
+
+"Yes, that's correct."
+
+"The Esteemed One wanted to say the same to me, it seems."
+
+She is silent for a moment in the cave, then continues.
+
+"...Receiving the Esteemed One's enlightenment made me realize. I was still deluding myself into thinking I was the strong Gyu Ryeon."
+
+Her words continue.
+
+"No, even when I was Gyu Ryeon. More specifically, since the moment I met Seo Hweol, I was no longer the strong one."
+
+Wo-woong!
+
+She extends her hand into the void.
+
+A pale line connected from her pinky finger stretches somewhere into the void.
+
+"I've just been clinging to Seo Hweol all along. Yes, from the day I met Seo Hweol, I was a weakling caught in love. I sat there, deluding myself into thinking I was strong, which is probably why the Esteemed One was reluctant to teach me. Yes…"
+
+Drip, drip…
+
+Gyu Baek sheds tears.
+
+"I am just a fragment of Gyu Ryeon's broken heart. Merely her remnants. But at the same time... I've deeply inherited her love for Seo Hweol. At the same time, I've inherited her Vast Cold Beautiful Agreement. All this time, I've been shouting with my mouth that I wanted to take revenge on Seo Hweol. But...!"
+
+She covers her face with her hands and cries out.
+
+"At the same time, because I've inherited Gyu Ryeon's heart, I also find myself in love with Seo Hweol! It scares me so much! How I can hate Seo Hweol so much, yet at the same time be in love with him. It's terrifying! What should I do with my heart? Tell me, do you know the answer?"
+
+Gyu Baek asks, grabbing my hand in her outcry.
+
+Yu Hwa exits towards the entrance of the cave, diverting her gaze from us. I hold Gyu Baek's hand while listening to her outcry and ask,
+
+"Isn't there something more important than whether you love or hate Seo Hweol?"
+
+"…?"
+
+"What does Seo Hweol think of Senior Gyu Ryeon? Isn't this more important?"
+
+The relationship between people cannot be one-sided.
+
+A relationship forms only when one person's action is reciprocated by the other.
+
+Gyu Baek might think she can throw all kinds of actions towards Seo Hweol, but what really matters is whether Seo Hweol will reciprocate her actions.
+
+"Thinking that Seo Hweol will surely respond to Miss Gyu Baek's actions is the thought of the strong. But as Senior Gyu Ryeon herself confirmed, Seo Hweol has no interest in Senior Gyu Ryeon."
+
+"…"
+
+"Miss Gyu Baek, you need to accept the fact that you are the weaker party in the relationship with Seo Hweol. Seo Hweol has no interest in you, and Miss Gyu Baek should not worry about how to react to Seo Hweol but whether Seo Hweol will even consider you."
+
+At my words, Gyu Baek's pupils dilate.
+
+"…What do you want me to do?"
+
+"Miss Gyu Baek, right now… it seems like you're screaming in front of me because you're too afraid to confirm the answer you've already come up with."
+
+I look into Gyu Baek's eyes and speak.
+
+"Please, tell me the answer you've thought of. What answer have you come up with?"
+
+"…You're right."
+
+Gyu Baek bites her lip hard.
+
+"I am... Yes. Right now, it's not important whether I love or hate Seo Hweol, but whether Seo Hweol will even consider me. You're right."
+
+Her words continue.
+
+"…I have decided. As you said, I'll learn the Heart Path Method. By learning the Heart Path Method, I'll meet Seo Hweol again somehow...! And I will properly confirm Seo Hweol's feelings!"
+
+"…That's commendable."
+
+I nod, affirming Gyu Baek's resolve.
+
+From that day on, I began teaching martial arts to Gyu Baek.
+
+"Extend your hand like this."
+
+It's impossible to teach Gyu Baek internal energy methods.
+
+Though she took on a human form, she is a byproduct of Gyu Ryeon, a being born from the life force of the Four-Axis stage Earth Tribe demon.
+
+Her meridians and energy channels are completely different from those of humans.
+
+She only looks human on the outside.
+
+But resembling a human in appearance means that she can learn martial arts that require an outward form.
+
+Under my guidance, Gyu Baek moves her limbs to gather Qi and practices the martial arts I taught her.
+
+The martial art I taught Gyu Baek was named Dragon Form Soaring Claw (龍形飛號爪).
+
+It's a claw technique modeled on the movement of dragons.
+
+Wo-woong, Bo-oong, Wo-woong!
+
+Under my guidance, Gyu Baek made significant progress in learning the Dragon Form Soaring Claw at a remarkable speed.
+
+"Hmm, it's easy to learn. Isn't the Heart Path Method nothing special?"
+
+"It's thanks to your talent, Miss Gyu Baek."
+
+"Well, that must be it."
+
+Driven by the sole desire to meet Seo Hweol again, she trained in the Dragon Form Soaring Claw like a madwoman.
+
+Of course, there is an obvious reason why she could learn the Dragon Form Soaring Claw so quickly.
+
+'After all, the martial art I created was based on the movements of Gyu Ryeon's true body.'
+
+It isn't just a metaphor. It is a martial art literally created by observing the movements of Gyu Ryeon, who belonged to the Golden Dragon Race.
+
+As such, there can't have been a martial art more suitable for Gyu Baek, a fragment of Gyu Ryeon. 
+
+It isn't about teaching her a new martial art but about reproducing her original movements through martial arts.
+
+Besides training her in the most suitable martial art for her,
+
+She truly trained day and night, tirelessly practicing the Dragon Form Soaring Claw.
+
+All for the sole purpose of meeting Seo Hweol again!
+
+Thus, 10 years passed in the lower realm.
+
+ 
+
+ 
+
+Kugugugu!
+
+"Krrrrr!"
+
+"Keeeeeek!"
+
+"Kiiiik!"
+
+In the tranquil forest.
+
+A loud explosion resounds, and a tree falls, scattering the animals nearby as they scream and disperse in all directions.
+
+At the base of that tree.
+
+There stood a woman in a robe is dusting off her hands.
+
+"Congratulations. You've already mastered the Dragon Form Soaring Claw to the point where you can use Claw Gang (爪罡)."
+
+She is Gyu Baek.
+
+Gyu Baek, hearing my praise, snorts and flexes her fingers.
+
+Boo-woong!
+
+Golden energy sharply gathers on her fingertips, revealing Claw Gang.
+
+But she shows no sign of happiness.
+
+"It's only now, through rehabilitation training, that I've been able to manifest Pure Spiritual Force again. Even then, I'm far from being able to manifest it without the need for specific techniques."
+
+"Pure Spiritual Force isn't what's important, Miss Gyu Baek."
+
+I exclaim in admiration as I observe the dozens of intents she emits.
+
+"What's important is that you've already reached Three Flowers Gather at the Summit."
+
+Gyu Baek's determination is astonishing.
+
+Even with her optimal affinity for Dragon Form Soaring Claw and my direct teaching, it is unbelievable that she reached Three Flowers Gather at the Summit in such a short period.
+
+'As expected from a fragment of Gyu Ryeon who almost reached the Integration stage.'
+
+Talent, as varied as it appears, ultimately finds a way to connect.
+
+Moreover, Gyu Ryeon is a Golden Dragon who completed the Four-Axis stage through Heterodox Axis Foundation not by slaughtering lower-level cultivators, but by defeating four cultivators of the same realm to reach Grand Perfection in the Four-Axis stage.
+
+Thus, her experience in actual combat is enormous, and Gyu Baek, inheriting that experience, is adapting to martial arts at a significant pace.
+
+"With this momentum, you might reach Five Energies Converging to the Origin and even Ultimate Pinnacle within a few decades."
+
+"Hmph, flattery is unnecessary. Nothing is more nonsensical than only managing to succeed in rehabilitation training over decades."
+
+Of course, she seems to think of martial arts as just 'rehabilitation training'.
+
+'Anyway, with this rate, maybe we can ascend within the time originally planned.'
+
+Despite being dropped into the lower realm by Seo Hweol,
+
+My objectives for this life still hold.
+
+'Before the True Immortal descends to the Golden Divine Heavenly Thunder Sect, ascend and steal the Heavenly Lightning Banner.'
+
+Especially since the Golden Divine Heavenly Thunder Sect has a time limit, it is crucial to ascend as soon as possible to steal the Heavenly Lightning Banner.
+
+'I can ascend now if I want to.'
+
+I am wearing Yuan Yu as usual, and I have fully recovered my Nascent Soul stage cultivation.
+
+Additionally, with the power of Taiyin contained in the Black Dragon's True Blood, I am also cultivating the Yin Spirit. I will likely finish the early Nascent Soul stage soon and challenge the middle stage.
+
+'With the strength of my body now, I can withstand the spatial pressure even if my cultivation is below the Heavenly Being stage.'
+
+I already know the orthodox method of ascension.
+
+Just ride a spatial rift in the Astral Realm and fly towards the coordinates of the Bright Cold Realm.
+
+I already know the coordinates of the Bright Cold Realm, so there is no problem.
+
+However...
+
+'I can't simply waste the precious opportunity to receive guidance from the Heaven-Collapsing Esteemed One.'
+
+I've recently come to understand the deficiencies in martial arts that I hadn't noticed before while receiving guidance from Jang Ik.
+
+Yu Hwa briefly reached the third stage of Manifestation previously.
+
+According to her, she is in the process of maturing her understanding of Last Quarter, and I am rushing towards the edge of Treading Heavens, gradually getting a feel for the realm beyond Treading Heavens.
+
+'If I leisurely cultivate for about 600 years, I think I can reach beyond Treading Heavens.'
+
+But there are tasks to be accomplished in this life, so I can't afford to waste time on such matters.
+
+'It's already the 20th year of regression.'
+
+The True Immortal of the Golden Divine Heavenly Thunder Sect appears around the 70th to 80th year of regression.
+
+So, I have about 50 years left to cultivate with ease.
+
+'Within 50 years, I will ascend again with Yu Hwa and Gyu Baek.'
+
+This time upon ascending, I intended to give Seo Hweol a proper hit in the face.
+
+'Wait for me, Seo Hweol...!'
+
+And so, time flowed like water, and finally the 70th year of regression arrived.
+
+ 
+
+ 
+
+Chirp chirp chirp!
+
+ 
+
+Gyu Baek, Yu Hwa, Jang Ik, and I arrive at a swamp teeming with monkeys.
+
+This planet doesn't have any particularly civilized intelligent beings.
+
+There are a few demon beasts, but since the planet itself is sparse in spiritual energy, they aren't abundant.
+
+However, not being abundant doesn't mean they are non-existent.
+
+The demon beast we encountered today is of such kind.
+
+"Who dares to disturb the territory of this elder!"
+
+A booming voice in demon beast language resounds as a giant monkey, at the Grand Perfection Qi Building stage, bursts out from within the swamp.
+
+I look at the monkey and signal to Gyu Baek.
+
+Gyu Baek nods and takes a deep breath.
+
+Hooooo―
+
+Behind her, nine spheres rise up.
+
+Whiiiiing―
+
+Simultaneously, the nine spheres begin to rotate behind her. In an instant, they melt into Gyu Baek's domain of consciousness.
+
+Paaaaat!
+
+Gyu Baek's domain of consciousness begins to transform.
+
+0% read
+Loading...
+We Tried TLS
+Novels
+Bookmarks
+Subscriptions
+Join Discord
+
+© 2026 We Tried TLS. All rights reserved.
