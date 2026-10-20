@@ -3,6 +3,7 @@ import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon, BookOpenIcon, ClockIco
 import type { Route } from "./+types/novel";
 import { BookmarkButton } from "~/components/BookmarkButton";
 import { EmptyState } from "~/components/EmptyState";
+import { NovelCover } from "~/components/NovelCover";
 import { Pagination } from "~/components/Pagination";
 import { ReferenceNav } from "~/components/ReferenceNav";
 import { SearchForm } from "~/components/SearchForm";
@@ -47,7 +48,7 @@ export default function Novel({ loaderData }: Route.ComponentProps) {
   return (
     <div className="page-shell novel-page">
       <header className="novel-hero">
-        <div className="novel-hero__spine" aria-hidden="true"><span>{(novel.title || novel.novelId).slice(0, 1).toUpperCase()}</span></div>
+        <div className="novel-hero__cover"><NovelCover title={novel.title || novel.novelId} novelId={novel.novelId} lang={novel.lang} size="lg" /></div>
         <div className="novel-hero__copy">
           <p className="eyebrow">{novel.lang || "Unknown language"} · Novel</p>
           <h1>{novel.title || novel.novelId}</h1>

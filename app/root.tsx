@@ -20,6 +20,7 @@ import {
 } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/root";
 import { NavigationStatus } from "~/components/NavigationStatus";
+import { SceneSwitcher } from "~/components/SceneSwitcher";
 import { getDb } from "~/lib/cloudflare-context";
 import { getUser } from "~/lib/auth.server";
 import { BRAND_BYLINE, BRAND_DESCRIPTION, BRAND_NAME, BRAND_SHORT_NAME, brandedTitle } from "~/lib/brand";
@@ -48,11 +49,16 @@ export const meta: Route.MetaFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
+        <script dangerouslySetInnerHTML={{ __html: '(function(){try{var s=localStorage.getItem("larik-scene")||"pagi";if(s==="auto"){var h=new Date().getHours();s=h>=4&&h<6?"fajar":h>=6&&h<10?"pagi":h>=10&&h<15?"siang":h>=15&&h<17?"sore":h>=17&&h<19?"sunset":"malam"}if(["fajar","pagi","siang","sore","sunset","malam"].indexOf(s)<0)s="pagi";document.documentElement.setAttribute("data-scene",s)}catch(e){}})();' }} />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="icon" href="/brand-mark.svg" type="image/svg+xml" />
+        <meta name="theme-color" content="#a6cff8" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@300..700&display=swap" />
         <Meta />
         <Links />
       </head>
@@ -84,6 +90,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
             <Link to="/library"><BookOpenIcon aria-hidden="true" /><span>Library</span></Link>
             <Link to="/bookmarks"><BookmarkIcon aria-hidden="true" /><span>Bookmarks</span></Link>
             <a className="nav-about" href="#about"><InformationCircleIcon aria-hidden="true" /><span>About</span></a>
+            <SceneSwitcher />
             {user ? <details className="account-menu"><summary><UserCircleIcon aria-hidden="true" /><span>Account</span></summary><div className="account-menu__panel"><strong>{user.email}</strong><small>Password protected · email delivery not yet verified</small><Form method="post" action="/logout"><button type="submit"><ArrowRightOnRectangleIcon aria-hidden="true" /><span>Sign out</span></button></Form></div></details> : <Link to="/login"><UserCircleIcon aria-hidden="true" /><span>Sign in</span></Link>}
           </nav>
         </div>
