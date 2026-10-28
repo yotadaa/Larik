@@ -250,31 +250,42 @@ export async function listChapters(
   })), integer(countRow?.total), page, pageSize);
 }
 
-export async function getChapter(db: D1DatabaseLike, novelId: string, chapterId: string): Promise<ChapterNavigation | null> {
+// Fixed direction enum, never user input: only the comparison and order keywords are interpolated.
+async function chapterNeighbor(db: D1DatabaseLike, novelId: string, chapterId: string, direction: "previous" | "next"): Promise<ChapterSummary | null> {
+  const compare = direction === "previous" ? "<" : ">";
+  const order = direction === "previous" ? "DESC" : "ASC";
+  // idx_larik_chapters_nocase makes the candidate step a bounded index range instead of a novel-wide scan.
   const row = await db.prepare(`
-    WITH latest_chapters AS (
-      SELECT "chapter-id", MAX("id") AS latest_id
+    WITH candidate AS (
+      SELECT "chapter-id" AS cid
       FROM "novel-content"
-      WHERE "novel-id" = ?
-      GROUP BY "chapter-id"
-    ), ordered AS (
-      SELECT nc."id", nc."path", nc."name", nc."type", nc."lang",
-             nc."novel-id" AS novel_id, nc."novel-title" AS novel_title,
-             nc."content", nc."chapter-id" AS chapter_id, nc."chapter-title" AS chapter_title, nc."recap",
-             LAG(nc."id") OVER chapter_order AS previous_id,
-             LAG(nc."chapter-id") OVER chapter_order AS previous_chapter_id,
-             LAG(nc."chapter-title") OVER chapter_order AS previous_title,
-             LAG(CASE WHEN length(trim(COALESCE(nc."recap", ''))) > 0 THEN 1 ELSE 0 END) OVER chapter_order AS previous_recap_available,
-             LEAD(nc."id") OVER chapter_order AS next_id,
-             LEAD(nc."chapter-id") OVER chapter_order AS next_chapter_id,
-             LEAD(nc."chapter-title") OVER chapter_order AS next_title,
-             LEAD(CASE WHEN length(trim(COALESCE(nc."recap", ''))) > 0 THEN 1 ELSE 0 END) OVER chapter_order AS next_recap_available
-      FROM "novel-content" nc
-      JOIN latest_chapters lc ON lc.latest_id = nc."id"
-      WINDOW chapter_order AS (ORDER BY nc."chapter-id" COLLATE NOCASE ASC)
+      WHERE "novel-id" = ? AND "chapter-id" COLLATE NOCASE ${compare} ? COLLATE NOCASE
+      ORDER BY "chapter-id" COLLATE NOCASE ${order} LIMIT 1
     )
-    SELECT * FROM ordered WHERE chapter_id = ? LIMIT 1
-  `).bind(novelId, chapterId).first<Record<string, unknown>>();
+    SELECT nc."id", nc."chapter-id" AS chapter_id, nc."chapter-title" AS chapter_title,
+           CASE WHEN length(trim(COALESCE(nc."recap", ''))) > 0 THEN 1 ELSE 0 END AS recap_available
+    FROM "novel-content" nc JOIN candidate c ON c.cid = nc."chapter-id"
+    WHERE nc."novel-id" = ? ORDER BY nc."id" DESC LIMIT 1
+  `).bind(novelId, chapterId, novelId).first<Record<string, unknown>>();
+  return row ? { id: integer(row.id), chapterId: text(row.chapter_id), title: text(row.chapter_title), recapAvailable: integer(row.recap_available) === 1 } : null;
+}
+
+export async function getChapter(db: D1DatabaseLike, novelId: string, chapterId: string): Promise<ChapterNavigation | null> {
+  // Three point lookups. The previous window-function version materialised every chapter of the
+  // novel (plus its full text) on each chapter view, which is what burned the D1 row-read quota.
+  const [row, previous, next] = await Promise.all([
+    db.prepare(`
+      SELECT "id", "path", "name", "type", "lang", "novel-id" AS novel_id,
+             "novel-title" AS novel_title, "content", "chapter-id" AS chapter_id,
+             "chapter-title" AS chapter_title, "recap"
+      FROM "novel-content"
+      WHERE "novel-id" = ? AND "chapter-id" = ?
+      ORDER BY "id" DESC
+      LIMIT 1
+    `).bind(novelId, chapterId).first<Record<string, unknown>>(),
+    chapterNeighbor(db, novelId, chapterId, "previous"),
+    chapterNeighbor(db, novelId, chapterId, "next"),
+  ]);
 
   if (!row) return null;
   const current: ChapterRecord = {
@@ -291,23 +302,7 @@ export async function getChapter(db: D1DatabaseLike, novelId: string, chapterId:
     recap: text(row.recap),
     recapAvailable: text(row.recap).trim().length > 0,
   };
-  const previousChapterId = text(row.previous_chapter_id);
-  const nextChapterId = text(row.next_chapter_id);
-  return {
-    current,
-    previous: previousChapterId ? {
-      id: integer(row.previous_id),
-      chapterId: previousChapterId,
-      title: text(row.previous_title),
-      recapAvailable: integer(row.previous_recap_available) === 1,
-    } : null,
-    next: nextChapterId ? {
-      id: integer(row.next_id),
-      chapterId: nextChapterId,
-      title: text(row.next_title),
-      recapAvailable: integer(row.next_recap_available) === 1,
-    } : null,
-  };
+  return { current, previous, next };
 }
 
 export async function listCharacters(db: D1DatabaseLike, novelId: string, q = ""): Promise<CharacterRecord[]> {

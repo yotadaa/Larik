@@ -33,3 +33,4 @@ CREATE TABLE IF NOT EXISTS "qa-log" (
 );
 CREATE INDEX IF NOT EXISTS local_novel_key ON "novel"("novel_id", "id");
 CREATE INDEX IF NOT EXISTS local_chapter_key ON "novel-content"("novel-id", "chapter-id", "id");
+CREATE INDEX IF NOT EXISTS idx_larik_chapters_nocase ON "novel-content"("novel-id", "chapter-id" COLLATE NOCASE, "id");
