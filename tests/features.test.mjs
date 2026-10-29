@@ -55,7 +55,7 @@ test("registered account signs in with password; wrong password and blind email 
   const stored = sqlite.prepare("SELECT password_hash,password_salt,password_iterations,registered_at,email_verified_at FROM reader_users").get();
   assert.notEqual(stored.password_hash, PASSWORD);
   assert.equal(stored.password_hash.length, 64);
-  assert.ok(stored.password_iterations >= 600000);
+  assert.ok(stored.password_iterations >= 100000);
   assert.ok(stored.registered_at > 0);
   assert.equal(stored.email_verified_at, null);
   assert.equal((await loginAction(db, post("/login", { email: "reader@example.com", password: "a wrong password that is long" }), directPasswordKdf)).status, 401);

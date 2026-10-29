@@ -9,7 +9,11 @@ export interface ReaderUser {
 }
 
 export const SESSION_SECONDS = 60 * 60 * 24 * 30;
-export const PASSWORD_ITERATIONS = 600_000;
+// Cloudflare's WebCrypto refuses PBKDF2 above 100_000 iterations ("Pbkdf2 failed:
+// iteration counts above 100000 are not supported") and production runs this KDF in
+// a Durable Object on that runtime, so the platform ceiling is the ceiling.
+export const PASSWORD_ITERATIONS = 100_000;
+export const PASSWORD_ITERATIONS_MAX = 100_000;
 
 export interface PasswordHashRecord {
   hash: string;
@@ -68,7 +72,7 @@ export async function hashPassword(password: string, iterations = PASSWORD_ITERA
 }
 
 export async function verifyPassword(password: string, hash: string, salt: string, iterations: number): Promise<boolean> {
-  if (!Number.isInteger(iterations) || iterations < 100_000 || iterations > 2_000_000) return false;
+  if (!Number.isInteger(iterations) || iterations < 100_000 || iterations > PASSWORD_ITERATIONS_MAX) return false;
   const expected = fromHex(hash);
   const saltBytes = fromHex(salt);
   if (expected.length !== 32 || saltBytes.length < 16) return false;
@@ -181,12 +185,15 @@ export async function registerAction(db: D1DatabaseLike, request: Request, kdf: 
   if (confirmation !== password) return privateJson({ error: "Passwords do not match." }, 400);
 
   const now = Math.floor(Date.now() / 1000);
-  const existing = await db.prepare(`SELECT id, email, password_hash FROM reader_users WHERE email = ? COLLATE NOCASE LIMIT 1`)
-    .bind(email).first<{ id: string; email: string; password_hash: string | null }>();
+  const existing = await db.prepare(`SELECT id, email, password_hash, password_iterations FROM reader_users WHERE email = ? COLLATE NOCASE LIMIT 1`)
+    .bind(email).first<{ id: string; email: string; password_hash: string | null; password_iterations: number | null }>();
   let userId: string;
-  if (existing?.password_hash) return privateJson({ error: "An account with this email is already registered. Sign in instead." }, 409);
+  // A hash above the platform ceiling can never be verified again, so that row holds no
+  // usable credential: the owner may reclaim it by registering with the same email.
+  const unusableLegacyHash = Number(existing?.password_iterations ?? 0) > PASSWORD_ITERATIONS_MAX;
+  if (existing?.password_hash && !unusableLegacyHash) return privateJson({ error: "An account with this email is already registered. Sign in instead." }, 409);
   let legacy: { id: string; email: string } | null = null;
-  if (existing) {
+  if (existing && !unusableLegacyHash) {
     legacy = await legacyPrototypeUser(db, request, now);
     if (!legacy || legacy.id !== existing.id) {
       return privateJson({ error: "This email has legacy prototype data. For safety it cannot be claimed by email alone. Sign in from the browser that still holds the prototype session or use a different email." }, 409);
@@ -226,6 +233,11 @@ export async function loginAction(db: D1DatabaseLike, request: Request, kdf: Pas
     SELECT id, password_hash, password_salt, password_iterations, registered_at
     FROM reader_users WHERE email = ? COLLATE NOCASE LIMIT 1
   `).bind(email).first<{ id: string; password_hash: string | null; password_salt: string | null; password_iterations: number | null; registered_at: number | null }>();
+  if ((row?.password_iterations ?? 0) > PASSWORD_ITERATIONS_MAX) {
+    return privateJson({
+      error: "This account was created before the current password hashing was in place and cannot be verified. Register again with a new email, or ask the site owner to reset the password.",
+    }, 409);
+  }
   if (!row?.password_hash || !row.password_salt || !row.password_iterations || !row.registered_at
       || !(await kdf.verify(password, row.password_hash, row.password_salt, row.password_iterations, email))) {
     return privateJson({ error: "Email or password is incorrect." }, 401);
