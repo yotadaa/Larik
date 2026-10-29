@@ -9,7 +9,9 @@ database/
 │   ├── 0002_verified_identity_progress_knowledge.sql
 │   ├── 0003_atlas_full_story_ranges.sql
 │   ├── 0004_markdown_metadata_v2.sql
-│   └── 0005_characteristic_profile_boundaries.sql
+│   ├── 0005_characteristic_profile_boundaries.sql
+│   ├── 0006_chapter_navigation_index.sql
+│   └── 0007_chapter_lookup_index.sql
 ├── schema/
 │   ├── content-schema.sql
 │   └── schema-contract.json
@@ -63,6 +65,14 @@ through, its rows are not made reader-visible because no completed sync row exis
 
 `metadata_novel_content_stage` is a persistent staging table for chapter bodies. The migrator uploads
 large content in bounded batches, then replaces `novel-content` only after staging has completed.
+
+## Chapter navigation indexes
+
+`0006_chapter_navigation_index.sql` and `0007_chapter_lookup_index.sql` add the two indexes the
+reader actually needs on `novel-content`: a BINARY `("novel-id", "chapter-id", "id")` index for
+chapter equality lookups, and a `("novel-id", "chapter-id" COLLATE NOCASE, "id")` index for the
+ordered previous/next range. Before them `getChapter()` scanned every row of the novel (about 6.5k
+rows read per chapter view, measured on production); with them the same view reads single digits.
 
 ## Characteristic profile boundaries
 
